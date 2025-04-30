@@ -1,0 +1,9 @@
+<div class="textarea-container">
+  <label *ngIf="label">{{ label }} <span *ngIf="label.includes('*')" class="required">*</span></label>
+  <textarea
+    [placeholder]="placeholder"
+    [value]="value"
+    [disabled]="disabled"
+    (input)="updateValue($any($event.target).value)"
+  ></textarea>
+</div> 
