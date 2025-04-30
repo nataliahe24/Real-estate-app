@@ -1,0 +1,30 @@
+<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <app-input 
+      label="Nombre de la Categoría *"
+      placeholder="Escribe el nombre de la categoría (máximo 50 caracteres)"
+      [maxLength]="50"
+      formControlName="name"
+    ></app-input>
+    
+    <app-textarea
+      label="Descripción *"
+      placeholder="Enter category description"
+      formControlName="description"
+    ></app-textarea>
+  </div>
+  
+  <div class="form-actions">
+    <app-button 
+      text="Skip"
+      type="secondary"
+      (click)="onSkip()"
+    ></app-button>
+    
+    <app-button 
+      text="Crear"
+      type="primary"
+      [disabled]="categoryForm.invalid"
+    ></app-button>
+  </div>
+</form> 
