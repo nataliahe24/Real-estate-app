@@ -3,10 +3,10 @@
   
   <div class="category-form">
     <div class="form-group">
-      <label>Nombre de la Categoría *</label>
+      <label>Nombre</label>
       <input 
         type="text" 
-        placeholder="Escribe el nombre de la categoría (máximo 50 caracteres)"
+        placeholder="Nombre de la categoría"
         [value]="categoryData.name"
         (input)="categoryData.name = $any($event.target).value"
         maxlength="50"
@@ -14,16 +14,16 @@
     </div>
     
     <div class="form-group">
-      <label>Descripción *</label>
+      <label>Descripción</label>
       <textarea 
-        placeholder="Enter category description"
+        placeholder="Ingrese la descripción de la categoría"
         [value]="categoryData.description"
         (input)="categoryData.description = $any($event.target).value"
       ></textarea>
     </div>
     
     <div class="form-actions">
-      <button class="skip-btn">Skip</button>
+      <button class="skip-btn">Cancelar</button>
       <button class="create-btn" (click)="onSubmit()">Crear</button>
     </div>
   </div>
