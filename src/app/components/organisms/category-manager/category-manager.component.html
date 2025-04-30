@@ -1,0 +1,86 @@
+<div class="category-manager">
+  <h2>Crear Categoría</h2>
+  
+  <div class="category-form">
+    <div class="form-group">
+      <label>Nombre de la Categoría *</label>
+      <input 
+        type="text" 
+        placeholder="Escribe el nombre de la categoría (máximo 50 caracteres)"
+        [value]="categoryData.name"
+        (input)="categoryData.name = $any($event.target).value"
+        maxlength="50"
+      >
+    </div>
+    
+    <div class="form-group">
+      <label>Descripción *</label>
+      <textarea 
+        placeholder="Enter category description"
+        [value]="categoryData.description"
+        (input)="categoryData.description = $any($event.target).value"
+      ></textarea>
+    </div>
+    
+    <div class="form-actions">
+      <button class="skip-btn">Skip</button>
+      <button class="create-btn" (click)="onSubmit()">Crear</button>
+    </div>
+  </div>
+  
+  <div class="category-list">
+    <h3>Categorías existentes</h3>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of paginatedCategories">
+          <td>{{ category.id }}</td>
+          <td>{{ category.name }}</td>
+          <td>{{ category.description }}</td>
+          <td>
+            <button class="delete-btn" (click)="deleteCategory(category.id)">
+              <i class="material-icons">delete</i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="pagination-controls">
+      <div class="page-size-selector">
+        <label for="pageSize">Mostrar:</label>
+        <select id="pageSize" (change)="onPageSizeChange(+$any($event.target).value)">
+          <option *ngFor="let size of pageSizeOptions" [value]="size" [selected]="size === itemsPerPage">
+            {{ size }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="pagination">
+        <button [disabled]="currentPage === 0" (click)="onPageChange(currentPage)">
+          &laquo;
+        </button>
+        <button *ngFor="let page of pageNumbers" 
+                [class.active]="page - 1 === currentPage"
+                (click)="onPageChange(page)">
+          {{ page }}
+        </button>
+        <button [disabled]="currentPage === totalPages - 1" (click)="onPageChange(currentPage + 2)">
+          &raquo;
+        </button>
+      </div>
+      
+      <div class="pagination-info">
+        Mostrando {{ categories.length }} de {{ totalItems }} categorías
+      </div>
+    </div>
+  </div>
+</div> 

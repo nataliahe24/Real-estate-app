@@ -1,0 +1,111 @@
+import { Component, OnInit } from '@angular/core';
+import { Category } from '../../../core/models/category.model';
+import { CategoryService } from '../../../core/services/category.service';
+
+@Component({
+  selector: 'app-category-manager',
+  templateUrl: './category-manager.component.html',
+  styleUrls: ['./category-manager.component.scss']
+})
+export class CategoryManagerComponent implements OnInit {
+  categories: Category[] = [];
+  categoryData = { name: '', description: '' };
+  
+  currentPage = 0; // Las APIs suelen empezar en página 0
+  itemsPerPage = 10; // Default size
+  totalItems = 0;
+  totalPages = 0;
+  pageSizeOptions = [5, 10, 20, 50]; // Opciones para el tamaño de página
+  
+  constructor(private categoryService: CategoryService) {}
+  
+  ngOnInit(): void {
+    this.loadCategories();
+  }
+  
+  // Mantener paginatedCategories para compatibilidad con plantilla existente
+  get paginatedCategories(): Category[] {
+    return this.categories;
+  }
+  
+  get pageNumbers(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+  
+  onPageChange(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page - 1; // Restamos 1 porque la API usa base 0
+      this.loadCategories();
+    }
+  }
+  
+  onPageSizeChange(size: number): void {
+    this.itemsPerPage = size;
+    this.currentPage = 0; // Reiniciar a la primera página cuando cambia el tamaño
+    this.loadCategories();
+  }
+  
+  loadCategories(): void {
+    console.log(`Loading categories: page=${this.currentPage}, size=${this.itemsPerPage}`);
+    this.categoryService.getCategories(this.currentPage, this.itemsPerPage, true).subscribe({
+      next: (response) => {
+        console.log('Categories response:', response);
+        
+        // Adaptamos según la estructura de respuesta de la API
+        if (response && response.content) {
+          this.categories = response.content;
+          this.totalItems = response.totalElements || 0;
+          this.totalPages = response.totalPages || 1;
+        } else if (Array.isArray(response)) {
+          // Si la respuesta es directamente un array
+          this.categories = response;
+          this.totalPages = 1;
+          this.totalItems = response.length;
+        } else {
+          console.warn('Unexpected response format:', response);
+          this.categories = [];
+          this.totalPages = 0;
+          this.totalItems = 0;
+        }
+        
+        console.log('Categories loaded:', this.categories);
+      },
+      error: (error) => {
+        console.error('Error loading categories:', error);
+      }
+    });
+  }
+  
+  onSubmit(): void {
+    if (this.categoryData.name && this.categoryData.description) {
+      console.log('Submitting category:', this.categoryData);
+      this.categoryService.createCategory(this.categoryData).subscribe({
+        next: () => {
+          console.log('Category created successfully');
+          this.loadCategories();
+          this.categoryData = { name: '', description: '' };
+        },
+        error: (error) => {
+          console.error('Error creating category:', error);
+        }
+      });
+    } else {
+      console.warn('Category data incomplete');
+    }
+  }
+  
+  deleteCategory(id: string | number | undefined): void {
+    if (id !== undefined) {
+      console.log('Deleting category with ID:', id);
+      this.categoryService.deleteCategory(id).subscribe({
+        next: () => {
+          console.log('Category deleted successfully');
+          this.loadCategories();
+        },
+        error: (error) => {
+          console.error('Error deleting category:', error);
+        }
+      });
+    }
+  }
+} 
