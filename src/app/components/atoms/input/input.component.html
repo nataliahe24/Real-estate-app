@@ -1,0 +1,11 @@
+<div class="input-container">
+  <label *ngIf="label">{{ label }} <span *ngIf="label.includes('*')" class="required">*</span></label>
+  <input
+    [type]="type"
+    [placeholder]="placeholder"
+    [value]="value"
+    [disabled]="disabled"
+    [attr.maxlength]="maxLength"
+    (input)="updateValue($any($event.target).value)"
+  />
+</div> 
