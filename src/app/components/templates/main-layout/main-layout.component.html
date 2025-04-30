@@ -1,0 +1,25 @@
+<div class="app-container">
+  <header class="main-header">    
+    <div class="header-container">
+      <div class="brand">
+        <h2>Hogar 360</h2>
+      </div>
+      <div class="user-info">
+        <span>Bienvenido, {{ user.name }}</span>
+        <div class="user-avatar">
+          <img [src]="user.avatar" alt="User Avatar">
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="content-wrapper">
+    <app-sidebar></app-sidebar>
+    
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+  
+  <app-footer></app-footer>
+</div> 
