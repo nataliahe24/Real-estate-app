@@ -1,7 +1,7 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { CategoryService } from './services/category.service';
+import { CategoryService } from './services/categories/category.service';
 
 @NgModule({
   declarations: [],
