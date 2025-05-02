@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from '../../../core/models/category.model';
 import { CategoryService } from '../../../core/services/categories/category.service';
 import { NotificationService } from '../../../core/services/notifications/notification.service';
+import { validateCategory } from '../../../shared/utils/validators/validateCategory';
 
 @Component({
   selector: 'app-category-manager',
@@ -86,14 +87,7 @@ export class CategoryManagerComponent implements OnInit {
   }
 
   createCategory(): void {
-    // Validación de campos vacíos
-    if (!this.newCategory.name.trim()) {
-      this.notificationService.error('El nombre de la categoría es obligatorio.');
-      return;
-    }
-
-    if (!this.newCategory.description.trim()) {
-      this.notificationService.error('La descripción de la categoría no puede estar vacía');
+    if (!validateCategory(this.newCategory, this.notificationService)) {
       return;
     }
    
@@ -107,6 +101,5 @@ export class CategoryManagerComponent implements OnInit {
         this.notificationService.error('La categoría ya existe');
       }
     });
-
   }
 }
