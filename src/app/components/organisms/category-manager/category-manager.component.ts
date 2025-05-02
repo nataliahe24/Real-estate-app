@@ -84,32 +84,11 @@ export class CategoryManagerComponent implements OnInit {
       }
     });
   }
-  
-  onSubmit(): void {
-    if (this.categoryData.name && this.categoryData.description) {
-      console.log('Submitting category:', this.categoryData);
-      this.categoryService.createCategory(this.categoryData).subscribe({
-        next: () => {
-          console.log('Category created successfully');
-          this.loadCategories();
-          this.categoryData = { name: '', description: '' };
-          this.notificationService.success('Categoría creada con éxito');
-        },
-        error: (error) => {
-          console.error('Error creating category:', error);
-          this.notificationService.error('Error al crear la categoría: ' + error.message);
-        }
-      });
-    } else {
-      console.warn('Category data incomplete');
-    }
-  }
-  
 
   createCategory(): void {
     // Validación de campos vacíos
     if (!this.newCategory.name.trim()) {
-      this.notificationService.error('El nombre de la categoría no puede estar vacío');
+      this.notificationService.error('El nombre de la categoría es obligatorio.');
       return;
     }
 
@@ -125,11 +104,9 @@ export class CategoryManagerComponent implements OnInit {
         this.loadCategories();
       },
       error: (error) => {
-        this.notificationService.error('Error al crear la categoría: ' + error.message);
+        this.notificationService.error('La categoría ya existe');
       }
     });
-    
-    
 
   }
 }
