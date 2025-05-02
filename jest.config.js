@@ -20,5 +20,8 @@ module.exports = {
         useESM: true
       }
     ]
-  }
+  },
+  collectCoverage: true,
+  coverageDirectory: 'coverage',
+  coverageReporters: ['html', 'text', 'lcov']
 };
