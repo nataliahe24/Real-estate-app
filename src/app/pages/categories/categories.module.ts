@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CategoriesComponent } from './categories.component';
 import { OrganismsModule } from '../../components/organisms/organisms.module';
-
+import { AtomsModule } from '../../components/atoms/atoms.module';
 @NgModule({
   declarations: [
     CategoriesComponent
@@ -11,6 +11,7 @@ import { OrganismsModule } from '../../components/organisms/organisms.module';
   imports: [
     CommonModule,
     OrganismsModule,
+    AtomsModule,
     RouterModule.forChild([
       { path: '', component: CategoriesComponent }
     ])

@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedComponentsModule } from './shared/shared-components.module';
 import { OrganismsModule } from './components/organisms/organisms.module';
+import { AtomsModule } from './components/atoms/atoms.module';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -27,6 +28,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     CoreModule,
     SharedComponentsModule,
     OrganismsModule,
+    AtomsModule,
     AppRoutingModule
   ],
   providers: [

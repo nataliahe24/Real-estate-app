@@ -5,13 +5,16 @@ import { ButtonComponent } from './button/button.component';
 import { InputComponent } from './input/input.component';
 import { TextareaComponent } from './textarea/textarea.component';
 import { NotificationComponent } from './notification/notification.component';
+  import { LogoComponent } from './logo/logo.component';
 
 @NgModule({
   declarations: [
     ButtonComponent,
     InputComponent,
     TextareaComponent,
-    NotificationComponent
+    NotificationComponent,
+    LogoComponent
+
   ],
   imports: [
     CommonModule,
@@ -21,7 +24,8 @@ import { NotificationComponent } from './notification/notification.component';
     ButtonComponent,
     InputComponent,
     TextareaComponent,
-    NotificationComponent
+    NotificationComponent,
+    LogoComponent
   ]
 })
 export class AtomsModule {} 

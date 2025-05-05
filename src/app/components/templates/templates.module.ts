@@ -5,22 +5,23 @@ import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { SidebarComponent } from '../organisms/sidebar/sidebar.component';
 import { FooterComponent } from '../organisms/footer/footer.component';
 import { SharedComponentsModule } from '../../shared/shared-components.module';
-
+import { AtomsModule } from '../atoms/atoms.module';
 @NgModule({
   declarations: [
     MainLayoutComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     CommonModule,
     RouterModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    AtomsModule
   ],
   exports: [
     MainLayoutComponent,
     SidebarComponent,
-    FooterComponent
+    FooterComponent,
   ],
 })
 export class TemplatesModule {} 

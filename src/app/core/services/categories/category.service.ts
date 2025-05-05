@@ -21,11 +21,9 @@ export class CategoryService {
   constructor(private http: HttpClient) {
     console.log('CategoryService initialized');
     console.log('API URL:', this.apiUrl);
-    // Test conectividad
     this.testApiConnection();
   }
 
-  // Test de conectividad
   private testApiConnection(): void {
     fetch(this.apiUrl, { method: 'GET' })
       .then(response => {
@@ -40,17 +38,14 @@ export class CategoryService {
       });
   }
 
-  // Obtener todas las categorías con paginación
   getCategories(page: number = 0, size: number = 10, orderAsc: boolean = true): Observable<any> {
     console.log(`Requesting categories: page=${page}, size=${size}, orderAsc=${orderAsc}`);
     
-    // Configurar los parámetros requeridos según la documentación
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString())
       .set('orderAsc', orderAsc.toString());
     
-    // Agregar los parámetros a las opciones HTTP
     const options = {
       ...this.httpOptions,
       params: params
@@ -71,14 +66,11 @@ export class CategoryService {
     );
   }
 
-  // Obtener una categoría por ID
   getCategory(id: number): Observable<Category> {
     return this.http.get<Category>(`${this.apiUrl}${id}`, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }
-
-  // Crear una nueva categoría
   createCategory(category: { name: string; description: string }): Observable<Category> {
     console.log('Creating category:', category);
     return this.http.post<Category>(this.apiUrl, category, this.httpOptions).pipe(
@@ -87,14 +79,12 @@ export class CategoryService {
     );
   }
 
-  // Actualizar una categoría
   updateCategory(category: Category): Observable<Category> {
     return this.http.put<Category>(`${this.apiUrl}${category.id}`, category, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
-  // Eliminar una categoría
   deleteCategory(id: string | number | undefined): Observable<any> {
     if (id === undefined) {
       return throwError(() => new Error('ID undefined'));

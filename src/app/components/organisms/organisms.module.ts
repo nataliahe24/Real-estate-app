@@ -6,6 +6,7 @@ import { CategoryManagerComponent } from './category-manager/category-manager.co
 import { NotificationContainerComponent } from './notification-container/notification-container.component';
 import { AtomsModule } from '../atoms/atoms.module';
 
+
 @NgModule({
   declarations: [
     CategoryManagerComponent,
