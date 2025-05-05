@@ -1,1 +1,6 @@
-<button [ngClass]="type" [disabled]="disabled">{{ text }}</button> 
+<button 
+  [type]="isSubmit ? 'submit' : 'button'" 
+  [ngClass]="['button', type]" 
+  (click)="handleClick()">
+  {{ label }}
+</button> 

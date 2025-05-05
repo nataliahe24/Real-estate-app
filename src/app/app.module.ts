@@ -1,13 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
-import { NgOptimizedImage } from '@angular/common';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
+import { SharedComponentsModule } from './shared/shared-components.module';
+import { OrganismsModule } from './components/organisms/organisms.module';
+import { AtomsModule } from './components/atoms/atoms.module';
+
+import { AppRoutingModule } from './app-routing.module';
+
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+
+// import { TemplatesModule } from './components/templates/templates.module';
 
 @NgModule({
   declarations: [
@@ -15,14 +22,22 @@ import { SharedModule } from './shared/shared.module';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     HttpClientModule,
+    RouterModule,
+    FormsModule,
     CoreModule,
-    SharedModule,
-    AppRoutingModule,
-    NgOptimizedImage
+    SharedComponentsModule,
+    OrganismsModule,
+    AtomsModule,
+    AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

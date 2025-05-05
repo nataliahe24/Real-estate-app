@@ -1,24 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { MainLayoutComponent } from './components/templates/main-layout/main-layout.component';
+import { TemplatesModule } from './components/templates/templates.module';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
-  },
-  {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule)
-  },
-  {
-    path: 'contact',
-    loadChildren: () => import('./pages/contact/contact.module').then(m => m.ContactModule)
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: 'categories',
+        loadChildren: () => import('./pages/categories/categories.module').then(m => m.CategoriesModule)
+      },
+      {
+        path: '',
+        redirectTo: 'categories',
+        pathMatch: 'full'
+      }
+    ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    TemplatesModule,
+    RouterModule.forRoot(routes)
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Category } from '../../../core/models/category.model';
-import { CategoryService } from '../../../core/services/category.service';
+import { CategoryService } from '../../../core/services/categories/category.service';
+import { NotificationService } from '../../../core/services/notifications/notification.service';
+import { validateCategory } from '../../../shared/utils/validators/validateCategory';
 
 @Component({
   selector: 'app-category-manager',
@@ -17,7 +19,15 @@ export class CategoryManagerComponent implements OnInit {
   totalPages = 0;
   pageSizeOptions = [5, 10, 20, 50]; // Opciones para el tamaño de página
   
-  constructor(private categoryService: CategoryService) {}
+  newCategory: Category = {
+    name: '',
+    description: ''
+  };
+  
+  constructor(
+    private categoryService: CategoryService,
+    private notificationService: NotificationService
+  ) {}
   
   ngOnInit(): void {
     this.loadCategories();
@@ -75,37 +85,21 @@ export class CategoryManagerComponent implements OnInit {
       }
     });
   }
-  
-  onSubmit(): void {
-    if (this.categoryData.name && this.categoryData.description) {
-      console.log('Submitting category:', this.categoryData);
-      this.categoryService.createCategory(this.categoryData).subscribe({
-        next: () => {
-          console.log('Category created successfully');
-          this.loadCategories();
-          this.categoryData = { name: '', description: '' };
-        },
-        error: (error) => {
-          console.error('Error creating category:', error);
-        }
-      });
-    } else {
-      console.warn('Category data incomplete');
+
+  createCategory(): void {
+    if (!validateCategory(this.newCategory, this.notificationService)) {
+      return;
     }
+   
+    this.categoryService.createCategory(this.newCategory).subscribe({
+      next: (result) => {
+        this.notificationService.success('Categoría creada con éxito');
+        this.newCategory = { name: '', description: '' };
+        this.loadCategories();
+      },
+      error: (error) => {
+        this.notificationService.error('La categoría ya existe');
+      }
+    });
   }
-  
-  deleteCategory(id: string | number | undefined): void {
-    if (id !== undefined) {
-      console.log('Deleting category with ID:', id);
-      this.categoryService.deleteCategory(id).subscribe({
-        next: () => {
-          console.log('Category deleted successfully');
-          this.loadCategories();
-        },
-        error: (error) => {
-          console.error('Error deleting category:', error);
-        }
-      });
-    }
-  }
-} 
+}
