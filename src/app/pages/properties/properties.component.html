@@ -64,7 +64,7 @@
           </div>
           
           <div class="property-image">
-            <img src="assets/images/property-placeholder.jpg" alt="{{ property.name }}">
+            <img [src]="propertyImages[property.id % propertyImages.length]" alt="Imagen de propiedad">
           </div>
           
           <div class="property-content">

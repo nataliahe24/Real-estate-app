@@ -20,4 +20,6 @@ import { PropertiesComponent } from './properties.component';
     PropertiesComponent
   ]
 })
-export class PropertiesModule { } 
+export class PropertiesModule { 
+  // Remove this invalid code
+} 
