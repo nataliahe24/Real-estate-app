@@ -1,12 +1,13 @@
 .logo {
-    h2 {
-      color: #3366FF;
-      margin: 0;
-      font-weight: 600;
-      font-size: 22px;
+  display: inline-block;
+  
+  .logo-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: #3366FF;
+    
+    .highlight {
+      color: #01030a;
     }
   }
-
-  .highlight {
-    color: #07090f;
-  }
+}

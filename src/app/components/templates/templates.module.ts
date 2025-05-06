@@ -6,11 +6,15 @@ import { SidebarComponent } from '../organisms/sidebar/sidebar.component';
 import { FooterComponent } from '../organisms/footer/footer.component';
 import { SharedComponentsModule } from '../../shared/shared-components.module';
 import { AtomsModule } from '../atoms/atoms.module';
+import { PropertiesLayoutComponent } from './properties-layout/properties-layout.component';
+import { NavbarComponent } from '../organisms/navbar/navbar.component';
 @NgModule({
   declarations: [
     MainLayoutComponent,
     SidebarComponent,
     FooterComponent,
+    PropertiesLayoutComponent,
+    NavbarComponent
   ],
   imports: [
     CommonModule,
@@ -22,6 +26,8 @@ import { AtomsModule } from '../atoms/atoms.module';
     MainLayoutComponent,
     SidebarComponent,
     FooterComponent,
+    PropertiesLayoutComponent,
+    NavbarComponent
   ],
 })
 export class TemplatesModule {} 
