@@ -32,3 +32,11 @@ export interface PropertyFilter {
   bathrooms?: number;
   publicationStatus?: PublicationStatus;
 } 
+
+export interface PaginatedPropertiesResponse {
+  content: PropertyResponse[];
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}

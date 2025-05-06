@@ -4,6 +4,7 @@ import { PropertyFilter, PropertyResponse } from '../../core/models/property.mod
 import { CategoryService } from '../../core/services/categories/category.service';
 import { Category } from '../../core/models/category.model';
 
+
 @Component({
   selector: 'app-properties',
   templateUrl: './properties.component.html',
@@ -30,12 +31,12 @@ export class PropertiesComponent implements OnInit {
     
     this.propertyService.getProperties(this.currentFilter)
       .subscribe({
-        next: (data) => {
+        next: (data: PropertyResponse[]) => {
           this.properties = data;
           this.loading = false;
         },
         error: (err) => {
-          console.error('Error loading properties', err);
+          console.error('Error al cargar propiedades', err);
           this.error = true;
           this.loading = false;
         }
@@ -57,8 +58,7 @@ export class PropertiesComponent implements OnInit {
   toggleFavorite(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    // Implement favorite functionality here
-    // For example, you could toggle a favorite state in a property
+   
   }
   
   loadCategories(): void {

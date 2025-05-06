@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
-import { PropertyResponse, PropertyFilter } from '../../models/property.model';
+import { Observable, catchError, map, pipe, throwError } from 'rxjs';
+import { PropertyResponse, PropertyFilter, PaginatedPropertiesResponse } from '../../models/property.model';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -36,8 +36,9 @@ export class PropertyService {
     console.log('Request URL:', this.apiUrl);
     console.log('Parameters:', params.toString());
 
-    return this.http.get<PropertyResponse[]>(this.apiUrl, { params })
+    return this.http.get<PaginatedPropertiesResponse>(this.apiUrl, { params })
       .pipe(
+        map((response: PaginatedPropertiesResponse) => response.content),
         catchError(error => {
           console.error('Error en la solicitud:', error);
           if (error.error) {

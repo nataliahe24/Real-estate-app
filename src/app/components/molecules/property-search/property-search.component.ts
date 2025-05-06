@@ -8,9 +8,7 @@ import { PropertyResponse } from '../../../core/models/property.model';
 @Component({
   selector: 'app-property-search',
   templateUrl: './property-search.component.html',
-  styleUrls: ['./property-search.component.scss'],
-  standalone: true,
-  imports: [CommonModule, FormsModule, CategorySelectComponent]
+  styleUrls: ['./property-search.component.scss']
 })
 export class PropertySearchComponent implements OnInit {
   selectedCategoryId: string = '';

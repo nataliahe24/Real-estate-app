@@ -13,11 +13,11 @@ export class CategoryManagerComponent implements OnInit {
   categories: Category[] = [];
   categoryData = { name: '', description: '' };
   
-  currentPage = 0; // Las APIs suelen empezar en página 0
-  itemsPerPage = 10; // Default size
+  currentPage = 0; 
+  itemsPerPage = 10; 
   totalItems = 0;
   totalPages = 0;
-  pageSizeOptions = [5, 10, 20, 50]; // Opciones para el tamaño de página
+  pageSizeOptions = [5, 10, 20, 50]; 
   
   newCategory: Category = {
     name: '',
@@ -33,7 +33,7 @@ export class CategoryManagerComponent implements OnInit {
     this.loadCategories();
   }
   
-  // Mantener paginatedCategories para compatibilidad con plantilla existente
+
   get paginatedCategories(): Category[] {
     return this.categories;
   }
@@ -44,14 +44,14 @@ export class CategoryManagerComponent implements OnInit {
   
   onPageChange(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page - 1; // Restamos 1 porque la API usa base 0
+      this.currentPage = page - 1;
       this.loadCategories();
     }
   }
   
   onPageSizeChange(size: number): void {
     this.itemsPerPage = size;
-    this.currentPage = 0; // Reiniciar a la primera página cuando cambia el tamaño
+    this.currentPage = 0; 
     this.loadCategories();
   }
   
