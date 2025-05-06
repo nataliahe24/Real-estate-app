@@ -5,12 +5,13 @@ import { AtomsModule } from '../atoms/atoms.module';
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { PropertyCardComponent } from './property-card/property-card.component';
-
+import { PropertySearchComponent } from './property-search/property-search.component';
 @NgModule({
   declarations: [
     CategoryFormComponent,
     CategoryListComponent,
-    PropertyCardComponent
+    PropertyCardComponent,
+    PropertySearchComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +21,8 @@ import { PropertyCardComponent } from './property-card/property-card.component';
   exports: [
     CategoryFormComponent,
     CategoryListComponent,
-    PropertyCardComponent
+    PropertyCardComponent,
+    PropertySearchComponent
   ]
 })
 export class MoleculesModule {} 

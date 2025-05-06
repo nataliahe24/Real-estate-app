@@ -5,6 +5,7 @@ import { PropertyService } from '../../../core/services/properties/property.serv
 import { CategorySelectComponent } from '../../atoms/category-select/category-select.component';
 import { PropertyResponse } from '../../../core/models/property.model';
 
+
 @Component({
   selector: 'app-property-search',
   templateUrl: './property-search.component.html',
