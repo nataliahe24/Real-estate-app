@@ -1,0 +1,10 @@
+<select 
+  class="category-select" 
+  [(ngModel)]="selectedCategory" 
+  (change)="onSelectChange()"
+>
+  <option value="">Categoría</option>
+  <option *ngFor="let category of categories" [value]="category.value">
+    {{ category.label }}
+  </option>
+</select> 
