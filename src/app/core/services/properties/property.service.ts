@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { PropertyResponse, PropertyFilter } from '../../models/property.model';
 import { environment } from '../../../../environments/environment';
 
@@ -8,40 +8,44 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root'
 })
 export class PropertyService {
-  private apiUrl = `${environment.apiUrl}properties/`;
+  private apiUrl: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.apiUrl = environment.apiUrlProperties;
+    
+    this.apiUrl = `${this.apiUrl.endsWith('/') ? this.apiUrl.slice(0, -1) : this.apiUrl}/list`;
+    
+    console.log('URL base configurada:', this.apiUrl);
+  }
 
   getProperties(filters: { [key: string]: any } = {}): Observable<PropertyResponse[]> {
     let params = new HttpParams();
 
-    // Accede a las propiedades usando la notación de corchetes
-    if (filters['category']) {
+    if (filters['category'] && filters['category'] !== '') {
       params = params.append('category', filters['category']);
     }
-    if (filters['location']) {
+    if (filters['location'] && filters['location'] !== '') {
       params = params.append('location', filters['location']);
     }
-    if (filters['rooms']) {
-      params = params.append('rooms', filters['rooms'].toString());
-    }
-    if (filters['bathrooms']) {
-      params = params.append('bathrooms', filters['bathrooms'].toString());
-    }
-    if (filters['minPrice']) {
-      params = params.append('minPrice', filters['minPrice'].toString());
-    }
-    if (filters['maxPrice']) {
-      params = params.append('maxPrice', filters['maxPrice'].toString());
-    }
-    if (filters['sortBy']) {
-      params = params.append('sortBy', filters['sortBy']);
-    }
-    if (filters['orderAsc'] !== undefined) {
-      params = params.append('orderAsc', filters['orderAsc'].toString());
-    }
+    
+    params = params.append('page', '0');
+    params = params.append('size', '20');
+    
+    params = params.append('orderAsc', 'true');
+    
+    console.log('Request URL:', this.apiUrl);
+    console.log('Parameters:', params.toString());
 
-    return this.http.get<PropertyResponse[]>(this.apiUrl, { params });
+    return this.http.get<PropertyResponse[]>(this.apiUrl, { params })
+      .pipe(
+        catchError(error => {
+          console.error('Error en la solicitud:', error);
+          if (error.error) {
+            console.error('Detalles del error:', error.error);
+          }
+          return throwError(() => error);
+        })
+      );
   }
 
   getPropertyById(id: number): Observable<PropertyResponse> {
