@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MainLayoutComponent } from './components/templates/main-layout/main-layout.component';
+import { MainLayoutComponent } from './components/templates/category-layout/main-layout.component';
 import { PropertiesLayoutComponent } from './components/templates/properties-layout/properties-layout.component';
 import { PropertiesComponent } from './pages/properties/properties.component';
 

@@ -13,4 +13,10 @@ form {
     justify-content: flex-end;
     gap: 10px;
   }
+}
+
+::placeholder {
+  font-family: 'Poppins', sans-serif;
+  color: #aaa;
+  font-weight: 300;
 } 

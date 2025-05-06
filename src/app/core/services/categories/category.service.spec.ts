@@ -4,14 +4,14 @@ import { CategoryService } from './category.service';
 import { Category } from '../../models/category.model';
 import { HttpErrorResponse } from '@angular/common/http';
 
-// Mock la función testApiConnection
+
 jest.mock('./category.service', () => {
   const original = jest.requireActual('./category.service');
   return {
     ...original,
     CategoryService: class extends original.CategoryService {
       testApiConnection() {
-        // No hace nada en las pruebas
+        
         return;
       }
     }
