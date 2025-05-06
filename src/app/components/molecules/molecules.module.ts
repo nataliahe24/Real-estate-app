@@ -4,11 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AtomsModule } from '../atoms/atoms.module';
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { CategoryListComponent } from './category-list/category-list.component';
+import { PropertyCardComponent } from './property-card/property-card.component';
 
 @NgModule({
   declarations: [
     CategoryFormComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    PropertyCardComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { CategoryListComponent } from './category-list/category-list.component';
   ],
   exports: [
     CategoryFormComponent,
-    CategoryListComponent
+    CategoryListComponent,
+    PropertyCardComponent
   ]
 })
 export class MoleculesModule {} 

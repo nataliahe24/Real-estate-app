@@ -1,8 +1,10 @@
 <div class="property-card">
-  <app-property-status-label [status]="property.publicationStatus"></app-property-status-label>
+  <div class="property-status">
+    <app-property-status-label [status]="property.publicationStatus"></app-property-status-label>
+  </div>
   
   <div class="property-image">
-    <img src="assets/images/property-placeholder.jpg" alt="{{ property.name }}">
+    <img [src]="propertyImages[property.id % propertyImages.length]" alt="Imagen de propiedad">
   </div>
   
   <div class="property-content">
@@ -14,13 +16,24 @@
     </p>
     
     <div class="property-features">
-      <app-property-icon icon="hotel" [value]="property.rooms"></app-property-icon>
-      <app-property-icon icon="bathtub" [value]="property.bathrooms"></app-property-icon>
-      <app-property-icon icon="square_foot" value="800 sq ft"></app-property-icon>
+      <div class="feature">
+        <i class="material-icons">hotel</i>
+        <span>{{ property.rooms }}</span>
+      </div>
+      
+      <div class="feature">
+        <i class="material-icons">bathtub</i>
+        <span>{{ property.bathrooms }}</span>
+      </div>
+      
+      <div class="feature">
+        <i class="material-icons">square_foot</i>
+        <span>800 sq ft</span>
+      </div>
     </div>
   </div>
   
   <button class="favorite-btn" (click)="toggleFavorite($event)">
     <i class="material-icons">favorite_border</i>
   </button>
-</div> 
+</div>

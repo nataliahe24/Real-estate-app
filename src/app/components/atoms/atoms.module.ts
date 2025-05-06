@@ -7,7 +7,7 @@ import { TextareaComponent } from './textarea/textarea.component';
 import { NotificationComponent } from './notification/notification.component';
 import { LogoComponent } from './logo/logo.component';
 import { CategorySelectComponent } from './category-select/category-select.component';
-
+import { PropertyStatusLabelComponent } from './property-status-label/property-status-label.component';
 @NgModule({
   declarations: [
     ButtonComponent,
@@ -15,7 +15,8 @@ import { CategorySelectComponent } from './category-select/category-select.compo
     TextareaComponent,
     NotificationComponent,
     LogoComponent,
-    CategorySelectComponent
+    CategorySelectComponent,
+    PropertyStatusLabelComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +29,8 @@ import { CategorySelectComponent } from './category-select/category-select.compo
     TextareaComponent,
     NotificationComponent,
     LogoComponent,
-    CategorySelectComponent
+    CategorySelectComponent,
+    PropertyStatusLabelComponent
   ]
 })
 export class AtomsModule {} 

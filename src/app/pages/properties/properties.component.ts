@@ -17,12 +17,7 @@ export class PropertiesComponent implements OnInit {
   currentFilter: PropertyFilter = {};
   viewMode: 'grid' | 'list' = 'grid';
   categories: Category[] = [];
-  propertyImages = [
-    'assets/images/casa-1.png',
-    'assets/images/casa-2.png',
-    'assets/images/casa-3.png',
-    'assets/images/casa-4.png'
-  ];
+
   
   constructor(private propertyService: PropertyService, private categoryService: CategoryService) {}
   

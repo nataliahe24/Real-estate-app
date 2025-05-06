@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AtomsModule } from '../../components/atoms/atoms.module';
+import { MoleculesModule } from '../../components/molecules/molecules.module';
 
 import { PropertiesComponent } from './properties.component';
 
@@ -14,7 +15,8 @@ import { PropertiesComponent } from './properties.component';
     CommonModule,
     FormsModule,
     RouterModule,
-    AtomsModule
+    AtomsModule,
+    MoleculesModule
   ],
   exports: [
     PropertiesComponent
