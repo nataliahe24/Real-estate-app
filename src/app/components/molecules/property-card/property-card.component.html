@@ -1,0 +1,26 @@
+<div class="property-card">
+  <app-property-status-label [status]="property.publicationStatus"></app-property-status-label>
+  
+  <div class="property-image">
+    <img src="assets/images/property-placeholder.jpg" alt="{{ property.name }}">
+  </div>
+  
+  <div class="property-content">
+    <h3>{{ property.name }}</h3>
+    <p class="location">{{ property.city }}, {{ property.department }}</p>
+    
+    <p class="price">
+      {{ property.publicationStatus === 'FOR_RENT' ? property.price + '/mo' : property.price | currency:'USD' }}
+    </p>
+    
+    <div class="property-features">
+      <app-property-icon icon="hotel" [value]="property.rooms"></app-property-icon>
+      <app-property-icon icon="bathtub" [value]="property.bathrooms"></app-property-icon>
+      <app-property-icon icon="square_foot" value="800 sq ft"></app-property-icon>
+    </div>
+  </div>
+  
+  <button class="favorite-btn" (click)="toggleFavorite($event)">
+    <i class="material-icons">favorite_border</i>
+  </button>
+</div> 

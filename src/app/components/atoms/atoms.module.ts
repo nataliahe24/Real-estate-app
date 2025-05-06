@@ -5,7 +5,7 @@ import { ButtonComponent } from './button/button.component';
 import { InputComponent } from './input/input.component';
 import { TextareaComponent } from './textarea/textarea.component';
 import { NotificationComponent } from './notification/notification.component';
-  import { LogoComponent } from './logo/logo.component';
+import { LogoComponent } from './logo/logo.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +14,6 @@ import { NotificationComponent } from './notification/notification.component';
     TextareaComponent,
     NotificationComponent,
     LogoComponent
-
   ],
   imports: [
     CommonModule,

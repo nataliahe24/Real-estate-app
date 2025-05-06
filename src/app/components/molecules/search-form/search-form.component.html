@@ -1,0 +1,20 @@
+<div class="search-form">
+  <div class="form-control">
+    <app-category-select 
+      [categories]="categories"
+      (categoryChange)="onCategoryChange($event)"
+    ></app-category-select>
+  </div>
+  
+  <div class="form-control">
+    <app-search-input
+      (valueChange)="onLocationChange($event)"
+    ></app-search-input>
+  </div>
+  
+  <div class="form-button">
+    <app-search-button
+      (buttonClick)="onSearch()"
+    ></app-search-button>
+  </div>
+</div> 

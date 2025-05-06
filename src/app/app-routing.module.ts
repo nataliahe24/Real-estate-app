@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './components/templates/main-layout/main-layout.component';
-import { TemplatesModule } from './components/templates/templates.module';
+import { PropertiesLayoutComponent } from './components/templates/properties-layout/properties-layout.component';
+import { PropertiesComponent } from './pages/properties/properties.component';
 
 const routes: Routes = [
   {
@@ -18,12 +19,21 @@ const routes: Routes = [
         pathMatch: 'full'
       }
     ]
+  },
+  {
+    path: 'properties',
+    component: PropertiesLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: PropertiesComponent
+      }
+    ]
   }
 ];
 
 @NgModule({
   imports: [
-    TemplatesModule,
     RouterModule.forRoot(routes)
   ],
   exports: [RouterModule]

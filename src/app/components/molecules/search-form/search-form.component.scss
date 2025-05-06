@@ -1,0 +1,21 @@
+.search-form {
+  display: flex;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  
+  .form-control {
+    flex: 1;
+    padding: 10px;
+    border-right: 1px solid #e0e0e0;
+    
+    &:last-of-type {
+      border-right: none;
+    }
+  }
+  
+  .form-button {
+    padding: 10px;
+  }
+} 

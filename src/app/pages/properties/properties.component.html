@@ -1,0 +1,113 @@
+<div class="properties-page">
+  <h1 class="page-title">Encuentra tu casa perfecta</h1>
+  <p class="page-subtitle">Explora nuestra selección de propiedades disponibles</p>
+  
+  <div class="search-container">
+    <div class="search-form">
+      <div class="form-group">
+        <select [(ngModel)]="currentFilter.category" class="form-control">
+          <option value="">Categoría</option>
+          <option value="casa">Casa</option>
+          <option value="apartamento">Apartamento</option>
+          <option value="oficina">Oficina</option>
+          <option value="local">Local</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <input type="text" [(ngModel)]="currentFilter.location" placeholder="Buscar por ubicación" class="form-control">
+      </div>
+      
+      <button (click)="loadProperties()" class="search-button">Buscar</button>
+    </div>
+  </div>
+  
+  <div class="properties-content">
+    <div class="properties-toolbar">
+      <div class="total-count">
+        {{ properties.length }} propiedades encontradas
+      </div>
+      
+      <div class="view-toggles">
+        <button 
+          [class.active]="viewMode === 'grid'" 
+          (click)="viewMode = 'grid'"
+        >
+          <i class="material-icons">grid_view</i>
+        </button>
+        <button 
+          [class.active]="viewMode === 'list'" 
+          (click)="viewMode = 'list'"
+        >
+          <i class="material-icons">view_list</i>
+        </button>
+      </div>
+    </div>
+    
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando propiedades...</p>
+    </div>
+    
+    <div *ngIf="error" class="error-state">
+      <i class="material-icons">error</i>
+      <p>Error al cargar las propiedades. Intenta de nuevo.</p>
+      <button (click)="loadProperties()">Reintentar</button>
+    </div>
+    
+    <div 
+      *ngIf="!loading && !error" 
+      class="properties-grid"
+      [class.properties-list]="viewMode === 'list'"
+    >
+      <ng-container *ngIf="properties.length > 0; else noResults">
+        <div *ngFor="let property of properties" class="property-card">
+          <div class="property-status">
+            {{ property.publicationStatus === 'FOR_RENT' ? 'Renta' : 'Venta' }}
+          </div>
+          
+          <div class="property-image">
+            <img src="assets/images/property-placeholder.jpg" alt="{{ property.name }}">
+          </div>
+          
+          <div class="property-content">
+            <h3>{{ property.name }}</h3>
+            <p class="location">{{ property.city }}, {{ property.department }}</p>
+            
+            <p class="price">
+              {{ property.publicationStatus === 'FOR_RENT' ? property.price + '/mo' : property.price | currency:'USD' }}
+            </p>
+            
+            <div class="property-features">
+              <div class="feature">
+                <i class="material-icons">hotel</i>
+                <span>{{ property.rooms }}</span>
+              </div>
+              
+              <div class="feature">
+                <i class="material-icons">bathtub</i>
+                <span>{{ property.bathrooms }}</span>
+              </div>
+              
+              <div class="feature">
+                <i class="material-icons">square_foot</i>
+                <span>800 sq ft</span>
+              </div>
+            </div>
+          </div>
+          
+          <button class="favorite-btn" (click)="toggleFavorite($event)">
+            <i class="material-icons">favorite_border</i>
+          </button>
+        </div>
+      </ng-container>
+      
+      <ng-template #noResults>
+        <div class="no-results">
+          <i class="material-icons">search_off</i>
+          <p>No se encontraron propiedades con los filtros seleccionados.</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div> 
