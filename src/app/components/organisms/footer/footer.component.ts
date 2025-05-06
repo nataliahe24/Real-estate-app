@@ -21,9 +21,9 @@ export class FooterComponent {
   };
   
   socialLinks = [
-    { icon: 'facebook', url: '#' },
-    { icon: 'twitter', url: '#' },
-    { icon: 'instagram', url: '#' },
-    { icon: 'linkedin', url: '#' }
+    { iconClass: 'assets/images/facebook.png', url: 'https://facebook.com' },
+    { iconClass: 'assets/images/x.png', url: 'https://twitter.com' },
+    { iconClass: 'assets/images/instagram.png', url: 'https://instagram.com' },
+    { iconClass: 'assets/images/linkedin.png', url: 'https://linkedin.com' }
   ];
 } 
