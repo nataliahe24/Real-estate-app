@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PropertyService } from '../../core/services/properties/property.service';
-import { PropertyFilter, PropertyResponse } from '../../models/property.model';
+import { PropertyFilter, PropertyResponse } from '../../core/models/property.model';
+import { CategoryService } from '../../core/services/categories/category.service';
+import { Category } from '../../core/models/category.model';
 
 @Component({
   selector: 'app-properties',
@@ -13,11 +15,13 @@ export class PropertiesComponent implements OnInit {
   error = false;
   currentFilter: PropertyFilter = {};
   viewMode: 'grid' | 'list' = 'grid';
+  categories: Category[] = [];
   
-  constructor(private propertyService: PropertyService) {}
+  constructor(private propertyService: PropertyService, private categoryService: CategoryService) {}
   
   ngOnInit(): void {
     this.loadProperties();
+    this.loadCategories();
   }
   
   loadProperties(): void {
@@ -55,5 +59,18 @@ export class PropertiesComponent implements OnInit {
     event.stopPropagation();
     // Implement favorite functionality here
     // For example, you could toggle a favorite state in a property
+  }
+  
+  loadCategories(): void {
+    this.categoryService.getCategoryNames(true).subscribe({
+      next: (categoryNames) => {
+        this.categories = categoryNames.map((name, index) => ({
+          id: index.toString(),
+          name: name,
+          description: ''
+        }));
+      },
+      error: (err) => console.error(err)
+    });
   }
 }

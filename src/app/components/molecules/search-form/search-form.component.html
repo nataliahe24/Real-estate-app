@@ -1,20 +1,31 @@
 <div class="search-form">
   <div class="form-control">
-    <app-category-select 
-      [categories]="categories"
-      (categoryChange)="onCategoryChange($event)"
-    ></app-category-select>
+    <label for="category">Categoría</label>
+    <select 
+      id="category"
+      [(ngModel)]="category"
+      (change)="onCategoryChange(category)"
+      [disabled]="isLoading">
+      <option value="">Seleccionar categoría</option>
+      <option *ngFor="let cat of categories" [value]="cat.id">
+        {{cat.name}}
+      </option>
+    </select>
+    <div *ngIf="isLoading" class="loading">Cargando categorías...</div>
+    <div *ngIf="error" class="error">{{error}}</div>
   </div>
   
   <div class="form-control">
-    <app-search-input
-      (valueChange)="onLocationChange($event)"
-    ></app-search-input>
+    <label for="location">Ubicación</label>
+    <input 
+      id="location" 
+      type="text" 
+      [(ngModel)]="location"
+      (input)="onLocationChange(location)"
+      placeholder="Ingrese ubicación">
   </div>
   
   <div class="form-button">
-    <app-search-button
-      (buttonClick)="onSearch()"
-    ></app-search-button>
+    <button (click)="onSearch()">Buscar</button>
   </div>
 </div> 

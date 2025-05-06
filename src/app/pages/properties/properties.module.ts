@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AtomsModule } from '../../components/atoms/atoms.module';
 
 import { PropertiesComponent } from './properties.component';
 
@@ -12,7 +13,8 @@ import { PropertiesComponent } from './properties.component';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    AtomsModule
   ],
   exports: [
     PropertiesComponent

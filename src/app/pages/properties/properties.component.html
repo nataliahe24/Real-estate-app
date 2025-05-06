@@ -5,13 +5,10 @@
   <div class="search-container">
     <div class="search-form">
       <div class="form-group">
-        <select [(ngModel)]="currentFilter.category" class="form-control">
-          <option value="">Categoría</option>
-          <option value="casa">Casa</option>
-          <option value="apartamento">Apartamento</option>
-          <option value="oficina">Oficina</option>
-          <option value="local">Local</option>
-        </select>
+        <app-category-select 
+          [selectedCategoryId]="currentFilter.category || ''"
+          (categorySelected)="currentFilter.category = $event">
+        </app-category-select>
       </div>
       
       <div class="form-group">

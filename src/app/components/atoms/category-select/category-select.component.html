@@ -1,10 +1,17 @@
-<select 
-  class="category-select" 
-  [(ngModel)]="selectedCategory" 
-  (change)="onSelectChange()"
->
-  <option value="">Categoría</option>
-  <option *ngFor="let category of categories" [value]="category.value">
-    {{ category.label }}
-  </option>
-</select> 
+<div class="category-select-container">
+  <select 
+    [disabled]="isLoading" 
+    [(ngModel)]="selectedCategoryId" 
+    (change)="onCategorySelected()"
+    class="category-select">
+    <option value="">Seleccione una categoria</option>
+    <ng-container *ngIf="!isLoading && !error">
+      <option *ngFor="let category of categories" [value]="category.id">
+        {{ category.name }}
+      </option>
+    </ng-container>
+  </select>
+  
+  <div *ngIf="isLoading" class="loading">Cargando categorías...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+</div>
