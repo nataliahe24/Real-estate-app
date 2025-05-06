@@ -17,7 +17,13 @@ export class PropertiesComponent implements OnInit {
   currentFilter: PropertyFilter = {};
   viewMode: 'grid' | 'list' = 'grid';
   categories: Category[] = [];
-
+  
+  propertyImages = [
+    'assets/images/casa-1.png',
+    'assets/images/casa-2.png',
+    'assets/images/casa-3.png',
+    'assets/images/casa-4.png'
+  ];
   
   constructor(private propertyService: PropertyService, private categoryService: CategoryService) {}
   
@@ -33,10 +39,7 @@ export class PropertiesComponent implements OnInit {
     this.propertyService.getProperties(this.currentFilter)
       .subscribe({
         next: (data: PropertyResponse[]) => {
-          this.properties = data.map((property, index) => ({
-            ...property,
-            image: this.propertyImages[index % this.propertyImages.length]
-          }));
+          this.properties = data;
           this.loading = false;
         },
         error: (err) => {
