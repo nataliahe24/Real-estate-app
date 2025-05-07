@@ -5,9 +5,9 @@
   <div class="search-container">
     <div class="search-form">
       <div class="form-group">
-        <app-category-select 
-          [selectedCategoryId]="currentFilter.category || ''"
-          (categorySelected)="currentFilter.category = $event">
+        <app-category-select
+          [selectedCategoryName]="currentFilter.category || ''"
+          (categorySelected)="onCategoryChange($event)">
         </app-category-select>
       </div>
       

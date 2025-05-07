@@ -14,8 +14,8 @@
     <div class="filter-item">
       <label>Category:</label>
       <app-category-select 
-        [selectedCategoryId]="selectedCategoryId" 
-        (categorySelected)="onCategorySelected($event)">
+        [selectedCategoryName]="selectedCategoryName" 
+        (categorySelected)="onCategoryChange($event)">
       </app-category-select>
     </div>
   </div>

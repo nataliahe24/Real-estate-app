@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./category-select.component.scss']
 })
 export class CategorySelectComponent implements OnInit {
-  @Input() selectedCategoryId: string = '';
+  @Input() selectedCategoryName: string = '';
   @Output() categorySelected = new EventEmitter<string>();
   
   categories: Category[] = [];
@@ -52,6 +52,6 @@ export class CategorySelectComponent implements OnInit {
   }
 
   onCategorySelected(): void {
-    this.categorySelected.emit(this.selectedCategoryId);
+    this.categorySelected.emit(this.selectedCategoryName);
   }
 }

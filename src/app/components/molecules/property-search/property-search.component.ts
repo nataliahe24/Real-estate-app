@@ -17,6 +17,7 @@ export class PropertySearchComponent implements OnInit {
   properties: PropertyResponse[] = [];
   isLoading = false;
   error: string | null = null;
+  selectedCategoryName: string = '';
 
   constructor(private propertyService: PropertyService) {}
 
@@ -31,6 +32,11 @@ export class PropertySearchComponent implements OnInit {
 
   onLocationSearchChange(): void {
     this.searchProperties();
+  }
+
+  onCategoryChange(categoryName: string): void {
+    this.selectedCategoryName = categoryName;
+    // this.searchProperties(); // si tienes lógica de búsqueda
   }
 
   searchProperties(): void {

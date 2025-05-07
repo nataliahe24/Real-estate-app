@@ -1,12 +1,12 @@
 <div class="category-select-container">
   <select 
     [disabled]="isLoading" 
-    [(ngModel)]="selectedCategoryId" 
+    [(ngModel)]="selectedCategoryName" 
     (change)="onCategorySelected()"
     class="category-select">
     <option value="">Seleccione una categoria</option>
     <ng-container *ngIf="!isLoading && !error">
-      <option *ngFor="let category of categories" [value]="category.id">
+      <option *ngFor="let category of categories" [value]="category.name">
         {{ category.name }}
       </option>
     </ng-container>

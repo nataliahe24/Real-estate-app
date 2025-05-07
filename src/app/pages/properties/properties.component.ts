@@ -80,4 +80,9 @@ export class PropertiesComponent implements OnInit {
       error: (err) => console.error(err)
     });
   }
+
+  onCategoryChange(categoryName: string) {
+    this.currentFilter.category = categoryName;
+    this.loadProperties();
+  }
 }
