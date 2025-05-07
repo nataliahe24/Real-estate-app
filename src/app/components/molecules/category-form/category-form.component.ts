@@ -31,10 +31,7 @@ export class CategoryFormComponent {
   }
 
   createCategory(): void {
-    if (this.categoryForm.invalid) {
-      this.notificationService.warning('Por favor completa el formulario correctamente');
-      return;
-    }
+    
 
     const newCategory = this.categoryForm.value;
 
