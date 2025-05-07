@@ -29,6 +29,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/app/shared/styles/_colors.scss",
               "src/styles.scss"
             ],
             "scripts": []

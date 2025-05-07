@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { getCharacterInfo } from '@app/shared/helper/form-helper';
+
 import { CategoryService } from '../../../core/services/categories/category.service';
 import { NotificationService } from '../../../core/services/notifications/notification.service';
 import { validateCategory } from '../../../shared/utils/validators/validateCategory';

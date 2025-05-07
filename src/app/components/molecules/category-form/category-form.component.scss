@@ -1,3 +1,5 @@
+@import '../../../shared/styles/colors';
+
 form {
   background-color: white;
   
@@ -22,7 +24,7 @@ form {
 
 .character-count {
   font-size: 0.875rem;
-  color: #666;
+  color: $color-text-secondary;
   margin-top: 0.25rem;
   text-align: right;
 
@@ -33,5 +35,6 @@ form {
   .error-message {
     margin-left: 0.5rem;
     font-size: 0.75rem;
+    color: $color-text-primary;
   }
 } 
