@@ -26,6 +26,7 @@ export class CategoryManagerComponent implements OnInit {
   
   constructor(
     private categoryService: CategoryService,
+    private notificationService: NotificationService
   ) {}
   
   ngOnInit(): void {
@@ -60,13 +61,13 @@ export class CategoryManagerComponent implements OnInit {
       next: (response) => {
         console.log('Categories response:', response);
         
-        // Adaptamos según la estructura de respuesta de la API
+       
         if (response && response.content) {
           this.categories = response.content;
           this.totalItems = response.totalElements || 0;
           this.totalPages = response.totalPages || 1;
         } else if (Array.isArray(response)) {
-          // Si la respuesta es directamente un array
+          
           this.categories = response;
           this.totalPages = 1;
           this.totalItems = response.length;
@@ -81,6 +82,23 @@ export class CategoryManagerComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading categories:', error);
+      }
+    });
+  }
+
+  createCategory(): void {
+    if (!validateCategory(this.newCategory, this.notificationService)) {
+      return;
+    }
+
+    this.categoryService.createCategory(this.newCategory).subscribe({
+      next: (response) => {
+        this.notificationService.success('Category created successfully');
+        this.newCategory = { name: '', description: '' };
+        this.loadCategories();
+      },
+      error: (error) => {
+        this.notificationService.error('Error creating category');
       }
     });
   }
