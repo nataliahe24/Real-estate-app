@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { CategoriesComponent } from './categories.component';
 import { OrganismsModule } from '../../components/organisms/organisms.module';
 import { AtomsModule } from '../../components/atoms/atoms.module';
+import { NotificationContainerComponent } from '../../components/organisms/notification-container/notification-container.component';
+
 @NgModule({
   declarations: [
     CategoriesComponent

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { getCharacterInfo } from '@app/shared/helper/form-helper';
 import { CategoryService } from '../../../core/services/categories/category.service';
 import { NotificationService } from '../../../core/services/notifications/notification.service';
@@ -21,38 +21,13 @@ export class CategoryFormComponent {
   readonly DESC_MIN_LENGTH = 10;
 
   constructor(
-    private fb: FormBuilder,
     private categoryService: CategoryService,
     private notificationService: NotificationService
   ) {
-    this.categoryForm = this.fb.group({
-      name: ['', [
-        Validators.required,
-        Validators.minLength(this.NAME_MIN_LENGTH),
-        Validators.maxLength(this.NAME_MAX_LENGTH)
-      ]],
-      description: ['', [
-        Validators.required,
-        Validators.minLength(this.DESC_MIN_LENGTH),
-        Validators.maxLength(this.DESC_MAX_LENGTH)
-      ]]
+    this.categoryForm = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]),
+      description: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(200)])
     });
-  }
-
-  get nameInfo() {
-    return getCharacterInfo(
-      this.categoryForm.get('name'),
-      this.NAME_MAX_LENGTH,
-      this.NAME_MIN_LENGTH
-    );
-  }
-
-  get descriptionInfo() {
-    return getCharacterInfo(
-      this.categoryForm.get('description'),
-      this.DESC_MAX_LENGTH,
-      this.DESC_MIN_LENGTH
-    );
   }
 
   createCategory(): void {

@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Category } from '../../../core/models/category.model';
-
+import { NotificationService } from '../../../core/services/notifications/notification.service';
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
-  styleUrls: ['./category-list.component.scss']
+  styleUrls: ['./category-list.component.scss'],
+  providers: [NotificationService]
 })
 export class CategoryListComponent {
   @Input() categories: Category[] = [];

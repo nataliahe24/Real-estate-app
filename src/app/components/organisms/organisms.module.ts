@@ -7,6 +7,7 @@ import { NotificationContainerComponent } from './notification-container/notific
 import { AtomsModule } from '../atoms/atoms.module';
 import { MoleculesModule } from '../molecules/molecules.module';
 import { CategoryFormComponent } from '../molecules/category-form/category-form.component';
+import { NotificationComponent } from '../atoms/notification/notification.component';
 
 @NgModule({
   declarations: [
