@@ -26,7 +26,6 @@ export class CategoryManagerComponent implements OnInit {
   
   constructor(
     private categoryService: CategoryService,
-    private notificationService: NotificationService
   ) {}
   
   ngOnInit(): void {
@@ -86,20 +85,4 @@ export class CategoryManagerComponent implements OnInit {
     });
   }
 
-  createCategory(): void {
-    if (!validateCategory(this.newCategory, this.notificationService)) {
-      return;
-    }
-   
-    this.categoryService.createCategory(this.newCategory).subscribe({
-      next: (result) => {
-        this.notificationService.success('Categoría creada con éxito');
-        this.newCategory = { name: '', description: '' };
-        this.loadCategories();
-      },
-      error: (error) => {
-        this.notificationService.error('La categoría ya existe');
-      }
-    });
-  }
 }

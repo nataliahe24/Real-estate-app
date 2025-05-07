@@ -5,7 +5,8 @@ import { SharedComponentsModule } from '../../shared/shared-components.module';
 import { CategoryManagerComponent } from './category-manager/category-manager.component';
 import { NotificationContainerComponent } from './notification-container/notification-container.component';
 import { AtomsModule } from '../atoms/atoms.module';
-
+import { MoleculesModule } from '../molecules/molecules.module';
+import { CategoryFormComponent } from '../molecules/category-form/category-form.component';
 
 @NgModule({
   declarations: [
@@ -16,11 +17,13 @@ import { AtomsModule } from '../atoms/atoms.module';
     CommonModule,
     FormsModule,
     SharedComponentsModule,
-    AtomsModule
+    AtomsModule,
+    MoleculesModule
   ],
   exports: [
     CategoryManagerComponent,
-    NotificationContainerComponent
+    NotificationContainerComponent,
+    CategoryFormComponent
   ]
 })
 export class OrganismsModule {} 

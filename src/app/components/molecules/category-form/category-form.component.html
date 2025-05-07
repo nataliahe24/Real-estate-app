@@ -1,30 +1,25 @@
-<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
   <div class="form-group">
-    <app-input 
-      label="Nombre de la Categoría *"
-      placeholder="Ingrese el nombre de la categoría"
-      [maxLength]="50"
+    <label for="name">Nombre</label>
+    <app-input
+      id="name"
       formControlName="name"
-    ></app-input>
-    
+      placeholder="Ingrese el nombre de la categoría">
+    </app-input>
+  </div>
+
+  <div class="form-group">
+    <label for="description">Descripción</label>
     <app-textarea
-      label="Descripción *"
-      placeholder="Enter category description"
+      id="description"
       formControlName="description"
-    ></app-textarea>
+      placeholder="Ingrese la descripción de la categoría">
+    </app-textarea>
   </div>
-  
-  <div class="form-actions">
-    <app-button 
-      text="Skip"
-      type="secondary"
-      (click)="onSkip()"
-    ></app-button>
-    
-    <app-button 
-      text="Crear"
-      type="primary"
-      [disabled]="categoryForm.invalid"
-    ></app-button>
-  </div>
-</form> 
+
+  <app-button 
+    type="primary"
+    [isSubmit]="true"
+    label="Crear">
+  </app-button>
+</form>

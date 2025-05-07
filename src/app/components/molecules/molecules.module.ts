@@ -6,6 +6,10 @@ import { CategoryFormComponent } from './category-form/category-form.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { PropertyCardComponent } from './property-card/property-card.component';
 import { PropertySearchComponent } from './property-search/property-search.component';
+import { SharedModule } from '@app/shared/shared.module';
+import { NotificationService } from '@app/core/services/notifications/notification.service';
+import { SharedComponentsModule } from '@app/shared/shared-components.module';
+
 
 @NgModule({
   declarations: [
@@ -18,13 +22,18 @@ import { PropertySearchComponent } from './property-search/property-search.compo
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    AtomsModule
+    AtomsModule,
+    SharedModule,
+    SharedComponentsModule
   ],
   exports: [
     CategoryFormComponent,
     CategoryListComponent,
     PropertyCardComponent,
     PropertySearchComponent
+  ],
+  providers: [
+    NotificationService
   ]
 })
 export class MoleculesModule {} 
