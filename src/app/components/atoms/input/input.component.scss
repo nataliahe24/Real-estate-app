@@ -30,4 +30,17 @@
       cursor: not-allowed;
     }
   }
+}
+
+.required {
+  color: #e53935;
+  margin-left: 2px;
+}
+
+.visually-hidden {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 } 
