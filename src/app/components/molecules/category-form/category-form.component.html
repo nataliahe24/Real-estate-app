@@ -7,6 +7,12 @@
       formControlName="name"
       placeholder="Ingrese el nombre de la categoría">
     </app-input>
+    <div class="character-count" [class.invalid]="!nameInfo.isValid && nameInfo.isDirty">
+      <span>{{ nameInfo.currentLength }}</span>/{{ nameInfo.maxLength }} caracteres
+      <span *ngIf="!nameInfo.isValid && nameInfo.isDirty" class="error-message">
+        (Mínimo {{ nameInfo.minLength }} caracteres)
+      </span>
+    </div>
   </div>
 
   <div class="form-group">
@@ -17,13 +23,26 @@
       formControlName="description"
       placeholder="Ingrese la descripción de la categoría">
     </app-textarea>
-   
+    <div class="character-count" [class.invalid]="!descriptionInfo.isValid && descriptionInfo.isDirty">
+      <span>{{ descriptionInfo.currentLength }}</span>/{{ descriptionInfo.maxLength }} caracteres
+      <span *ngIf="!descriptionInfo.isValid && descriptionInfo.isDirty" class="error-message">
+        (Mínimo {{ descriptionInfo.minLength }} caracteres)
+      </span>
+    </div>
   </div>
 
-  <app-button 
-    type="primary"
-    [isSubmit]="true"
-    [disabled]="categoryForm.invalid"
-    label="Crear">
-  </app-button>
+  <div class="form-actions">
+    <app-button 
+      type="primary"
+      [isSubmit]="true"
+      [disabled]="categoryForm.invalid"
+      label="Crear">
+    </app-button>
+
+    <app-button 
+      type="secondary"
+      (click)="onSkip()"
+      label="Cancelar">
+    </app-button>
+  </div>
 </form>
