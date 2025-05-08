@@ -25,11 +25,11 @@ export class PropertiesComponent implements OnInit {
     'assets/images/casa-4.png'
   ];
   
-  constructor(private propertyService: PropertyService, private categoryService: CategoryService) {}
+  constructor(private propertyService: PropertyService) {}
   
   ngOnInit(): void {
     this.loadProperties();
-    this.loadCategories();
+    
   }
   
   loadProperties(): void {
@@ -58,31 +58,13 @@ export class PropertiesComponent implements OnInit {
     this.loadProperties();
   }
   
-  onViewModeChange(mode: 'grid' | 'list'): void {
-    this.viewMode = mode;
+  onViewModeChange(event: any): void {
+    this.viewMode = event as 'grid' | 'list';
   }
   
   toggleFavorite(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
    
-  }
-  
-  loadCategories(): void {
-    this.categoryService.getCategoryNames(true).subscribe({
-      next: (categoryNames) => {
-        this.categories = categoryNames.map((name, index) => ({
-          id: index.toString(),
-          name: name,
-          description: ''
-        }));
-      },
-      error: (err) => console.error(err)
-    });
-  }
-
-  onCategoryChange(categoryName: string) {
-    this.currentFilter.category = categoryName;
-    this.loadProperties();
   }
 }

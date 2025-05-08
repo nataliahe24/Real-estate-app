@@ -42,23 +42,10 @@ describe('PropertiesComponent', () => {
     expect(component.properties.length).toBe(MOCK_PROPERTIES.length);
   });
 
-  it('should load categories on init', () => {
-    component.ngOnInit();
-    expect(categoryServiceMock.getCategoryNames).toHaveBeenCalled();
-    expect(component.categories.length).toBe(MOCK_CATEGORIES.length);
-  });
-
   it('should handle error when loading properties', () => {
     propertyServiceMock.getProperties.mockReturnValueOnce(throwError(() => new Error('error')));
     component.loadProperties();
     expect(component.error).toBe(true);
   });
   
-  it('should update currentFilter.category and call loadProperties on onCategoryChange', () => {
-    const spy = jest.spyOn(component, 'loadProperties');
-    component.currentFilter = { location: 'Madrid', category: '' };
-    component.onCategoryChange('Casa');
-    expect(component.currentFilter.category).toBe('Casa');
-    expect(spy).toHaveBeenCalled();
-  });
 }); 

@@ -8,11 +8,15 @@ import { AtomsModule } from '../atoms/atoms.module';
 import { MoleculesModule } from '../molecules/molecules.module';
 import { CategoryFormComponent } from '../molecules/category-form/category-form.component';
 import { NotificationComponent } from '../atoms/notification/notification.component';
+import { PropertiesGridComponent } from './properties-grid/properties-grid.component';
+
 
 @NgModule({
   declarations: [
     CategoryManagerComponent,
-    NotificationContainerComponent
+    NotificationContainerComponent,
+    PropertiesGridComponent,
+  
   ],
   imports: [
     CommonModule,
@@ -24,7 +28,9 @@ import { NotificationComponent } from '../atoms/notification/notification.compon
   exports: [
     CategoryManagerComponent,
     NotificationContainerComponent,
-    CategoryFormComponent
+    CategoryFormComponent,
+    PropertiesGridComponent,
+   
   ]
 })
 export class OrganismsModule {} 

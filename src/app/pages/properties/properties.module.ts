@@ -6,6 +6,8 @@ import { AtomsModule } from '../../components/atoms/atoms.module';
 import { MoleculesModule } from '../../components/molecules/molecules.module';
 import { TemplatesModule } from '../../components/templates/templates.module';
 import { PropertiesComponent } from './properties.component';
+import { OrganismsModule } from '../../components/organisms/organisms.module';
+import { PropertiesToolbarComponent } from '../../components/organisms/properties-toolbar/properties-toolbar.component';
 
 const routes: Routes = [
   {
@@ -16,15 +18,17 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    PropertiesComponent
+    PropertiesComponent,
+    PropertiesToolbarComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     RouterModule.forChild(routes),
     AtomsModule,
-    MoleculesModule,
-    TemplatesModule
+    TemplatesModule,
+    OrganismsModule,
+    MoleculesModule
   ],
   exports: [
     PropertiesComponent

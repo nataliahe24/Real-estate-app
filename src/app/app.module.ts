@@ -13,6 +13,7 @@ import { TemplatesModule } from './components/templates/templates.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { PropertiesModule } from './pages/properties/properties.module';
+import { MoleculesModule } from './components/molecules/molecules.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { PropertiesModule } from './pages/properties/properties.module';
     AtomsModule,
     TemplatesModule,
     PropertiesModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MoleculesModule,
   ],
   providers: [
     {

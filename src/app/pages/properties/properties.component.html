@@ -4,43 +4,11 @@
   <p class="page-subtitle">Explora nuestra selección de propiedades disponibles</p>
   
   <div class="search-container">
-    <div class="search-form">
-      <div class="form-group">
-        <app-category-select
-          [selectedCategoryName]="currentFilter.category || ''"
-          (categorySelected)="onCategoryChange($event)">
-        </app-category-select>
-      </div>
-      
-      <div class="form-group">
-        <input type="text" [(ngModel)]="currentFilter.location" placeholder="Buscar por ubicación" class="form-control">
-      </div>
-      
-      <button (click)="loadProperties()" class="search-button">Buscar</button>
-    </div>
+    <app-search-form (search)="onSearch($event)"></app-search-form>
   </div>
   
   <div class="properties-content">
-    <div class="properties-toolbar">
-      <div class="total-count">
-        {{ properties.length }} propiedades encontradas
-      </div>
-      
-      <div class="view-toggles">
-        <button 
-          [class.active]="viewMode === 'grid'" 
-          (click)="viewMode = 'grid'"
-        >
-          <i class="material-icons">grid_view</i>
-        </button>
-        <button 
-          [class.active]="viewMode === 'list'" 
-          (click)="viewMode = 'list'"
-        >
-          <i class="material-icons">view_list</i>
-        </button>
-      </div>
-    </div>
+    <app-properties-toolbar></app-properties-toolbar>
     
     <div *ngIf="loading" class="loading-state">
       <div class="spinner"></div>
@@ -53,25 +21,11 @@
       <button (click)="loadProperties()">Reintentar</button>
     </div>
     
-    <div 
-      *ngIf="!loading && !error" 
-      class="properties-grid"
-      [class.properties-list]="viewMode === 'list'"
-    >
-      <ng-container *ngIf="properties.length > 0; else noResults">
-        <app-property-card 
-          *ngFor="let property of properties" 
-          [property]="property"
-        ></app-property-card>
-      </ng-container>
-      
-      <ng-template #noResults>
-        <div class="no-results">
-          <i class="material-icons">search_off</i>
-          <p>No se encontraron propiedades con los filtros seleccionados.</p>
-        </div>
-      </ng-template>
-    </div>
+    <app-properties-grid
+      [properties]="properties"
+      [viewMode]="viewMode"
+      (viewModeChange)="onViewModeChange($event)"
+    ></app-properties-grid>
   </div>
 </div>
 </app-properties-layout>
