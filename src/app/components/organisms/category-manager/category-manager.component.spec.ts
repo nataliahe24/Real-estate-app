@@ -7,7 +7,7 @@ import { NotificationService } from '../../../core/services/notifications/notifi
 import { of, throwError } from 'rxjs';
 import { validateCategory } from '../../../shared/utils/validators/validateCategory';
 
-// Mock del validador
+
 jest.mock('../../../shared/utils/validators/validateCategory', () => ({
   validateCategory: jest.fn()
 }));
@@ -79,7 +79,7 @@ describe('CategoryManagerComponent', () => {
     
     fixture.detectChanges();
     
-    component.onPageChange(2); // Change to page 2
+    component.onPageChange(2); 
     
     expect(categoryServiceMock.getCategories).toHaveBeenCalledWith(1, 10, true);
   });
@@ -111,7 +111,7 @@ describe('CategoryManagerComponent', () => {
   });
 
   it('should create a category after ngOnInit is called', () => {
-    // Mock de categorías iniciales
+    
     const mockResponse = {
       content: [],
       totalElements: 0,

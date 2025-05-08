@@ -1,10 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { CategoriesComponent } from './categories.component';
+import { TemplatesModule } from '../../components/templates/templates.module';
 import { OrganismsModule } from '../../components/organisms/organisms.module';
 import { AtomsModule } from '../../components/atoms/atoms.module';
-import { NotificationContainerComponent } from '../../components/organisms/notification-container/notification-container.component';
+
+
+const routes: Routes = [
+  {
+    path: '',
+    component: CategoriesComponent
+  }
+];
 
 @NgModule({
   declarations: [
@@ -12,11 +20,10 @@ import { NotificationContainerComponent } from '../../components/organisms/notif
   ],
   imports: [
     CommonModule,
+    TemplatesModule,
     OrganismsModule,
     AtomsModule,
-    RouterModule.forChild([
-      { path: '', component: CategoriesComponent }
-    ])
+    RouterModule.forChild(routes)
   ],
   exports: [
     CategoriesComponent

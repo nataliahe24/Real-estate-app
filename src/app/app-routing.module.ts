@@ -6,29 +6,17 @@ import { PropertiesComponent } from './pages/properties/properties.component';
 
 const routes: Routes = [
   {
-    path: '',
-    component: MainLayoutComponent,
-    children: [
-      {
-        path: 'categories',
-        loadChildren: () => import('./pages/categories/categories.module').then(m => m.CategoriesModule)
-      },
-      {
-        path: '',
-        redirectTo: 'categories',
-        pathMatch: 'full'
-      }
-    ]
+    path: 'categories',
+    loadChildren: () => import('./pages/categories/categories.module').then(m => m.CategoriesModule)
   },
   {
     path: 'properties',
-    component: PropertiesLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: PropertiesComponent
-      }
-    ]
+    loadChildren: () => import('./pages/properties/properties.module').then(m => m.PropertiesModule)
+  },
+  {
+    path: '',
+    redirectTo: 'properties',
+    pathMatch: 'full'
   }
 ];
 
