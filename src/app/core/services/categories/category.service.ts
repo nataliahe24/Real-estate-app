@@ -104,15 +104,6 @@ export class CategoryService {
     );
   }
 
-  deleteCategory(id: string | number | undefined): Observable<any> {
-    if (id === undefined) {
-      return throwError(() => new Error('ID undefined'));
-    }
-    return this.http.delete<any>(`${this.apiUrl}${id}`, this.httpOptions).pipe(
-      catchError(this.handleError)
-    );
-  }
-
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
       console.error('Client-side error occurred:', error.error);

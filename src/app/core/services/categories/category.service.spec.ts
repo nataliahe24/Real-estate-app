@@ -152,15 +152,38 @@ describe('CategoryService', () => {
       error: (error) => {
         expect(error.message).toContain('500:');
       }
-      });
+    });
 
     const req = httpMock.expectOne(
-      req => req.url === 'http://localhost:8090/api/v1/category/'
+      req => req.url === `${apiUrl}/`
     );
-    
     req.flush('Server error', { 
       status: 500, 
       statusText: 'Internal Server Error' 
     });
   });
-}); 
+
+    it('should get category names', () => {
+    service.getCategoryNames(true).subscribe(names => {
+    expect(names).toEqual(MOCK_CATEGORIES.map(c => c.name));
+    });
+    
+    const req = httpMock.expectOne(
+          r => r.url === `${apiUrl}/list` && r.params.get('orderAsc') === 'true'
+    );
+    expect(req.request.method).toBe('GET');
+    req.flush({ content: MOCK_CATEGORIES });
+    });
+    
+  it('should handle error on getCategoryNames', () => {
+  service.getCategoryNames(true).subscribe({
+  next: () => fail('should fail'),
+  error: (err) => expect(err).toBeTruthy()
+ });
+    
+  const req = httpMock.expectOne(
+  r => r.url === `${apiUrl}/list` && r.params.get('orderAsc') === 'true'
+ );
+    req.flush('Server error', { status: 500, statusText: 'Internal Server Error' });
+  });
+});
