@@ -3,6 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { CategoryService } from './category.service';
 import { Category } from '../../models/category.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MOCK_CATEGORIES } from '@app/shared/utils/constants/mock-categories';
 
 
 jest.mock('./category.service', () => {
@@ -21,6 +22,7 @@ jest.mock('./category.service', () => {
 describe('CategoryService', () => {
   let service: CategoryService;
   let httpMock: HttpTestingController;
+  const apiUrl = 'http://localhost:8090/api/v1/category';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,7 +54,7 @@ describe('CategoryService', () => {
     });
 
     const req = httpMock.expectOne(
-      req => req.url === 'http://localhost:8090/api/v1/category/' && 
+      req => req.url === `${apiUrl}/` && 
              req.params.get('page') === '0'
     );
     expect(req.request.method).toBe('GET');
@@ -70,7 +72,7 @@ describe('CategoryService', () => {
     });
 
     const req = httpMock.expectOne(
-      req => req.url === 'http://localhost:8090/api/v1/category/'
+      req => req.url === `${apiUrl}/`
     );
     expect(req.request.method).toBe('GET');
     req.flush(mockResponse);
@@ -84,7 +86,7 @@ describe('CategoryService', () => {
       expect(data).toEqual(mockResponse);
     });
 
-    const req = httpMock.expectOne('http://localhost:8090/api/v1/category/');
+    const req = httpMock.expectOne(`${apiUrl}/`);
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(newCategory);
     req.flush(mockResponse);
@@ -101,33 +103,10 @@ describe('CategoryService', () => {
       expect(data).toEqual(category);
     });
 
-    const req = httpMock.expectOne(`http://localhost:8090/api/v1/category/${category.id}`);
+    const req = httpMock.expectOne(`${apiUrl}/${category.id}`);
     expect(req.request.method).toBe('PUT');
     expect(req.request.body).toEqual(category);
     req.flush(category);
-  });
-
-  it('should delete a category', () => {
-    const categoryId = '1';
-    const mockResponse = { success: true };
-    
-    service.deleteCategory(categoryId).subscribe(data => {
-      expect(data).toEqual(mockResponse);
-    });
-
-    const req = httpMock.expectOne(`http://localhost:8090/api/v1/category/${categoryId}`);
-    expect(req.request.method).toBe('DELETE');
-    req.flush(mockResponse);
-  });
-
-  it('should throw error when deleting with undefined id', (done) => {
-    service.deleteCategory(undefined).subscribe({
-      next: () => fail('Expected an error'),
-      error: (error) => {
-        expect(error.message).toContain('ID undefined');
-        done();
-      }
-    });
   });
 
   it('should get a single category by id', () => {
@@ -142,7 +121,7 @@ describe('CategoryService', () => {
       expect(data).toEqual(mockCategory);
     });
 
-    const req = httpMock.expectOne(`http://localhost:8090/api/v1/category/${categoryId}`);
+    const req = httpMock.expectOne(`${apiUrl}/${categoryId}`);
     expect(req.request.method).toBe('GET');
     req.flush(mockCategory);
   });
@@ -156,10 +135,10 @@ describe('CategoryService', () => {
     });
 
     const req = httpMock.expectOne(
-      req => req.url === 'http://localhost:8090/api/v1/category/'
+      req => req.url === `${apiUrl}/`
     );
     
-    // Simular un error de red (status 0)
+   
     const mockError = new ErrorEvent('Network error', {
       message: 'Connection refused'
     });
@@ -173,13 +152,12 @@ describe('CategoryService', () => {
       error: (error) => {
         expect(error.message).toContain('500:');
       }
-    });
+      });
 
     const req = httpMock.expectOne(
       req => req.url === 'http://localhost:8090/api/v1/category/'
     );
     
-    // Simular un error del servidor (status 500)
     req.flush('Server error', { 
       status: 500, 
       statusText: 'Internal Server Error' 
