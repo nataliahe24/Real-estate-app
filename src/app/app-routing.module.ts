@@ -5,6 +5,7 @@ import { PropertiesLayoutComponent } from './components/templates/properties-lay
 import { PropertiesComponent } from './pages/properties/properties.component';
 
 const routes: Routes = [
+
   {
     path: 'categories',
     loadChildren: () => import('./pages/categories/categories.module').then(m => m.CategoriesModule)
@@ -13,11 +14,7 @@ const routes: Routes = [
     path: 'properties',
     loadChildren: () => import('./pages/properties/properties.module').then(m => m.PropertiesModule)
   },
-  {
-    path: '',
-    redirectTo: 'properties',
-    pathMatch: 'full'
-  }
+
 ];
 
 @NgModule({

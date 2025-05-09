@@ -4,7 +4,7 @@
     [(ngModel)]="selectedCategoryName" 
     (change)="onCategorySelected()"
     class="category-select">
-    <option value="">Seleccione una categoria</option>
+    <option value="">Categoría</option>
     <ng-container *ngIf="!isLoading && !error">
       <option *ngFor="let category of categories" [value]="category.name">
         {{ category.name }}

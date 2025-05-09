@@ -15,10 +15,12 @@
   
   input {
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #ccccccee;
     border-radius: 4px;
     font-size: 14px;
     font-family: 'Poppins';
+    width: 100%;
+    
     
     &:focus {
       outline: none;
