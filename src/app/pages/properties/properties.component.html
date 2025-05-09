@@ -7,7 +7,11 @@
   </div>
   
   <div class="properties-content">
-    <app-properties-toolbar></app-properties-toolbar>
+    <app-properties-toolbar
+      [totalCount]="properties.length"
+      [viewMode]="viewMode"
+      (viewModeChange)="onViewModeChange($event)">
+    </app-properties-toolbar>
     
     <div *ngIf="loading" class="loading-state">
       <div class="spinner"></div>
