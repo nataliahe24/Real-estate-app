@@ -1,0 +1,16 @@
+<app-main-layout>
+  <div class="locations-page">
+    <h1 class="page-title">Gestión de Ubicaciones</h1>
+    
+    <div class="content-container">
+      <app-location-form
+        (submitForm)="onLocationCreated($event)"
+        (error)="onError($event)">
+      </app-location-form>
+      
+      <div class="locations-container">
+        <app-notification-container></app-notification-container>
+      </div>
+    </div>
+  </div>
+</app-main-layout> 
