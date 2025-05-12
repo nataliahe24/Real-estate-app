@@ -9,6 +9,10 @@ import { SearchFormComponent } from './search-form/search-form.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { NotificationService } from '@app/core/services/notifications/notification.service';
 import { SharedComponentsModule } from '@app/shared/shared-components.module';
+import { DepartmentSelectComponent } from './department-select/department-select.component';
+import { CitySelectComponent } from './city-select/city-select.component';
+import { NeighborhoodInputComponent } from './neighborhood-input/neighborhood-input.component';
+import { AddressInputComponent } from './address-input/address-input.component';
 
 
 @NgModule({
@@ -16,7 +20,11 @@ import { SharedComponentsModule } from '@app/shared/shared-components.module';
     CategoryFormComponent,
     CategoryListComponent,
     PropertyCardComponent,
-    SearchFormComponent
+    SearchFormComponent,
+    DepartmentSelectComponent,
+    CitySelectComponent,
+    NeighborhoodInputComponent,
+    AddressInputComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +38,11 @@ import { SharedComponentsModule } from '@app/shared/shared-components.module';
     CategoryFormComponent,
     CategoryListComponent,
     PropertyCardComponent,
-    SearchFormComponent
+    SearchFormComponent,
+    DepartmentSelectComponent,
+    CitySelectComponent,
+    NeighborhoodInputComponent,
+    AddressInputComponent
   ],
   providers: [
     NotificationService

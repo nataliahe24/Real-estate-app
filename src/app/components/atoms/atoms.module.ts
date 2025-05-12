@@ -3,15 +3,18 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ButtonComponent } from './button/button.component';
 import { InputComponent } from './input/input.component';
+import { SelectComponent } from './select/select.component';
 import { TextareaComponent } from './textarea/textarea.component';
 import { NotificationComponent } from './notification/notification.component';
 import { LogoComponent } from './logo/logo.component';
 import { CategorySelectComponent } from './category-select/category-select.component';
 import { PropertyStatusLabelComponent } from './property-status-label/property-status-label.component';
+
 @NgModule({
   declarations: [
     ButtonComponent,
     InputComponent,
+    SelectComponent,
     TextareaComponent,
     NotificationComponent,
     LogoComponent,
@@ -26,6 +29,7 @@ import { PropertyStatusLabelComponent } from './property-status-label/property-s
   exports: [
     ButtonComponent,
     InputComponent,
+    SelectComponent,
     TextareaComponent,
     NotificationComponent,
     LogoComponent,
@@ -33,4 +37,4 @@ import { PropertyStatusLabelComponent } from './property-status-label/property-s
     PropertyStatusLabelComponent
   ]
 })
-export class AtomsModule {} 
+export class AtomsModule { } 

@@ -9,28 +9,29 @@ import { MoleculesModule } from '../molecules/molecules.module';
 import { CategoryFormComponent } from '../molecules/category-form/category-form.component';
 import { NotificationComponent } from '../atoms/notification/notification.component';
 import { PropertiesGridComponent } from './properties-grid/properties-grid.component';
+import { LocationFormModule } from './location-form/location-form.module';
 
 
 @NgModule({
   declarations: [
     CategoryManagerComponent,
     NotificationContainerComponent,
-    PropertiesGridComponent,
-  
+    PropertiesGridComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     SharedComponentsModule,
     AtomsModule,
-    MoleculesModule
+    MoleculesModule,
+    LocationFormModule
   ],
   exports: [
     CategoryManagerComponent,
     NotificationContainerComponent,
     CategoryFormComponent,
     PropertiesGridComponent,
-   
+    LocationFormModule
   ]
 })
 export class OrganismsModule {} 
