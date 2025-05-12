@@ -7,7 +7,7 @@ import { NotificationService } from '../../../core/services/notifications/notifi
 import { of, throwError } from 'rxjs';
 import { validateCategory } from '../../../shared/utils/validators/validateCategory';
 
-// Mock del validador
+
 jest.mock('../../../shared/utils/validators/validateCategory', () => ({
   validateCategory: jest.fn()
 }));
@@ -53,17 +53,17 @@ describe('CategoryManagerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load categories on init', () => {
+  it('should call ngOnInit and load categories', () => {
     const mockResponse = {
       content: [{ id: '1', name: 'Test', description: 'Test Desc' }],
       totalElements: 1,
       totalPages: 1
     };
-    
+
     categoryServiceMock.getCategories.mockReturnValue(of(mockResponse));
-    
-    fixture.detectChanges();
-    
+
+    component.ngOnInit();
+
     expect(categoryServiceMock.getCategories).toHaveBeenCalledWith(0, 10, true);
     expect(component.categories).toEqual(mockResponse.content);
   });
@@ -79,7 +79,7 @@ describe('CategoryManagerComponent', () => {
     
     fixture.detectChanges();
     
-    component.onPageChange(2); // Change to page 2
+    component.onPageChange(2); 
     
     expect(categoryServiceMock.getCategories).toHaveBeenCalledWith(1, 10, true);
   });
@@ -110,14 +110,23 @@ describe('CategoryManagerComponent', () => {
     expect(categoryServiceMock.createCategory).not.toHaveBeenCalled();
   });
 
-  it('should create a category successfully when validation passes', () => {
+  it('should create a category after ngOnInit is called', () => {
+    
+    const mockResponse = {
+      content: [],
+      totalElements: 0,
+      totalPages: 0
+    };
+    categoryServiceMock.getCategories.mockReturnValue(of(mockResponse));
+    component.ngOnInit();
+
+    // Mock para crear categoría
     const newCategory = { name: 'New Category', description: 'Description' };
     component.newCategory = { ...newCategory };
-    
     categoryServiceMock.createCategory.mockReturnValue(of({ id: '1', ...newCategory }));
-    
+
     component.createCategory();
-    
+
     expect(categoryServiceMock.createCategory).toHaveBeenCalledWith(newCategory);
     expect(notificationServiceMock.success).toHaveBeenCalled();
     expect(component.newCategory).toEqual({ name: '', description: '' });

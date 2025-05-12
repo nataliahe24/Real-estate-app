@@ -9,12 +9,11 @@ import { CoreModule } from './core/core.module';
 import { SharedComponentsModule } from './shared/shared-components.module';
 import { OrganismsModule } from './components/organisms/organisms.module';
 import { AtomsModule } from './components/atoms/atoms.module';
-
+import { TemplatesModule } from './components/templates/templates.module';
 import { AppRoutingModule } from './app-routing.module';
-
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-
-// import { TemplatesModule } from './components/templates/templates.module';
+import { PropertiesModule } from './pages/properties/properties.module';
+import { MoleculesModule } from './components/molecules/molecules.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +28,10 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     SharedComponentsModule,
     OrganismsModule,
     AtomsModule,
-    AppRoutingModule
+    TemplatesModule,
+    PropertiesModule,
+    AppRoutingModule,
+    MoleculesModule,
   ],
   providers: [
     {

@@ -37,6 +37,25 @@ export class CategoryService {
         console.error('Fetch API test error:', error);
       });
   }
+   
+    getCategoryNames(orderAsc: boolean = true): Observable<string[]> {
+      console.log(`Requesting category names with orderAsc=${orderAsc}`);
+      
+      const params = new HttpParams().set('orderAsc', orderAsc.toString());
+      
+      const options = {
+        ...this.httpOptions,
+        params: params
+      };
+      console.log('Full request URL for category names:', `${this.apiUrl}list?${params.toString()}`);
+    
+      return this.http.get<any>(`${this.apiUrl}list`, options).pipe(
+        tap(data => {
+          console.log('Category names received:', data);
+        }),
+        catchError(this.handleError)
+      );
+    }
 
   getCategories(page: number = 0, size: number = 10, orderAsc: boolean = true): Observable<any> {
     console.log(`Requesting categories: page=${page}, size=${size}, orderAsc=${orderAsc}`);
@@ -81,15 +100,6 @@ export class CategoryService {
 
   updateCategory(category: Category): Observable<Category> {
     return this.http.put<Category>(`${this.apiUrl}${category.id}`, category, this.httpOptions).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  deleteCategory(id: string | number | undefined): Observable<any> {
-    if (id === undefined) {
-      return throwError(() => new Error('ID undefined'));
-    }
-    return this.http.delete<any>(`${this.apiUrl}${id}`, this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }

@@ -2,33 +2,7 @@
   <h2>Crear categoría</h2>
   
   <div class="category-form">
-    <form (ngSubmit)="createCategory()">
-      <div class="form-group">
-        <label for="name">Nombre</label>
-        <app-input 
-          id="name"
-          [(ngModel)]="newCategory.name" 
-          name="name" 
-          placeholder="Ingrese el nombre de la categoría">
-        </app-input>
-      </div>
-      
-      <div class="form-group">
-        <label for="description">Descripción</label>
-        <app-textarea 
-          id="description"
-          [(ngModel)]="newCategory.description" 
-          name="description" 
-          placeholder="Ingrese la descripción de la categoría">
-        </app-textarea>
-      </div>
-      
-      <app-button 
-        type="primary" 
-        [isSubmit]="true"
-        label="Crear">
-      </app-button>
-    </form>
+    <app-category-form></app-category-form>
   </div>
   
   <div class="category-list">

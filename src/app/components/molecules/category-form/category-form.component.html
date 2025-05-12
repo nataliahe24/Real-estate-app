@@ -1,30 +1,48 @@
-<form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
   <div class="form-group">
     <app-input 
-      label="Nombre de la Categoría *"
-      placeholder="Escribe el nombre de la categoría (máximo 50 caracteres)"
-      [maxLength]="50"
+      id="name"
+      label="Nombre"
+      [required]="true"
       formControlName="name"
-    ></app-input>
-    
-    <app-textarea
-      label="Descripción *"
-      placeholder="Enter category description"
-      formControlName="description"
-    ></app-textarea>
+      placeholder="Ingrese el nombre de la categoría">
+    </app-input>
+    <div class="character-count" [class.invalid]="!nameInfo.isValid && nameInfo.isDirty">
+      <span>{{ nameInfo.currentLength }}</span>/{{ nameInfo.maxLength }} caracteres
+      <span *ngIf="!nameInfo.isValid && nameInfo.isDirty" class="error-message">
+        (Mínimo {{ nameInfo.minLength }} caracteres)
+      </span>
+    </div>
   </div>
-  
+
+  <div class="form-group">
+    <app-textarea 
+      id="description"
+      label="Descripción"
+      [required]="true"
+      formControlName="description"
+      placeholder="Ingrese la descripción de la categoría">
+    </app-textarea>
+    <div class="character-count" [class.invalid]="!descriptionInfo.isValid && descriptionInfo.isDirty">
+      <span>{{ descriptionInfo.currentLength }}</span>/{{ descriptionInfo.maxLength }} caracteres
+      <span *ngIf="!descriptionInfo.isValid && descriptionInfo.isDirty" class="error-message">
+        (Mínimo {{ descriptionInfo.minLength }} caracteres)
+      </span>
+    </div>
+  </div>
+
   <div class="form-actions">
     <app-button 
-      text="Skip"
+      type="primary"
+      [isSubmit]="true"
+      [disabled]="categoryForm.invalid"
+      label="Crear">
+    </app-button>
+
+    <app-button 
       type="secondary"
       (click)="onSkip()"
-    ></app-button>
-    
-    <app-button 
-      text="Crear"
-      type="primary"
-      [disabled]="categoryForm.invalid"
-    ></app-button>
+      label="Cancelar">
+    </app-button>
   </div>
-</form> 
+</form>

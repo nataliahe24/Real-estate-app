@@ -1,31 +1,36 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ButtonComponent } from './button/button.component';
 import { InputComponent } from './input/input.component';
 import { TextareaComponent } from './textarea/textarea.component';
 import { NotificationComponent } from './notification/notification.component';
-  import { LogoComponent } from './logo/logo.component';
-
+import { LogoComponent } from './logo/logo.component';
+import { CategorySelectComponent } from './category-select/category-select.component';
+import { PropertyStatusLabelComponent } from './property-status-label/property-status-label.component';
 @NgModule({
   declarations: [
     ButtonComponent,
     InputComponent,
     TextareaComponent,
     NotificationComponent,
-    LogoComponent
-
+    LogoComponent,
+    CategorySelectComponent,
+    PropertyStatusLabelComponent
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   exports: [
     ButtonComponent,
     InputComponent,
     TextareaComponent,
     NotificationComponent,
-    LogoComponent
+    LogoComponent,
+    CategorySelectComponent,
+    PropertyStatusLabelComponent
   ]
 })
 export class AtomsModule {} 

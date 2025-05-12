@@ -1,16 +1,40 @@
+@import '../../../shared/styles/colors';
+
 form {
   background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
   
   .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 1rem;
+    position: relative;
   }
   
   .form-actions {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+}
+
+::placeholder {
+  font-family: 'Poppins', sans-serif;
+  color: #aaa;
+  font-weight: 300;
+}
+
+.character-count {
+  font-size: 0.875rem;
+  color: $color-text-secondary;
+  margin-top: 0.25rem;
+  text-align: right;
+
+  &.invalid {
+    color: #dc3545;
+  }
+
+  .error-message {
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+    color: $color-text-primary;
   }
 } 

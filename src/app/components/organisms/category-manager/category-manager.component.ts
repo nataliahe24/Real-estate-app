@@ -13,11 +13,11 @@ export class CategoryManagerComponent implements OnInit {
   categories: Category[] = [];
   categoryData = { name: '', description: '' };
   
-  currentPage = 0; // Las APIs suelen empezar en página 0
-  itemsPerPage = 10; // Default size
+  currentPage = 0; 
+  itemsPerPage = 10; 
   totalItems = 0;
   totalPages = 0;
-  pageSizeOptions = [5, 10, 20, 50]; // Opciones para el tamaño de página
+  pageSizeOptions = [5, 10, 20, 50]; 
   
   newCategory: Category = {
     name: '',
@@ -33,7 +33,7 @@ export class CategoryManagerComponent implements OnInit {
     this.loadCategories();
   }
   
-  // Mantener paginatedCategories para compatibilidad con plantilla existente
+
   get paginatedCategories(): Category[] {
     return this.categories;
   }
@@ -44,14 +44,14 @@ export class CategoryManagerComponent implements OnInit {
   
   onPageChange(page: number): void {
     if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page - 1; // Restamos 1 porque la API usa base 0
+      this.currentPage = page - 1;
       this.loadCategories();
     }
   }
   
   onPageSizeChange(size: number): void {
     this.itemsPerPage = size;
-    this.currentPage = 0; // Reiniciar a la primera página cuando cambia el tamaño
+    this.currentPage = 0; 
     this.loadCategories();
   }
   
@@ -61,13 +61,13 @@ export class CategoryManagerComponent implements OnInit {
       next: (response) => {
         console.log('Categories response:', response);
         
-        // Adaptamos según la estructura de respuesta de la API
+       
         if (response && response.content) {
           this.categories = response.content;
           this.totalItems = response.totalElements || 0;
           this.totalPages = response.totalPages || 1;
         } else if (Array.isArray(response)) {
-          // Si la respuesta es directamente un array
+          
           this.categories = response;
           this.totalPages = 1;
           this.totalItems = response.length;
@@ -90,16 +90,17 @@ export class CategoryManagerComponent implements OnInit {
     if (!validateCategory(this.newCategory, this.notificationService)) {
       return;
     }
-   
+
     this.categoryService.createCategory(this.newCategory).subscribe({
-      next: (result) => {
-        this.notificationService.success('Categoría creada con éxito');
+      next: (response) => {
+        this.notificationService.success('Category created successfully');
         this.newCategory = { name: '', description: '' };
         this.loadCategories();
       },
       error: (error) => {
-        this.notificationService.error('La categoría ya existe');
+        this.notificationService.error('Error creating category');
       }
     });
   }
+
 }

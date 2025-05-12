@@ -1,0 +1,29 @@
+<div *ngIf="loading" class="loading-state">
+  <div class="spinner"></div>
+  <p>Cargando propiedades...</p>
+</div>
+
+<div *ngIf="error" class="error-state">
+  <i class="material-icons">error</i>
+  <p>Error al cargar las propiedades. Intenta de nuevo.</p>
+</div>
+
+<div 
+  *ngIf="!loading && !error" 
+  class="properties-grid"
+  [class.properties-list]="viewMode === 'list'"
+>
+  <ng-container *ngIf="properties.length > 0; else noResults">
+    <app-property-card 
+      *ngFor="let property of properties" 
+      [property]="property"
+    ></app-property-card>
+  </ng-container>
+  
+  <ng-template #noResults>
+    <div class="no-results">
+      <i class="material-icons">search_off</i>
+      <p>No se encontraron propiedades con los filtros seleccionados.</p>
+    </div>
+  </ng-template>
+</div> 
