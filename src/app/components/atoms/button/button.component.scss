@@ -1,26 +1,38 @@
-button {
-  padding: 10px 16px;
-  border-radius: 4px;
-  font-weight: 500;
+@use '../../../../app/shared/styles/variables' as *;
+
+:host {
+  display: inline-block;
+}
+
+.button {
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius;
   border: none;
   cursor: pointer;
-  transition: all 0.2s ease;
-  
+  transition: all $transition-speed ease;
+  font-weight: 500;
+
   &.primary {
     background-color: #3366FF;
     color: white;
-    
+
     &:hover {
       background-color: #2952cc;
     }
   }
-  
+
   &.secondary {
     background-color: #f5f5f5;
     color: #333;
-    
+
     &:hover {
       background-color: #e0e0e0;
     }
+  }
+
+  &:disabled {
+    background-color: $color-background-disabled;
+    cursor: not-allowed;
+    opacity: 0.7;
   }
 } 

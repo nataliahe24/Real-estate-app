@@ -11,9 +11,11 @@ export class ButtonComponent {
   @Input() disabled: boolean = false;
   @Input() label: string = '';
   @Input() isSubmit: boolean = false;
-  @Output() onClick = new EventEmitter<void>();
+  @Output() click = new EventEmitter<void>();
 
   handleClick(): void {
-    this.onClick.emit();
+    if (!this.disabled) {
+      this.click.emit();
+    }
   }
 } 
