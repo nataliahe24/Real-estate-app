@@ -1,0 +1,109 @@
+@import '../../../shared/styles/colors';
+@use '../../../../app/shared/styles/variables' as *;
+
+.select-container {
+  position: relative;
+  margin-bottom: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  &.disabled {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+}
+
+.select-label {
+  display: block;
+  font-size: 14px;
+  color: $color-text;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+
+  span {
+    color: $color-error;
+    margin-left: 0.25rem;
+  }
+}
+
+.select-input {
+  width: 100%;
+  padding: $spacing-sm;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+  appearance: none;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $color-primary;
+    box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
+  }
+
+  &:disabled {
+    background-color: $color-background-disabled;
+    cursor: not-allowed;
+  }
+
+  option {
+    padding: 0.5rem;
+    color: $color-text-primary;
+    background-color: white;
+
+    &:disabled {
+      color: $color-text-secondary;
+      font-style: italic;
+    }
+  }
+}
+
+// Custom select arrow
+.select-container::after {
+  content: '';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid $color-text-primary;
+  pointer-events: none;
+  transition: transform 0.3s ease;
+}
+
+.select-container:focus-within::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+// Error state
+.select-container.error {
+  .select-input {
+    border-color: $color-error;
+    
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($color-error, 0.1);
+    }
+  }
+
+  .select-label {
+    color: $color-error;
+  }
+}
+
+// Success state
+.select-container.success {
+  .select-input {
+    border-color: $color-success;
+    
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($color-success, 0.1);
+    }
+  }
+} 

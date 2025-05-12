@@ -1,0 +1,18 @@
+<div class="select-container">
+  <label *ngIf="label" [for]="id" class="select-label">
+    {{ label }}<span *ngIf="required">*</span>
+  </label>
+  
+  <select
+    [id]="id"
+    [value]="value"
+    [disabled]="disabled"
+    (change)="onValueChange($event)"
+    [required]="required"
+    class="select-input">
+    <option value="" disabled selected>{{ placeholder }}</option>
+    <option *ngFor="let option of options" [value]="option.value">
+      {{ option.label }}
+    </option>
+  </select>
+</div> 
