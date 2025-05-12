@@ -1,30 +1,30 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LocationResponse } from '../../models/location.model';
-import { environment } from '../../../../environments/environment';
+import { Location } from '../../models/location.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
-  private apiUrl = `${environment.apiUrl}/api/v1/location`;
+  private apiUrl = `${environment.apiUrl}/locations`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getLocations(): Observable<LocationResponse[]> {
-    return this.http.get<LocationResponse[]>(this.apiUrl);
+  getLocations(): Observable<Location[]> {
+    return this.http.get<Location[]>(this.apiUrl);
   }
 
-  getLocationById(id: number): Observable<LocationResponse> {
-    return this.http.get<LocationResponse>(`${this.apiUrl}/${id}`);
+  createLocation(location: Location): Observable<Location> {
+    return this.http.post<Location>(this.apiUrl, location);
   }
 
-  getLocationsByCityName(cityName: string): Observable<LocationResponse[]> {
-    return this.http.get<LocationResponse[]>(`${this.apiUrl}/city/${cityName}`);
+  updateLocation(id: number, location: Location): Observable<Location> {
+    return this.http.put<Location>(`${this.apiUrl}/${id}`, location);
   }
 
-  getLocationsByDepartment(department: string): Observable<LocationResponse[]> {
-    return this.http.get<LocationResponse[]>(`${this.apiUrl}/department/${department}`);
+  deleteLocation(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 } 

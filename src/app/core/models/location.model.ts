@@ -1,8 +1,9 @@
-export interface LocationResponse {
+export interface Location {
   id: number;
   cityName: string;
   neighborhood: string;
   department: string;
+  address: string;
 }
 
 export interface LocationFilter {
