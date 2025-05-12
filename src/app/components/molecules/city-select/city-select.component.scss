@@ -1,0 +1,27 @@
+@import '../../../shared/styles/colors';
+
+.select-message {
+  font-size: 0.875rem;
+  color: $color-text-secondary;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+::ng-deep {
+  .select-container {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+
+    &.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  .select-input {
+    &:disabled {
+      background-color: $color-background-disabled;
+      cursor: not-allowed;
+    }
+  }
+} 

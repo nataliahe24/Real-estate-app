@@ -1,0 +1,14 @@
+<app-select
+  id="city"
+  label="Ciudad"
+  [required]="true"
+  [options]="cities"
+  [value]="value"
+  (change)="onValueChange($event)"
+  [disabled]="disabled || !departmentId"
+  placeholder="Seleccione una ciudad">
+</app-select>
+
+<div *ngIf="!departmentId" class="select-message">
+  Primero seleccione un departamento
+</div> 
