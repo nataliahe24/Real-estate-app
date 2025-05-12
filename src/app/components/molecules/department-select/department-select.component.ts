@@ -1,6 +1,6 @@
-import { Component, forwardRef, EventEmitter, Output } from '@angular/core';
+import { Component, forwardRef, EventEmitter, Output, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DepartmentService } from '../../../core/services/locations/department.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-department-select',
@@ -14,7 +14,7 @@ import { DepartmentService } from '../../../core/services/locations/department.s
     }
   ]
 })
-export class DepartmentSelectComponent implements ControlValueAccessor {
+export class DepartmentSelectComponent implements ControlValueAccessor, OnInit {
   @Output() departmentChange = new EventEmitter<number>();
   
   departments: { value: number; label: string }[] = [];
@@ -23,19 +23,20 @@ export class DepartmentSelectComponent implements ControlValueAccessor {
   onChange: any = () => {};
   onTouched: any = () => {};
 
-  constructor(private departmentService: DepartmentService) {
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
     this.loadDepartments();
   }
 
   private loadDepartments(): void {
-    this.departmentService.getDepartments().subscribe(
-      (data) => {
+    this.http.get<{ id: number; name: string }[]>('assets/data/departments.json')
+      .subscribe(data => {
         this.departments = data.map(dept => ({
           value: dept.id,
           label: dept.name
         }));
-      }
-    );
+      });
   }
 
   writeValue(value: any): void {
