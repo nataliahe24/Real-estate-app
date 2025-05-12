@@ -7,11 +7,11 @@ import { Component } from '@angular/core';
 })
 export class SidebarComponent {
   menuItems = [
-    { icon: 'dashboard', label: 'Dashboard', route: '/dashboard', active: false },
-    { icon: 'category', label: 'Categorías', route: '/categories', active: true },
-    { icon: 'home', label: 'Propiedades', route: '/properties', active: false },
-    { icon: 'location_on', label: 'Ubicaciones', route: '/locations', active: false },
-    { icon: 'person', label: 'Usuarios', route: '/users', active: false },
-    { icon: 'settings', label: 'Configuración', route: '/settings', active: false }
+    { icon: 'dashboard', label: 'Dashboard', route: '/dashboard'},
+    { icon: 'category', label: 'Categorías', route: '/categories'},
+    { icon: 'home', label: 'Propiedades', route: '/properties'},
+    { icon: 'location_on', label: 'Ubicaciones', route: '/locations'},
+    { icon: 'person', label: 'Usuarios', route: '/users'},
+    { icon: 'settings', label: 'Configuración', route: '/settings'}
   ];
 } 

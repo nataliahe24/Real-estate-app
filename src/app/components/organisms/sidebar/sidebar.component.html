@@ -1,7 +1,7 @@
 <div class="sidebar">
   <nav class="menu">
     <ul>
-      <li *ngFor="let item of menuItems" [class.active]="item.active">
+      <li *ngFor="let item of menuItems" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a [routerLink]="item.route">
           <i class="material-icons">{{ item.icon }}</i>
           <span>{{ item.label }}</span>
@@ -9,4 +9,4 @@
       </li>
     </ul>
   </nav>
-</div> 
+</div>
