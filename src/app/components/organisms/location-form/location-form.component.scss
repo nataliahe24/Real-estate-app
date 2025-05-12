@@ -1,0 +1,26 @@
+@use '../../../../app/shared/styles/variables' as *;
+
+.form-group {
+  margin-bottom: $spacing-md;
+}
+
+.form-actions {
+  display: flex;
+  gap: $spacing-md;
+  margin-top: $spacing-lg;
+}
+
+:host {
+  display: block;
+  padding: $spacing-md;
+}
+
+::ng-deep {
+  .mat-form-field {
+    width: 100%;
+  }
+
+  .mat-form-field-wrapper {
+    margin-bottom: 0;
+  }
+} 
