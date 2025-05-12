@@ -1,0 +1,74 @@
+@import '../../../shared/styles/colors';
+
+::ng-deep {
+  .input-container {
+    position: relative;
+    margin-bottom: 1rem;
+
+    &.disabled {
+      opacity: 0.7;
+      pointer-events: none;
+    }
+  }
+
+  .input-label {
+    display: block;
+    font-size: 0.875rem;
+    color: $color-text-primary;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+
+    .required-mark {
+      color: $color-error;
+      margin-left: 0.25rem;
+    }
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid $color-border;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+      box-shadow: 0 0 0 2px rgba($color-primary, 0.1);
+    }
+
+    &:disabled {
+      background-color: $color-background-disabled;
+      cursor: not-allowed;
+    }
+
+    &::placeholder {
+      color: $color-text-secondary;
+      font-weight: 300;
+    }
+  }
+
+  .error-message {
+    font-size: 0.75rem;
+    color: $color-error;
+    margin-top: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    &::before {
+      content: '!';
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1rem;
+      height: 1rem;
+      background-color: $color-error;
+      color: white;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+  }
+} 
