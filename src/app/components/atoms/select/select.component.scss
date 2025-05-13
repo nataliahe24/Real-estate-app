@@ -1,5 +1,5 @@
-@import '../../../shared/styles/colors';
-@use '../../../../app/shared/styles/variables' as *;
+@use '../../../shared/styles/_variables' as *;
+@use '../../../shared/styles/_colors' as *;
 
 .select-container {
   position: relative;

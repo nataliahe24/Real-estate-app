@@ -1,4 +1,5 @@
-@import '../../../shared/styles/colors';
+@use '../../../shared/styles/_variables' as *;
+@use '../../../shared/styles/_colors' as *;
 
 form {
   background-color: white;
