@@ -3,7 +3,7 @@
 
 .select-message {
   font-size: 0.875rem;
-  color: $color-text-secondary;
+  color: $color-secondary;
   margin-top: 0.5rem;
   font-style: italic;
 }
@@ -21,7 +21,7 @@
 
   .select-input {
     &:disabled {
-      background-color: $color-background-disabled;
+      background-color: $color-light;
       cursor: not-allowed;
     }
   }

@@ -11,8 +11,6 @@ import { NotificationService } from '@app/core/services/notifications/notificati
 import { SharedComponentsModule } from '@app/shared/shared-components.module';
 import { DepartmentSelectComponent } from './department-select/department-select.component';
 import { CitySelectComponent } from './city-select/city-select.component';
-import { NeighborhoodInputComponent } from './neighborhood-input/neighborhood-input.component';
-import { AddressInputComponent } from './address-input/address-input.component';
 import { LocationListComponent } from './location-list/location-list.component';
 
 @NgModule({
@@ -23,8 +21,6 @@ import { LocationListComponent } from './location-list/location-list.component';
     SearchFormComponent,
     DepartmentSelectComponent,
     CitySelectComponent,
-    NeighborhoodInputComponent,
-    AddressInputComponent,
     LocationListComponent
   ],
   imports: [
@@ -42,8 +38,6 @@ import { LocationListComponent } from './location-list/location-list.component';
     SearchFormComponent,
     DepartmentSelectComponent,
     CitySelectComponent,
-    NeighborhoodInputComponent,
-    AddressInputComponent,
     LocationListComponent
   ],
   providers: [

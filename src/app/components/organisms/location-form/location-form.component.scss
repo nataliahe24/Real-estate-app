@@ -5,10 +5,17 @@
   margin-bottom: $spacing-md;
 }
 
+.white-section {
+  background-color: $color-light;
+  padding: $spacing-md;
+  border-radius: $border-radius;
+}
+
 .form-actions {
   display: flex;
   gap: $spacing-md;
   margin-top: $spacing-lg;
+  justify-content: flex-end;
 }
 
 :host {

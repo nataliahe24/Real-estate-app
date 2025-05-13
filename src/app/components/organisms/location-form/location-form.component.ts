@@ -36,12 +36,38 @@ export class LocationFormComponent {
     }
   }
 
-  onDepartmentChange(event: any): void {
-    this.selectedDepartmentId = Number(event.value);
+  onDepartmentChange(deptId: number): void {
+    this.selectedDepartmentId = Number(deptId);
     this.locationForm.get('cityName')?.setValue('');
   }
 
   onCancel(): void {
     this.cancel.emit();
+  }
+  value: string = '';
+  disabled: boolean = false;
+  onChange: any = () => {};
+  onTouched: any = () => {};
+
+  writeValue(value: string): void {
+    this.value = value;
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  onValueChange(event: any): void {
+    this.value = event.target.value;
+    this.onChange(this.value);
+    this.onTouched();
   }
 } 

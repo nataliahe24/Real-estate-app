@@ -19,7 +19,7 @@
   display: block;
   font-size: 14px;
   color: $color-text;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   font-weight: 500;
 
   span {
@@ -34,7 +34,7 @@
   border: 1px solid $color-border;
   border-radius: $border-radius;
   font-size: 1rem;
-  background-color: white;
+  background-color: $color-light;
   cursor: pointer;
   appearance: none;
   transition: all 0.3s ease;
@@ -46,43 +46,38 @@
   }
 
   &:disabled {
-    background-color: $color-background-disabled;
+    background-color: $color-light;
     cursor: not-allowed;
   }
 
   option {
     padding: 0.5rem;
-    color: $color-text-primary;
-    background-color: white;
+    color: $color-text;
+    background-color: $color-light;
 
     &:disabled {
-      color: $color-text-secondary;
+      color: $color-secondary;
       font-style: italic;
     }
   }
 }
 
-// Custom select arrow
 .select-container::after {
   content: '';
   position: absolute;
   right: 1rem;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(20px);
   width: 0;
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid $color-text-primary;
+  border-top: 5px solid $color-primary;
   pointer-events: none;
   transition: transform 0.3s ease;
 }
 
-.select-container:focus-within::after {
-  transform: translateY(-50%) rotate(180deg);
-}
 
-// Error state
 .select-container.error {
   .select-input {
     border-color: $color-error;

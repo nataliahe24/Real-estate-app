@@ -1,5 +1,22 @@
 [
-    { "id": 1, "name": "Antioquia" },
-    { "id": 2, "name": "Cundinamarca" },
-    { "id": 3, "name": "Valle del Cauca" }
+  { "id": 1, "name": "Antioquia" },
+  { "id": 2, "name": "Cundinamarca" },
+  { "id": 3, "name": "Valle del Cauca" },
+  { "id": 4, "name": "Atlántico" },
+  { "id": 5, "name": "Bolívar" },
+  { "id": 6, "name": "Santander" },
+  { "id": 7, "name": "Risaralda" },
+  { "id": 8, "name": "Caldas" },
+  { "id": 9, "name": "Magdalena" },
+  { "id": 10, "name": "Meta" },
+  { "id": 11, "name": "Chocó" },
+  { "id": 12, "name": "Huila" },
+  { "id": 13, "name": "La Guajira" },
+  { "id": 15, "name": "Cesar" },
+  { "id": 16, "name": "Nariño" },
+  { "id": 17, "name": "Norte de Santander" },
+  { "id": 18, "name": "Putumayo" },
+  { "id": 19, "name": "Quindío" },
+  { "id": 20, "name": "Boyacá" }
+    
   ]

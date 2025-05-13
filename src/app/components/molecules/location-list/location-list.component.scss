@@ -1,3 +1,5 @@
+@use '../../../shared/styles/_colors' as *;
+@use '../../../shared/styles/_variables' as *;
 .location-list {
   width: 100%;
   max-width: 1200px;
@@ -57,8 +59,8 @@
     }
   }
   .white-section {
-    background-color: #fff;
-    border-radius: 4px;
+    background-color: $color-light;
+    border-radius: $border-radius;
     margin-top: 1rem;
     width: 100%;
     padding: 1rem;
