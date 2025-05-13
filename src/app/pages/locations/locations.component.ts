@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NotificationService } from '@app/core/services/notifications/notification.service';
-
+import { LocationModel } from '../../core/models/location.model';
 
 @Component({
   selector: 'app-locations',
@@ -10,11 +10,15 @@ import { NotificationService } from '@app/core/services/notifications/notificati
 export class LocationsComponent {
   constructor(private notificationService: NotificationService) {}
 
-  onLocationCreated(location: Location): void {
+  onLocationCreated(location: LocationModel): void {
     this.notificationService.success('Ubicación creada exitosamente');
   }
 
-  onError(error: string): void {
+  handleError(error: string): void {
     this.notificationService.error(error);
+  }
+
+  handleCancel(): void {
+    this.notificationService.info('Operación cancelada');
   }
 } 

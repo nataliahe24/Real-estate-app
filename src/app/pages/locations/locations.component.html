@@ -5,11 +5,12 @@
     <div class="content-container">
       <app-location-form
         (submitForm)="onLocationCreated($event)"
-        (error)="onError($event)">
+        (error)="handleError($event)"
+        (cancel)="handleCancel()">
       </app-location-form>
       
       <div class="locations-container">
-        <app-notification-container></app-notification-container>
+        <app-location-list></app-location-list>
       </div>
     </div>
   </div>
