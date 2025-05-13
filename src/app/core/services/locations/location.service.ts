@@ -8,7 +8,7 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root'
 })
 export class LocationService {
-  private apiUrl = `${environment.apiUrl}location`;
+  private apiUrl = `${environment.apiUrl}location/`;
 
   constructor(private http: HttpClient) {}
 
@@ -16,18 +16,13 @@ export class LocationService {
     return this.http.get<LocationModel[]>(this.apiUrl);
   }
 
-  createLocation(location: LocationModel): Observable<LocationModel> {
+  createLocation(location: CreateLocationDto): Observable<LocationModel> {
     return this.http.post<LocationModel>(this.apiUrl, location);
   }
 
   updateLocation(id: number, location: LocationModel): Observable<LocationModel> {
     return this.http.put<LocationModel>(`${this.apiUrl}/${id}`, location);
   }
-
-  deleteLocation(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
-  
   findByCityOrDepartment(
     searchText: string,
     page: number,
@@ -41,8 +36,13 @@ export class LocationService {
       .set('orderAsc', orderAsc.toString());
 
     return this.http.get<{ content: LocationResponse[]; totalElements: number }>(
-      `${this.apiUrl}/`,
+      `${this.apiUrl}`,
       { params }
     );
   }
+}
+
+export interface CreateLocationDto {
+  cityName: string;
+  neighborhood: string;
 } 

@@ -11,7 +11,7 @@ import { AtomsModule } from '../../atoms/atoms.module';
   styleUrls: ['./location-form.component.scss']
 })
 export class LocationFormComponent {
-  @Output() submitForm = new EventEmitter<LocationModel>();
+  @Output() submitForm = new EventEmitter<{ cityName: string; neighborhood: string }>();
   @Output() error = new EventEmitter<string>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -28,8 +28,10 @@ export class LocationFormComponent {
   }
 
   onSubmit(): void {
+    console.log('Form value:', this.locationForm.value);
     if (this.locationForm.valid) {
-      this.submitForm.emit(this.locationForm.value);
+      const { cityName, neighborhood } = this.locationForm.value;
+      this.submitForm.emit({ cityName, neighborhood });
       this.locationForm.reset();
     } else {
       this.error.emit('Por favor complete todos los campos requeridos');
