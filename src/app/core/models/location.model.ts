@@ -1,9 +1,6 @@
 export interface LocationModel {
-  id: number;
   cityName: string;
   neighborhood: string;
-  department: string;
-  address: string;
 }
 
 export interface LocationFilter {

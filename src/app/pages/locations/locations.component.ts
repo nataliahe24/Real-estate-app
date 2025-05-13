@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
 import { NotificationService } from '@app/core/services/notifications/notification.service';
 import { LocationModel } from '../../core/models/location.model';
-import { LocationService, CreateLocationDto } from '@app/core/services/locations/location.service';
+import { LocationService } from '@app/core/services/locations/location.service';
+
+interface LocationFormData {
+  cityName: string;
+  neighborhood: string;
+}
 
 @Component({
   selector: 'app-locations',
@@ -14,13 +19,29 @@ export class LocationsComponent {
     private locationService: LocationService
   ) {}
 
-  onLocationCreated(location: CreateLocationDto): void {
+  onLocationCreated(locationData: LocationFormData): void {
+    console.log('Location creation started with data:', locationData);
+
+    if (!locationData.cityName || !locationData.neighborhood) {
+      this.notificationService.error('La ciudad y el barrio son requeridos');
+      return;
+    }
+
+    const location: LocationModel = {
+      cityName: locationData.cityName,
+      neighborhood: locationData.neighborhood,
+    };
+
     this.locationService.createLocation(location).subscribe({
-      next: () => {
+      next: (response) => {
+        console.log('Location created successfully:', response);
         this.notificationService.success('Ubicación creada exitosamente');
       },
-      error: () => {
-        this.notificationService.error('Error al crear ubicación');
+      error: (error) => {
+        console.error('Error creating location:', error);
+        this.notificationService.error(
+          error.error?.message || 'Error al crear ubicación'
+        );
       }
     });
   }
