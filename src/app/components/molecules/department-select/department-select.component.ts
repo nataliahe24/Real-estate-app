@@ -31,11 +31,17 @@ export class DepartmentSelectComponent implements ControlValueAccessor, OnInit {
 
   private loadDepartments(): void {
     this.http.get<{ id: number; name: string }[]>('assets/data/departments.json')
-      .subscribe(data => {
-        this.departments = data.map(dept => ({
-          value: dept.id,
-          label: dept.name
-        }));
+      .subscribe({
+        next: data => {
+          console.log('Departamentos cargados:', data);
+          this.departments = data.map(dept => ({
+            value: dept.id,
+            label: dept.name
+          }));
+        },
+        error: err => {
+          console.error('Error cargando departamentos:', err);
+        }
       });
   }
 

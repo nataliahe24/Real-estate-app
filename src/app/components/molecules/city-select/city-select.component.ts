@@ -40,7 +40,7 @@ export class CitySelectComponent implements ControlValueAccessor, OnInit, OnChan
       this.cities = [];
       return;
     }
-    this.http.get<{ id: number; name: string; departmentId: number }[]>('assets/data/cities.json')
+    this.http.get<{ id: number; name: string; departmentId: number }[]>('assets/data/city.json')
       .subscribe(data => {
         this.cities = data
           .filter(city => city.departmentId === this.departmentId)
