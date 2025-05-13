@@ -1,0 +1,126 @@
+.location-list {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+
+  .property-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .search-container {
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+
+    .search-input {
+      flex: 1;
+      max-width: 400px;
+      padding: 0.75rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+        border-color: #3366FF;
+        box-shadow: 0 0 0 2px rgba(51, 102, 255, 0.1);
+      }
+    }
+    .search-btn {
+      padding: 0 1.5rem;
+      background: #3366FF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+      &:hover {
+        background: #254edb;
+      }
+    }
+    .order-select {
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+      font-size: 1rem;
+      background: #fff;
+      color: #333;
+      cursor: pointer;
+      &:focus {
+        outline: none;
+        border-color: #3366FF;
+      }
+    }
+  }
+
+  .table-container {
+    overflow-x: auto;
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+
+      th, td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      th {
+        background-color: #f5f5f5;
+        font-weight: 500;
+      }
+
+      tr:hover {
+        background-color: #f9f9f9;
+      }
+    }
+  }
+
+  .loading-spinner {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+
+    .pagination-btn {
+      min-width: 2.5rem;
+      height: 2.5rem;
+      border: 1px solid #e0e0e0;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+
+      &:hover:not(:disabled) {
+        border-color: #3366FF;
+        color: #3366FF;
+      }
+
+      &.active {
+        background-color: #3366FF;
+        color: white;
+        border-color: #3366FF;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+} 
