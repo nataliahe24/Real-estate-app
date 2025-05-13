@@ -9,7 +9,7 @@
   
   <div class="property-content">
     <h3 class="property-title">{{ property.name }}</h3>
-    <p class="location">{{ property.city }}, {{ property.department }}</p>
+    <p class="location">{{property.neighborhood}}, {{ property.city }}, {{ property.department }}</p>
     
     <p class="price">
       {{ property.publicationStatus === 'FOR_RENT' ? property.price + '/mo' : property.price | currency:'USD' }}
