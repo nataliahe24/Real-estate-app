@@ -13,7 +13,7 @@ import { DepartmentSelectComponent } from './department-select/department-select
 import { CitySelectComponent } from './city-select/city-select.component';
 import { NeighborhoodInputComponent } from './neighborhood-input/neighborhood-input.component';
 import { AddressInputComponent } from './address-input/address-input.component';
-
+import { LocationListComponent } from './location-list/location-list.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,8 @@ import { AddressInputComponent } from './address-input/address-input.component';
     DepartmentSelectComponent,
     CitySelectComponent,
     NeighborhoodInputComponent,
-    AddressInputComponent
+    AddressInputComponent,
+    LocationListComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +43,8 @@ import { AddressInputComponent } from './address-input/address-input.component';
     DepartmentSelectComponent,
     CitySelectComponent,
     NeighborhoodInputComponent,
-    AddressInputComponent
+    AddressInputComponent,
+    LocationListComponent
   ],
   providers: [
     NotificationService
