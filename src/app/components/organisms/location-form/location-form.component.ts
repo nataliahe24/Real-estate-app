@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Location } from '../../../core/models/location.model';
+import { LocationModel } from '../../../core/models/location.model';
 import { MoleculesModule } from '../../molecules/molecules.module';
 import { AtomsModule } from '../../atoms/atoms.module';
 
@@ -11,7 +11,7 @@ import { AtomsModule } from '../../atoms/atoms.module';
   styleUrls: ['./location-form.component.scss']
 })
 export class LocationFormComponent {
-  @Output() submitForm = new EventEmitter<Location>();
+  @Output() submitForm = new EventEmitter<LocationModel>();
   @Output() error = new EventEmitter<string>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -20,7 +20,7 @@ export class LocationFormComponent {
 
   constructor(private fb: FormBuilder) {
     this.locationForm = this.fb.group({
-      city: ['', Validators.required],
+      cityName: ['', Validators.required],
       neighborhood: ['', Validators.required],
       department: ['', Validators.required],
       address: ['', Validators.required]
@@ -29,14 +29,8 @@ export class LocationFormComponent {
 
   onSubmit(): void {
     if (this.locationForm.valid) {
-      const location: Location = {
-        id: 0,
-        cityName: this.locationForm.get('city')?.value,
-        neighborhood: this.locationForm.get('neighborhood')?.value,
-        department: this.locationForm.get('department')?.value,
-        address: this.locationForm.get('address')?.value
-      };
-      this.submitForm.emit(location);
+      this.submitForm.emit(this.locationForm.value);
+      this.locationForm.reset();
     } else {
       this.error.emit('Por favor complete todos los campos requeridos');
     }
@@ -44,7 +38,7 @@ export class LocationFormComponent {
 
   onDepartmentChange(event: any): void {
     this.selectedDepartmentId = Number(event.value);
-    this.locationForm.get('city')?.setValue('');
+    this.locationForm.get('cityName')?.setValue('');
   }
 
   onCancel(): void {
