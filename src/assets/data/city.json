@@ -1,0 +1,6 @@
+[
+    { "id": 1, "name": "Medellín", "departmentId": 1 },
+    { "id": 2, "name": "Envigado", "departmentId": 1 },
+    { "id": 3, "name": "Bogotá", "departmentId": 2 },
+    { "id": 4, "name": "Cali", "departmentId": 3 }
+  ]
