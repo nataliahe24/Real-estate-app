@@ -1,30 +1,48 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Location } from '../../models/location.model';
-import { environment } from '../../../environments/environment';
+import { LocationModel, LocationResponse } from '../../models/location.model';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
-  private apiUrl = `${environment.apiUrl}/locations`;
+  private apiUrl = `${environment.apiUrl}location`;
 
   constructor(private http: HttpClient) {}
 
-  getLocations(): Observable<Location[]> {
-    return this.http.get<Location[]>(this.apiUrl);
+  getLocations(): Observable<LocationModel[]> {
+    return this.http.get<LocationModel[]>(this.apiUrl);
   }
 
-  createLocation(location: Location): Observable<Location> {
-    return this.http.post<Location>(this.apiUrl, location);
+  createLocation(location: LocationModel): Observable<LocationModel> {
+    return this.http.post<LocationModel>(this.apiUrl, location);
   }
 
-  updateLocation(id: number, location: Location): Observable<Location> {
-    return this.http.put<Location>(`${this.apiUrl}/${id}`, location);
+  updateLocation(id: number, location: LocationModel): Observable<LocationModel> {
+    return this.http.put<LocationModel>(`${this.apiUrl}/${id}`, location);
   }
 
   deleteLocation(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+  
+  findByCityOrDepartment(
+    searchText: string,
+    page: number,
+    size: number,
+    orderAsc: boolean
+  ): Observable<{ content: LocationResponse[]; totalElements: number }> {
+    const params = new HttpParams()
+      .set('searchText', searchText)
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('orderAsc', orderAsc.toString());
+
+    return this.http.get<{ content: LocationResponse[]; totalElements: number }>(
+      `${this.apiUrl}/`,
+      { params }
+    );
   }
 } 
