@@ -1,14 +1,14 @@
-@use '../../shared/styles/_variables' as *;
 @use '../../shared/styles/_colors' as *;
+@use '../../shared/styles/_variables' as *;
 
 .locations-page {
   padding: 2rem;
   font-family: 'Poppins', sans-serif;
   
   .page-title {
-    color: $color-text-primary;
+    color: $color-dark;
     margin-bottom: 2rem;
-    font-size: 1.5rem;
+    font-size: $font-size-title;
     font-weight: 600;
   }
   

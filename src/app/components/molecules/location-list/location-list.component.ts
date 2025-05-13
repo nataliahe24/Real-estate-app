@@ -62,7 +62,13 @@ export class LocationListComponent implements OnInit {
       )
       .subscribe({
         next: (response: { content: LocationResponse[]; totalElements: number }) => {
-          this.locations = response.content;
+          this.locations = response.content.sort((a, b) => {
+            const cityA = a.cityName.toLowerCase();
+            const cityB = b.cityName.toLowerCase();
+            if (cityA < cityB) return this.orderAsc ? -1 : 1;
+            if (cityA > cityB) return this.orderAsc ? 1 : -1;
+            return 0;
+          });
           this.totalItems = response.totalElements;
           this.loading = false;
         },
@@ -80,5 +86,11 @@ export class LocationListComponent implements OnInit {
 
   get totalPages(): number {
     return Math.ceil(this.totalItems / this.itemsPerPage);
+  }
+
+  toggleOrder(): void {
+    this.orderAsc = !this.orderAsc;
+    this.currentPage = 1;
+    this.loadLocations();
   }
 } 

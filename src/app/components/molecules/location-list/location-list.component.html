@@ -1,20 +1,21 @@
 <div class="location-list">
   <div class="search-container">
-    <input
+    <app-input
       type="text"
       [formControl]="searchControl"
       placeholder="Buscar por ciudad o departamento..."
       class="search-input"
     />
-    <select
-      class="order-select"
-      [value]="orderAsc ? 'asc' : 'desc'"
-      (change)="onOrderChange($event)"
-      aria-label="Ordenar"
-    >
-      <option value="asc">Ascendente</option>
-      <option value="desc">Descendente</option>
-    </select>
+    <button
+    type="button"
+    class="order-toggle"
+    (click)="toggleOrder()"
+    [attr.aria-label]="orderAsc ? 'Orden ascendente' : 'Orden descendente'"
+  >
+    <span class="material-icons" [title]="orderAsc ? 'Ascendente' : 'Descendente'">
+      {{ orderAsc ? 'arrow_upward' : 'arrow_downward' }}
+    </span>
+  </button>
   </div>
 
   <div class="table-container" *ngIf="!loading">
