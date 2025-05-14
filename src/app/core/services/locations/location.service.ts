@@ -23,7 +23,6 @@ export class LocationService {
   constructor(private http: HttpClient) {}
 
   private handleError(error: any) {
-    console.error('An error occurred:', error);
     return throwError(() => error);
   }
 
@@ -41,11 +40,6 @@ export class LocationService {
       tap((data) => console.log('[LocationService] Ubicación creada:', data)));
       catchError(this.handleError)
   }
-
-  updateLocation(id: number, location: LocationModel): Observable<LocationModel> {
-    return this.http.put<LocationModel>(`${this.apiUrl}/${id}`, location);
-  }
-
   findByCityOrDepartment(
     searchText: string,
     page: number,
