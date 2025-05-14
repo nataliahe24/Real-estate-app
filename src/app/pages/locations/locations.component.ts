@@ -4,11 +4,6 @@ import { LocationModel } from '../../core/models/location.model';
 import { LocationService } from '@app/core/services/locations/location.service';
 import { LocationFormComponent } from '@app/components/organisms/location-form/location-form.component';
 
-interface LocationFormData {
-  cityName: string;
-  neighborhood: string;
-}
-
 @Component({
   selector: 'app-locations',
   templateUrl: './locations.component.html',
@@ -20,17 +15,10 @@ export class LocationsComponent {
   constructor(
     private notificationService: NotificationService,
     private locationService: LocationService
-  ) {
-    console.log('LocationsComponent constructor');
-  }
+  ) {}
 
   onLocationCreated(locationData: LocationModel): void {
-    const createLocationDto = {
-      cityName: locationData.cityName,
-      neighborhood: locationData.neighborhood
-    };
-
-    this.locationService.createLocation(createLocationDto).subscribe({
+    this.locationService.createLocation(locationData).subscribe({
       next: () => {
         this.locationFormComponent?.resetForm();
         this.notificationService.success('Ubicación creada exitosamente');
@@ -49,5 +37,5 @@ export class LocationsComponent {
 
   handleCancel(): void {
     this.locationFormComponent?.resetForm();
-  };
+  }
 } 

@@ -12,6 +12,7 @@ import { SharedComponentsModule } from '@app/shared/shared-components.module';
 import { DepartmentSelectComponent } from './department-select/department-select.component';
 import { CitySelectComponent } from './city-select/city-select.component';
 import { LocationListComponent } from './location-list/location-list.component';
+import { CategorySelectComponent } from './category-select/category-select.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { LocationListComponent } from './location-list/location-list.component';
     SearchFormComponent,
     DepartmentSelectComponent,
     CitySelectComponent,
-    LocationListComponent
+    LocationListComponent,
+    CategorySelectComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +40,8 @@ import { LocationListComponent } from './location-list/location-list.component';
     SearchFormComponent,
     DepartmentSelectComponent,
     CitySelectComponent,
-    LocationListComponent
+    LocationListComponent,
+    CategorySelectComponent
   ],
   providers: [
     NotificationService

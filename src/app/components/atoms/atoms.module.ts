@@ -7,7 +7,6 @@ import { SelectComponent } from './select/select.component';
 import { TextareaComponent } from './textarea/textarea.component';
 import { NotificationComponent } from './notification/notification.component';
 import { LogoComponent } from './logo/logo.component';
-import { CategorySelectComponent } from './category-select/category-select.component';
 import { PropertyStatusLabelComponent } from './property-status-label/property-status-label.component';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { PropertyStatusLabelComponent } from './property-status-label/property-s
     TextareaComponent,
     NotificationComponent,
     LogoComponent,
-    CategorySelectComponent,
     PropertyStatusLabelComponent
   ],
   imports: [
@@ -33,7 +31,6 @@ import { PropertyStatusLabelComponent } from './property-status-label/property-s
     TextareaComponent,
     NotificationComponent,
     LogoComponent,
-    CategorySelectComponent,
     PropertyStatusLabelComponent
   ]
 })

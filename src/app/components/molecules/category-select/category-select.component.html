@@ -1,5 +1,5 @@
 <div class="category-select-container">
-  <select 
+  <app-select 
     [disabled]="isLoading" 
     [(ngModel)]="selectedCategoryName" 
     (change)="onCategorySelected()"
@@ -10,7 +10,7 @@
         {{ category.name }}
       </option>
     </ng-container>
-  </select>
+  </app-select>
   
   <div *ngIf="isLoading" class="loading">Cargando categorías...</div>
   <div *ngIf="error" class="error">{{ error }}</div>

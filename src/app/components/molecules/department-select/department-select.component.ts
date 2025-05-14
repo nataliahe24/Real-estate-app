@@ -1,4 +1,4 @@
-import { Component, forwardRef, EventEmitter, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DepartmentSelectComponent),
+      useExisting: DepartmentSelectComponent,
       multi: true
     }
   ]
@@ -30,18 +30,12 @@ export class DepartmentSelectComponent implements ControlValueAccessor, OnInit {
   }
 
   private loadDepartments(): void {
-    this.http.get<{ id: number; name: string }[]>('assets/data/departments.json')
-      .subscribe({
-        next: data => {
-          console.log('Departamentos cargados:', data);
-          this.departments = data.map(dept => ({
-            value: dept.id,
-            label: dept.name
-          }));
-        },
-        error: err => {
-          console.error('Error cargando departamentos:', err);
-        }
+    this.http.get<any[]>('assets/data/departments.json')
+      .subscribe(data => {
+        this.departments = data.map(dept => ({
+          value: dept.id,
+          label: dept.name
+        }));
       });
   }
 
@@ -62,10 +56,9 @@ export class DepartmentSelectComponent implements ControlValueAccessor, OnInit {
   }
 
   onValueChange(event: any): void {
-    const value = Number(event.target.value);
-    this.value = value;
-    this.onChange(value);
+    this.value = event.target.value;
+    this.onChange(this.value);
     this.onTouched();
-    this.departmentChange.emit(value);
+    this.departmentChange.emit(Number(this.value));
   }
 } 

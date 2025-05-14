@@ -43,75 +43,31 @@ export class LocationFormComponent {
       department: ['', [Validators.required]]
     });
     
-        
     this.locationForm.get('neighborhood')?.valueChanges.subscribe(value => {
       this.neighborhoodInfo.currentLength = value?.length || 0;
       this.neighborhoodInfo.isValid = this.locationForm.get('neighborhood')?.valid || false;
       this.neighborhoodInfo.isDirty = this.locationForm.get('neighborhood')?.dirty || false;
     });
-    
-    console.log('Formulario inicializado:', this.locationForm.value);
   }
 
   createLocation(): void {
-    console.log('createLocation() fue llamado');
     if (this.locationForm.invalid) {
-      console.log('Formulario inválido. Estado:', {
-        city: this.locationForm.get('city')?.errors,
-        neighborhood: this.locationForm.get('neighborhood')?.errors,
-        department: this.locationForm.get('department')?.errors,
-        formValue: this.locationForm.value
-      });
       return;
     }
     const { city, neighborhood } = this.locationForm.value;
-    console.log('Emitiendo submitForm con:', { city, neighborhood });
     try {
       this.submitForm.emit({
         cityName: city.trim(),
         neighborhood: neighborhood.trim()
       });
-      console.log('Evento emitido exitosamente');
     } catch (error) {
-      
+      this.error.emit('Error al crear la ubicación');
     }
   }
 
   onDepartmentChange(deptId: number): void {
     this.selectedDepartmentId = Number(deptId);
     this.locationForm.get('city')?.setValue('');
-  }
-
-  onCancel(): void {
-    this.cancel.emit();
-    this.locationForm.reset();
-    this.selectedDepartmentId = 0;
-  }
-
-  value: string = '';
-  onChange: any = () => {};
-  onTouched: any = () => {};
-
-  writeValue(value: string): void {
-    this.value = value;
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  onValueChange(event: any): void {
-    this.value = event.target.value;
-    this.onChange(this.value);
-    this.onTouched();
   }
 
   resetForm(): void {
