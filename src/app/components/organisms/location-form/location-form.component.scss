@@ -24,6 +24,7 @@
 .error-message {
   color: $color-error;
   font-size: $font-size-sm;
+  margin-top: 0.25rem;
 }
 
 .form-actions {
@@ -45,5 +46,16 @@
 
   .mat-form-field-wrapper {
     margin-bottom: 0;
+  }
+}
+
+.character-count {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+  text-align: right;
+  
+  &.invalid {
+    color: $color-error;
   }
 } 

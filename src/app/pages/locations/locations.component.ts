@@ -33,6 +33,7 @@ export class LocationsComponent {
     this.locationService.createLocation(createLocationDto).subscribe({
       next: () => {
         this.locationFormComponent?.resetForm();
+        this.notificationService.success('Ubicación creada exitosamente');
       },
       error: (error) => {
         this.notificationService.error(

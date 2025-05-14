@@ -11,12 +11,11 @@
     <div class="form-group">
       <app-city-select
         [departmentId]="selectedDepartmentId"
-        formControlName="city">
+        formControlName="city"
+        [ngClass]="{'input-error': locationForm.get('city')?.touched && locationForm.get('city')?.invalid}">
         <option value="">Seleccione una ciudad</option>
       </app-city-select>
     </div>
-  
-
     <div class="form-group">
       <app-input
         formControlName="neighborhood"
@@ -26,19 +25,20 @@
         [disabled]="disabled"
         placeholder="Ingrese el nombre del barrio"
         [ngClass]="locationForm.get('neighborhood')?.touched && locationForm.get('neighborhood')?.invalid ? 'input-error' : ''"
-      ></app-input>
-      <div *ngIf="locationForm.get('neighborhood')?.touched && locationForm.get('neighborhood')?.invalid" class="error-message">
-        <div *ngIf="locationForm.get('neighborhood')?.errors?.['required']">
-          El barrio es requerido.
-        </div>
-        <div *ngIf="locationForm.get('neighborhood')?.errors?.['maxlength']" class="error-message">
-          Por favor, introduce máximo 50 caracteres.
-        </div>
-
-        <div *ngIf="locationForm.get('neighborhood')?.errors?.['minlength']" class="error-message">
-          Por favor, introduce al menos 3 caracteres.
-        </div>
+      >
+    </app-input>
+      <div class="character-count" [class.invalid]="!neighborhoodInfo.isValid && neighborhoodInfo.isDirty">
+        <span>{{ neighborhoodInfo.currentLength }}</span>/{{ neighborhoodInfo.maxLength }} caracteres
+        <span *ngIf="!neighborhoodInfo.isValid && neighborhoodInfo.isDirty" class="error-message">
+          <ng-container *ngIf="neighborhoodInfo.currentLength < neighborhoodInfo.minLength">
+            (Mínimo {{ neighborhoodInfo.minLength }} caracteres)
+          </ng-container>
+          <ng-container *ngIf="neighborhoodInfo.currentLength > neighborhoodInfo.maxLength">
+            (Máximo {{ neighborhoodInfo.maxLength }} caracteres)
+          </ng-container>
+        </span>
       </div>
+      
     </div>
 
     <div class="form-actions">

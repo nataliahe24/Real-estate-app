@@ -21,6 +21,7 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() required: boolean = false;
   @Input() label: string = '';
   @Input() id: string = '';
+  @Input() ngClass: any;
 
   onChange: any = () => {};
   onTouched: any = () => {};

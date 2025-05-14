@@ -24,6 +24,14 @@ export class LocationFormComponent {
   readonly CITY_MIN_LENGTH = 3;
   readonly NEIGHBORHOOD_MIN_LENGTH = 3;
 
+  neighborhoodInfo = {
+    currentLength: 0,
+    maxLength: 50,
+    minLength: this.NEIGHBORHOOD_MIN_LENGTH,
+    isValid: true,
+    isDirty: false
+  };
+
   constructor(
     private fb: FormBuilder,
     private notificationService: NotificationService,
@@ -33,6 +41,13 @@ export class LocationFormComponent {
       city: ['', [Validators.required, Validators.minLength(this.CITY_MIN_LENGTH), Validators.maxLength(50)]],
       neighborhood: ['', [Validators.required, Validators.minLength(this.NEIGHBORHOOD_MIN_LENGTH), Validators.maxLength(50)]],
       department: ['']
+    });
+    
+    // Add subscription to track neighborhood changes
+    this.locationForm.get('neighborhood')?.valueChanges.subscribe(value => {
+      this.neighborhoodInfo.currentLength = value?.length || 0;
+      this.neighborhoodInfo.isValid = this.locationForm.get('neighborhood')?.valid || false;
+      this.neighborhoodInfo.isDirty = this.locationForm.get('neighborhood')?.dirty || false;
     });
     
     console.log('Formulario inicializado:', this.locationForm.value);
