@@ -124,4 +124,13 @@ export class LocationFormComponent {
     this.onChange(this.value);
     this.onTouched();
   }
+
+  resetForm(): void {
+    this.locationForm.reset({
+      department: '',
+      city: '',
+      neighborhood: ''
+    });
+    this.selectedDepartmentId = 0;
+  }
 } 

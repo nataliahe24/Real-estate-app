@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NotificationService } from '@app/core/services/notifications/notification.service';
 import { LocationModel } from '../../core/models/location.model';
 import { LocationService } from '@app/core/services/locations/location.service';
+import { LocationFormComponent } from '@app/components/organisms/location-form/location-form.component';
 
 interface LocationFormData {
   cityName: string;
@@ -14,6 +15,8 @@ interface LocationFormData {
   styleUrls: ['./locations.component.scss']
 })
 export class LocationsComponent {
+  @ViewChild(LocationFormComponent) locationFormComponent?: LocationFormComponent;
+
   constructor(
     private notificationService: NotificationService,
     private locationService: LocationService
@@ -22,8 +25,6 @@ export class LocationsComponent {
   }
 
   onLocationCreated(locationData: LocationModel): void {
-    console.log('onLocationCreated fue llamado con:', locationData);
-  
     const createLocationDto = {
       cityName: locationData.cityName,
       neighborhood: locationData.neighborhood
@@ -32,9 +33,9 @@ export class LocationsComponent {
     this.locationService.createLocation(createLocationDto).subscribe({
       next: () => {
         this.notificationService.success('Ubicación creada exitosamente');
+        this.locationFormComponent?.resetForm();
       },
       error: (error) => {
-        console.error('Error al crear location:', error);
         this.notificationService.error(
           error.error?.message || 'Error al crear ubicación'
         );
