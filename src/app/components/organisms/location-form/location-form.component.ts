@@ -43,7 +43,7 @@ export class LocationFormComponent {
       department: ['']
     });
     
-    // Add subscription to track neighborhood changes
+    
     this.locationForm.get('neighborhood')?.valueChanges.subscribe(value => {
       this.neighborhoodInfo.currentLength = value?.length || 0;
       this.neighborhoodInfo.isValid = this.locationForm.get('neighborhood')?.valid || false;
