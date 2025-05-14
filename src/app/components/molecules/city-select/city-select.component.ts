@@ -17,7 +17,7 @@ import { HttpClient } from '@angular/common/http';
 export class CitySelectComponent implements ControlValueAccessor, OnInit, OnChanges {
   @Input() departmentId!: number;
   
-  cities: { value: number; label: string }[] = [];
+  cities: { value: string; label: string }[] = [];
   value: any;
   disabled: boolean = false;
   onChange: any = () => {};
@@ -45,7 +45,7 @@ export class CitySelectComponent implements ControlValueAccessor, OnInit, OnChan
         this.cities = data
           .filter(city => city.departmentId === this.departmentId)
           .map(city => ({
-            value: city.id,
+            value: city.name,
             label: city.name
           }));
       });

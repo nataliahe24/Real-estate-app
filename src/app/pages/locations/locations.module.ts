@@ -8,7 +8,7 @@ import { MoleculesModule } from '../../components/molecules/molecules.module';
 import { AtomsModule } from '../../components/atoms/atoms.module';
 import { OrganismsModule } from '../../components/organisms/organisms.module';
 import { SharedModule } from '../../shared/shared.module';
-import { LocationFormModule } from '@app/components/organisms/location-form/location-form.module';
+
 
 const routes: Routes = [
   {
@@ -31,7 +31,6 @@ const routes: Routes = [
     AtomsModule,
     OrganismsModule,
     SharedModule,
-    LocationFormModule
   ]
 })
 export class LocationsModule { } 

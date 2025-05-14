@@ -4,6 +4,11 @@ import { catchError, Observable, tap, throwError } from 'rxjs';
 import { LocationModel, LocationResponse } from '../../models/location.model';
 import { environment } from '../../../../environments/environment';
 
+export interface CreateLocationDto {
+  city: string;
+  neighborhood: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,12 +31,15 @@ export class LocationService {
     return this.http.get<LocationModel[]>(this.apiUrl);
   }
 
-  createLocation(location: LocationModel): Observable<LocationModel> {
-    console.log('Creating location with data:', location);
-    return this.http.post<LocationModel>(this.apiUrl, location, this.httpOptions).pipe(
-      tap(data => console.log('Location created:', data)),
+  createLocation(location: { cityName: string; neighborhood: string }): Observable<Location> {
+    console.log('[LocationService] Creando ubicación:', location);
+    console.log('POST body:', {
+      cityName: location.cityName,
+      neighborhood: location.neighborhood,
+    });
+    return this.http.post<Location>(this.apiUrl, location, this.httpOptions).pipe(
+      tap((data) => console.log('[LocationService] Ubicación creada:', data)));
       catchError(this.handleError)
-    );
   }
 
   updateLocation(id: number, location: LocationModel): Observable<LocationModel> {

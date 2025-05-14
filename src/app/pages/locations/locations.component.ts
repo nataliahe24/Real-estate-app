@@ -17,28 +17,24 @@ export class LocationsComponent {
   constructor(
     private notificationService: NotificationService,
     private locationService: LocationService
-  ) {}
+  ) {
+    console.log('LocationsComponent constructor');
+  }
 
-  onLocationCreated(locationData: LocationFormData): void {
-    console.log('Location creation started with data:', locationData);
-
-    if (!locationData.cityName || !locationData.neighborhood) {
-      this.notificationService.error('La ciudad y el barrio son requeridos');
-      return;
-    }
-
-    const location: LocationModel = {
+  onLocationCreated(locationData: LocationModel): void {
+    console.log('onLocationCreated fue llamado con:', locationData);
+  
+    const createLocationDto = {
       cityName: locationData.cityName,
-      neighborhood: locationData.neighborhood,
+      neighborhood: locationData.neighborhood
     };
 
-    this.locationService.createLocation(location).subscribe({
-      next: (response) => {
-        console.log('Location created successfully:', response);
+    this.locationService.createLocation(createLocationDto).subscribe({
+      next: () => {
         this.notificationService.success('Ubicación creada exitosamente');
       },
       error: (error) => {
-        console.error('Error creating location:', error);
+        console.error('Error al crear location:', error);
         this.notificationService.error(
           error.error?.message || 'Error al crear ubicación'
         );

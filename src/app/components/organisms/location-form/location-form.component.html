@@ -2,7 +2,7 @@
   <section class="white-section">
     <div class="form-group">
       <app-department-select
-      formControlName="department"
+        formControlName="department"
         (departmentChange)="onDepartmentChange($event)">
         <option value="">Seleccione un departamento</option>
       </app-department-select>
@@ -11,7 +11,7 @@
     <div class="form-group">
       <app-city-select
         [departmentId]="selectedDepartmentId"
-        formControlName="cityName">
+        formControlName="city">
         <option value="">Seleccione una ciudad</option>
       </app-city-select>
     </div>
