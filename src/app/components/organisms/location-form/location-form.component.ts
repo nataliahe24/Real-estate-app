@@ -38,12 +38,12 @@ export class LocationFormComponent {
     private locationService: LocationService
   ) {
     this.locationForm = this.fb.group({
-      city: ['', [Validators.required, Validators.minLength(this.CITY_MIN_LENGTH), Validators.maxLength(50)]],
+      city: ['', [Validators.required, Validators.minLength(this.CITY_MIN_LENGTH)]],
       neighborhood: ['', [Validators.required, Validators.minLength(this.NEIGHBORHOOD_MIN_LENGTH), Validators.maxLength(50)]],
-      department: ['']
+      department: ['', [Validators.required]]
     });
     
-    
+        
     this.locationForm.get('neighborhood')?.valueChanges.subscribe(value => {
       this.neighborhoodInfo.currentLength = value?.length || 0;
       this.neighborhoodInfo.isValid = this.locationForm.get('neighborhood')?.valid || false;
@@ -62,7 +62,6 @@ export class LocationFormComponent {
         department: this.locationForm.get('department')?.errors,
         formValue: this.locationForm.value
       });
-      this.handleValidationErrors();
       return;
     }
     const { city, neighborhood } = this.locationForm.value;
@@ -75,27 +74,6 @@ export class LocationFormComponent {
       console.log('Evento emitido exitosamente');
     } catch (error) {
       
-    }
-  }
-
-  private handleValidationErrors(): void {
-    const cityControl = this.locationForm.get('city');
-    const neighborhoodControl = this.locationForm.get('neighborhood');
-
-    if (cityControl?.errors) {
-      if (cityControl.errors['required']) {
-        this.notificationService.warning('La ciudad es requerida');
-      } else if (cityControl.errors['minlength']) {
-        this.notificationService.warning(
-          `La ciudad debe tener al menos ${this.CITY_MIN_LENGTH} caracteres`
-        );
-      }
-    }
-
-    if (neighborhoodControl?.errors) {
-      if (neighborhoodControl.errors['required']) {
-      } else if (neighborhoodControl.errors['minlength']) {
-      }
     }
   }
 

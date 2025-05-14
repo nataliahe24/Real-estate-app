@@ -3,7 +3,8 @@
     <div class="form-group">
       <app-department-select
         formControlName="department"
-        (departmentChange)="onDepartmentChange($event)">
+        (departmentChange)="onDepartmentChange($event)"
+        [required]="true">
         <option value="">Seleccione un departamento</option>
       </app-department-select>
     </div>
@@ -27,7 +28,7 @@
         placeholder="Ingrese el nombre del barrio"
         [ngClass]="locationForm.get('neighborhood')?.touched && locationForm.get('neighborhood')?.invalid ? 'input-error' : ''"
       >
-    </app-input>
+      </app-input>
       <div class="character-count" [class.invalid]="!neighborhoodInfo.isValid && neighborhoodInfo.isDirty">
         <span>{{ neighborhoodInfo.currentLength }}</span>/{{ neighborhoodInfo.maxLength }} caracteres
         <span *ngIf="!neighborhoodInfo.isValid && neighborhoodInfo.isDirty" class="error-message">
@@ -39,14 +40,13 @@
           </ng-container>
         </span>
       </div>
-      
     </div>
 
     <div class="form-actions">
       <app-button 
         type="primary"
         [isSubmit]="true"
-        [disabled]="locationForm.invalid"
+        [disabled]="locationForm.invalid || !locationForm.dirty"
         label="Crear">
       </app-button>
 
