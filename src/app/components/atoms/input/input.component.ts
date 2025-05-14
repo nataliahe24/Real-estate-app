@@ -21,7 +21,9 @@ export class InputComponent implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() maxLength: number | null = null;
   @Input() required: boolean = false;
-  
+  @Input() ngClass: any;
+  @Input() errorMessage: string = '';
+
   onChange: any = () => {};
   onTouched: any = () => {};
   

@@ -30,8 +30,8 @@ export class LocationFormComponent {
     private locationService: LocationService
   ) {
     this.locationForm = this.fb.group({
-      city: ['', [Validators.required, Validators.minLength(this.CITY_MIN_LENGTH)]],
-      neighborhood: ['', [Validators.required, Validators.minLength(this.NEIGHBORHOOD_MIN_LENGTH)]],
+      city: ['', [Validators.required, Validators.minLength(this.CITY_MIN_LENGTH), Validators.maxLength(50)]],
+      neighborhood: ['', [Validators.required, Validators.minLength(this.NEIGHBORHOOD_MIN_LENGTH), Validators.maxLength(50)]],
       department: ['']
     });
     
@@ -59,7 +59,7 @@ export class LocationFormComponent {
       });
       console.log('Evento emitido exitosamente');
     } catch (error) {
-      console.error('Error al emitir el evento:', error);
+      
     }
   }
 
@@ -79,11 +79,7 @@ export class LocationFormComponent {
 
     if (neighborhoodControl?.errors) {
       if (neighborhoodControl.errors['required']) {
-        this.notificationService.warning('El barrio es requerido');
       } else if (neighborhoodControl.errors['minlength']) {
-        this.notificationService.warning(
-          `El barrio debe tener al menos ${this.NEIGHBORHOOD_MIN_LENGTH} caracteres`
-        );
       }
     }
   }

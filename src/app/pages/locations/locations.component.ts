@@ -32,7 +32,6 @@ export class LocationsComponent {
 
     this.locationService.createLocation(createLocationDto).subscribe({
       next: () => {
-        this.notificationService.success('Ubicación creada exitosamente');
         this.locationFormComponent?.resetForm();
       },
       error: (error) => {
@@ -48,6 +47,6 @@ export class LocationsComponent {
   }
 
   handleCancel(): void {
-    this.notificationService.info('Operación cancelada');
-  }
+    this.locationFormComponent?.resetForm();
+  };
 } 

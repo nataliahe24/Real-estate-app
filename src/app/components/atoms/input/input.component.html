@@ -12,5 +12,6 @@
     [attr.maxlength]="maxLength"
     [attr.aria-required]="required"
     (input)="updateValue($any($event.target).value)"
+    [ngClass]="ngClass"
   />
 </div> 
