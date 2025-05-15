@@ -1,5 +1,12 @@
+@use '../../../shared/styles/_variables' as *;
+@use '../../../shared/styles/_colors' as *;
+
+:host {
+  display: inline-block;
+}
+
 button {
-  padding: 10px 16px;
+  padding: 10px 40px;
   border-radius: 4px;
   font-weight: 500;
   border: none;

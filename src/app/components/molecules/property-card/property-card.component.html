@@ -1,6 +1,6 @@
 <div class="property-card">
   <div class="property-status">
-    <app-property-status-label [status]="property.publicationStatus"></app-property-status-label>
+    <app-property-status-label></app-property-status-label>
   </div>
   
   <div class="property-image">
@@ -8,8 +8,8 @@
   </div>
   
   <div class="property-content">
-    <h3>{{ property.name }}</h3>
-    <p class="location">{{ property.city }}, {{ property.department }}</p>
+    <h3 class="property-title">{{ property.name }}</h3>
+    <p class="location">{{property.neighborhood}}, {{ property.city }}, {{ property.department }}</p>
     
     <p class="price">
       {{ property.publicationStatus === 'FOR_RENT' ? property.price + '/mo' : property.price | currency:'USD' }}

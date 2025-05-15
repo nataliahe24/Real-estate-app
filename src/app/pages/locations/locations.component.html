@@ -1,0 +1,18 @@
+<app-main-layout>
+  <div class="locations-page">
+    <h1 class="page-title">Crear ubicación</h1>
+
+    <div class="content-container">
+      <app-location-form
+        (submitForm)="onLocationCreated($event)"
+        (error)="handleError($event)"
+        (cancel)="handleCancel()"
+      ></app-location-form>
+      
+      <div class="locations-container">
+        <app-location-list></app-location-list>
+        <app-notification-container></app-notification-container>
+      </div>
+    </div>
+  </div>
+</app-main-layout> 

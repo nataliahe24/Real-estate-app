@@ -13,6 +13,6 @@ export class AppComponent implements OnInit {
   
   ngOnInit(): void {
     // Solo para pruebas - establecer token manualmente
-    this.jwtService.setManualTestToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNaUFwcEpXVCIsInN1YiI6Im5hdGFsaWFoZW5hb3IyNEBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiaWF0IjoxNzQ2MTUwNDY0LCJleHAiOjE3NDcyMzY4NjQsIm5iZiI6MTc0NjE1MDQ2NH0.szjAMdWkBo_LfQBY6XSLxFSep_AZpj9JlPCN9wmV530');
+    this.jwtService.setManualTestToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNaUFwcEpXVCIsInN1YiI6Im5hdGFsaWFoZW5hb3IyNEBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiaWF0IjoxNzQ3MjQ4NDM1LCJleHAiOjE3NDgzMzQ4MzUsIm5iZiI6MTc0NzI0ODQzNX0.rUOleig8_zoHIaiXC1UAuhdcW-2_nToUl0bh7dVr4T4');
   }
 }

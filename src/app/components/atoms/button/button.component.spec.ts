@@ -40,7 +40,7 @@ describe('ButtonComponent', () => {
   });
 
   it('should emit click event when clicked', () => {
-    const spy = jest.spyOn(component.onClick, 'emit');
+    const spy = jest.spyOn(component.click, 'emit');
     fixture.detectChanges();
     
     const buttonEl = fixture.debugElement.query(By.css('button'));

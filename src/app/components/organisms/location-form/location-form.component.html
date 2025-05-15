@@ -1,0 +1,60 @@
+<form [formGroup]="locationForm" (ngSubmit)="createLocation()">
+  <section class="white-section">
+    <div class="form-group">
+      <app-department-select
+        formControlName="department"
+        (departmentChange)="onDepartmentChange($event)"
+        [required]="true">
+        <option value="">Seleccione un departamento</option>
+      </app-department-select>
+    </div>
+
+    <div class="form-group">
+      <app-city-select
+        [departmentId]="selectedDepartmentId"
+        formControlName="city"
+        [required]="true"
+       ><option value="">Seleccione una ciudad</option>
+      </app-city-select>
+    </div>
+
+    <div class="form-group">
+      <app-input
+        formControlName="neighborhood"
+        id="barrio"
+        label="Barrio"
+        [required]="true"
+        [disabled]="disabled"
+        placeholder="Ingrese el nombre del barrio"
+        [ngClass]="locationForm.get('neighborhood')?.touched && locationForm.get('neighborhood')?.invalid ? 'input-error' : ''"
+      >
+      </app-input>
+      <div class="character-count" [class.invalid]="!neighborhoodInfo.isValid && neighborhoodInfo.isDirty">
+        <span>{{ neighborhoodInfo.currentLength }}</span>/{{ neighborhoodInfo.maxLength }} caracteres
+        <span *ngIf="!neighborhoodInfo.isValid && neighborhoodInfo.isDirty" class="error-message">
+          <ng-container *ngIf="neighborhoodInfo.currentLength < neighborhoodInfo.minLength">
+            (Mínimo {{ neighborhoodInfo.minLength }} caracteres)
+          </ng-container>
+          <ng-container *ngIf="neighborhoodInfo.currentLength > neighborhoodInfo.maxLength">
+            (Máximo {{ neighborhoodInfo.maxLength }} caracteres)
+          </ng-container>
+        </span>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <app-button 
+        type="primary"
+        [isSubmit]="true"
+        [disabled]="locationForm.invalid || !locationForm.dirty"
+        label="Crear">
+      </app-button>
+
+      <app-button 
+        type="secondary"
+        (click)="resetForm()"
+        label="Cancelar">
+      </app-button>
+    </div>
+  </section>
+</form> 

@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -32,6 +33,7 @@ import { MoleculesModule } from './components/molecules/molecules.module';
     PropertiesModule,
     AppRoutingModule,
     MoleculesModule,
+    ReactiveFormsModule
   ],
   providers: [
     {

@@ -1,3 +1,5 @@
+@use '../../../shared/styles/_colors' as *;
+
 .input-container {
   display: flex;
   flex-direction: column;
@@ -9,18 +11,17 @@
     margin-bottom: 6px;
     
     .required {
-      color: red;
+      color: $color-error;
     }
   }
   
   input {
-    padding: 10px;
+    padding: 8px;
     border: 1px solid #ccccccee;
     border-radius: 4px;
     font-size: 14px;
     font-family: 'Poppins';
     width: 100%;
-    
     
     &:focus {
       outline: none;
@@ -31,11 +32,21 @@
       background-color: #f5f5f5;
       cursor: not-allowed;
     }
+
+    &.input-error {
+      border-color: $color-error;
+      
+      &:focus {
+        border-color: $color-error;
+        box-shadow: 0 0 0 2px rgba(229, 57, 53, 0.2);
+      }
+    }
   }
 }
 
+
 .required {
-  color: #e53935;
+  color: $color-error;
   margin-left: 2px;
 }
 

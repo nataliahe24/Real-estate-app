@@ -9,14 +9,21 @@ import { SearchFormComponent } from './search-form/search-form.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { NotificationService } from '@app/core/services/notifications/notification.service';
 import { SharedComponentsModule } from '@app/shared/shared-components.module';
-
+import { DepartmentSelectComponent } from './department-select/department-select.component';
+import { CitySelectComponent } from './city-select/city-select.component';
+import { LocationListComponent } from './location-list/location-list.component';
+import { CategorySelectComponent } from './category-select/category-select.component';
 
 @NgModule({
   declarations: [
     CategoryFormComponent,
     CategoryListComponent,
     PropertyCardComponent,
-    SearchFormComponent
+    SearchFormComponent,
+    DepartmentSelectComponent,
+    CitySelectComponent,
+    LocationListComponent,
+    CategorySelectComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +37,11 @@ import { SharedComponentsModule } from '@app/shared/shared-components.module';
     CategoryFormComponent,
     CategoryListComponent,
     PropertyCardComponent,
-    SearchFormComponent
+    SearchFormComponent,
+    DepartmentSelectComponent,
+    CitySelectComponent,
+    LocationListComponent,
+    CategorySelectComponent
   ],
   providers: [
     NotificationService

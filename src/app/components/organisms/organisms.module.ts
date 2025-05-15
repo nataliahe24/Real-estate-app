@@ -5,10 +5,11 @@ import { SharedComponentsModule } from '../../shared/shared-components.module';
 import { CategoryManagerComponent } from './category-manager/category-manager.component';
 import { NotificationContainerComponent } from './notification-container/notification-container.component';
 import { AtomsModule } from '../atoms/atoms.module';
-import { MoleculesModule } from '../molecules/molecules.module';
 import { CategoryFormComponent } from '../molecules/category-form/category-form.component';
 import { NotificationComponent } from '../atoms/notification/notification.component';
 import { PropertiesGridComponent } from './properties-grid/properties-grid.component';
+import { LocationFormComponent } from './location-form/location-form.component';
+import { MoleculesModule } from '../molecules/molecules.module';
 
 
 @NgModule({
@@ -16,7 +17,7 @@ import { PropertiesGridComponent } from './properties-grid/properties-grid.compo
     CategoryManagerComponent,
     NotificationContainerComponent,
     PropertiesGridComponent,
-  
+    LocationFormComponent
   ],
   imports: [
     CommonModule,
@@ -28,9 +29,8 @@ import { PropertiesGridComponent } from './properties-grid/properties-grid.compo
   exports: [
     CategoryManagerComponent,
     NotificationContainerComponent,
-    CategoryFormComponent,
     PropertiesGridComponent,
-   
+    LocationFormComponent
   ]
 })
 export class OrganismsModule {} 

@@ -14,6 +14,10 @@ const routes: Routes = [
     path: 'properties',
     loadChildren: () => import('./pages/properties/properties.module').then(m => m.PropertiesModule)
   },
+  {
+    path: 'locations',
+    loadChildren: () => import('./pages/locations/locations.module').then(m => m.LocationsModule)
+  },
 
 ];
 

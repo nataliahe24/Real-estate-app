@@ -1,0 +1,14 @@
+<app-select
+  id="department"
+  label="Departamento"
+  [required]="true"
+  [options]="departments"
+  [value]="value"
+  (change)="onValueChange($event)"
+  [disabled]="disabled"
+  placeholder="Seleccione un departamento">
+</app-select>
+
+<div *ngIf="departments.length === 0" class="loading-message">
+  Cargando departamentos...
+</div> 
