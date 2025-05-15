@@ -1,0 +1,75 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="users-form">
+    <section class="white-section">
+  <div class="form-row">
+    <app-input
+      label="Nombre"
+      formControlName="firstName"
+      [errorMessage]="getErrorMessage('firstName')"
+      placeholder="Ingrese su nombre"
+    ></app-input>
+
+    <app-input
+      label="Apellido"
+      formControlName="lastName"
+      [errorMessage]="getErrorMessage('lastName')"
+      placeholder="Ingrese su apellido"
+    ></app-input>
+  </div>
+
+  <div class="form-row">
+    <app-input
+      label="Documento de Identidad"
+      formControlName="identityDocument"
+      [errorMessage]="getErrorMessage('identityDocument')"
+      placeholder="Ingrese su documento"
+      type="number"
+    ></app-input>
+
+    <app-input
+      label="Teléfono"
+      formControlName="phoneNumber"
+      [errorMessage]="getErrorMessage('phoneNumber')"
+      placeholder="+573005698325"
+    ></app-input>
+  </div>
+
+  <div class="form-row">
+    <app-input
+      label="Fecha de Nacimiento"
+      formControlName="birthDate"
+      [errorMessage]="getErrorMessage('birthDate')"
+      type="date"
+      [maxLength]="10"
+    ></app-input>
+
+    <app-input
+      label="Correo Electrónico"
+      formControlName="email"
+      [errorMessage]="getErrorMessage('email')"
+      placeholder="ejemplo@correo.com"
+      type="email"
+    ></app-input>
+  </div>
+
+  <div class="form-row">
+    <app-input
+      label="Contraseña"
+      formControlName="password"
+      [errorMessage]="getErrorMessage('password')"
+      type="password"
+      placeholder="Ingrese su contraseña"
+    ></app-input>
+  </div>
+
+  <div class="form-actions">
+    <app-button 
+      variant="primary"
+      [disabled]="!userForm.valid"
+      (click)="onSubmit()"
+      label="Crear usuario"
+      class="button-primary"
+    >
+    </app-button>
+  </div>
+</section>
+</form>

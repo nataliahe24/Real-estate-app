@@ -10,7 +10,7 @@ import { NotificationComponent } from '../atoms/notification/notification.compon
 import { PropertiesGridComponent } from './properties-grid/properties-grid.component';
 import { LocationFormComponent } from './location-form/location-form.component';
 import { MoleculesModule } from '../molecules/molecules.module';
-
+import { UsersFormModule } from './users-form/users-form.module';
 
 @NgModule({
   declarations: [
@@ -24,13 +24,15 @@ import { MoleculesModule } from '../molecules/molecules.module';
     FormsModule,
     SharedComponentsModule,
     AtomsModule,
-    MoleculesModule
+    MoleculesModule,
+    UsersFormModule
   ],
   exports: [
     CategoryManagerComponent,
     NotificationContainerComponent,
     PropertiesGridComponent,
-    LocationFormComponent
+    LocationFormComponent,
+    UsersFormModule
   ]
 })
-export class OrganismsModule {} 
+export class OrganismsModule { } 
