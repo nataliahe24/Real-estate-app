@@ -81,32 +81,6 @@ export class UsersFormComponent implements OnInit {
     });
   }
 
-  getErrorMessage(controlName: string): string {
-    const control = this.userForm.get(controlName);
-    if (!control || !control.errors || !control.touched) {
-      return '';
-    }
-
-    const errors = control.errors;
-    if (errors['required']) {
-      return 'Este campo es requerido';
-    }
-    if (errors['email']) {
-      return 'Ingrese un correo electrónico válido';
-    }
-    if (errors['minlength']) {
-      return `Mínimo ${errors['minlength'].requiredLength} caracteres`;
-    }
-    if (errors['pattern']) {
-      if (controlName === 'phoneNumber') {
-        return 'El teléfono debe comenzar con + seguido de números';
-      }
-      if (controlName === 'identityDocument') {
-        return 'Solo se permiten números';
-      }
-    }
-    return 'Campo inválido';
-  }
 
   onSubmit(): void {
     if (this.userForm.valid) {
