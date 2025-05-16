@@ -34,8 +34,8 @@
   <div class="form-actions">
     <app-button 
       type="primary"
-      [isSubmit]="true"
       [disabled]="categoryForm.invalid"
+      (click)="createCategory()"
       label="Crear">
     </app-button>
   </div>

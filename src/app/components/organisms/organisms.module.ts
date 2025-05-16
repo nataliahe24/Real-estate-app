@@ -5,8 +5,6 @@ import { SharedComponentsModule } from '../../shared/shared-components.module';
 import { CategoryManagerComponent } from './category-manager/category-manager.component';
 import { NotificationContainerComponent } from './notification-container/notification-container.component';
 import { AtomsModule } from '../atoms/atoms.module';
-import { CategoryFormComponent } from '../molecules/category-form/category-form.component';
-import { NotificationComponent } from '../atoms/notification/notification.component';
 import { PropertiesGridComponent } from './properties-grid/properties-grid.component';
 import { LocationFormComponent } from './location-form/location-form.component';
 import { MoleculesModule } from '../molecules/molecules.module';
