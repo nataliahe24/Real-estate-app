@@ -4,15 +4,17 @@
     <app-input
       label="Nombre"
       formControlName="firstName"
-      [errorMessage]="getErrorMessage('firstName')"
       placeholder="Ingrese su nombre"
+      [required]="true"
+      [ngClass]="userForm.get('firstName')?.touched && userForm.get('firstName')?.invalid ? 'input-error' : ''"
     ></app-input>
 
     <app-input
       label="Apellido"
       formControlName="lastName"
-      [errorMessage]="getErrorMessage('lastName')"
       placeholder="Ingrese su apellido"
+      [required]="true"
+      [ngClass]="userForm.get('lastName')?.touched && userForm.get('lastName')?.invalid ? 'input-error' : ''"
     ></app-input>
   </div>
 
@@ -20,16 +22,18 @@
     <app-input
       label="Documento de Identidad"
       formControlName="identityDocument"
-      [errorMessage]="getErrorMessage('identityDocument')"
       placeholder="Ingrese su documento"
       type="number"
-    ></app-input>
+      [required]="true"
+      [ngClass]="userForm.get('identityDocument')?.touched && userForm.get('identityDocument')?.invalid ? 'input-error' : ''"
+    ></app-input> 
 
     <app-input
       label="Teléfono"
       formControlName="phoneNumber"
-      [errorMessage]="getErrorMessage('phoneNumber')"
       placeholder="+573005698325"
+      [required]="true"
+      [ngClass]="userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.invalid ? 'input-error' : ''"
     ></app-input>
   </div>
 
@@ -37,27 +41,30 @@
     <app-input
       label="Fecha de Nacimiento"
       formControlName="birthDate"
-      [errorMessage]="getErrorMessage('birthDate')"
       type="date"
+      [required]="true"
       [maxLength]="10"
+      [ngClass]="userForm.get('birthDate')?.touched && userForm.get('birthDate')?.invalid ? 'input-error' : ''"
     ></app-input>
 
     <app-input
       label="Correo Electrónico"
       formControlName="email"
-      [errorMessage]="getErrorMessage('email')"
       placeholder="ejemplo@correo.com"
       type="email"
+      [required]="true"
+      [ngClass]="userForm.get('email')?.touched && userForm.get('email')?.invalid ? 'input-error' : ''"
     ></app-input>
   </div>
 
   <div class="form-row">
     <app-input
       label="Contraseña"
-      formControlName="password"
-      [errorMessage]="getErrorMessage('password')"
+      formControlName="password"  
       type="password"
       placeholder="Ingrese su contraseña"
+      [required]="true"
+      [ngClass]="userForm.get('password')?.touched && userForm.get('password')?.invalid ? 'input-error' : ''"
     ></app-input>
   </div>
 
@@ -65,7 +72,7 @@
     <app-button 
       variant="primary"
       [disabled]="!userForm.valid"
-      (click)="onSubmit()"
+      [isSubmit]="true"
       label="Crear usuario"
       class="button-primary"
     >
