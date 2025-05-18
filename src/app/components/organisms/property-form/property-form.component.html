@@ -1,0 +1,125 @@
+<form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" class="property-form">
+  <div class="form-section">
+    <h2>Información Básica</h2>
+    
+    <div class="form-group">
+      <label for="name">Nombre de la Propiedad</label>
+      <app-input 
+        type="text" 
+        id="name" 
+        formControlName="name" 
+        [class.invalid]="nameInfo.isDirty && !nameInfo.isValid"
+        placeholder="Ej: Casa en el centro"
+        [ngClass]="propertyForm.get('name')?.touched && propertyForm.get('name')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <div class="character-count" [class.invalid]="!nameInfo.isValid && nameInfo.isDirty">
+        <span>{{ nameInfo.currentLength }}</span>/{{ NAME_MAX_LENGTH }} caracteres
+        <span *ngIf="!nameInfo.isValid && nameInfo.isDirty" class="error-message">
+          (Mínimo {{ NAME_MIN_LENGTH }} caracteres)
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Dirección</label>
+      <app-input 
+        id="address" 
+        formControlName="address"
+        [class.invalid]="addressInfo.isDirty && !addressInfo.isValid"
+        placeholder="Ej: Calle 123, Ciudad"
+      ></app-input>
+      <div class="char-counter" [class.warning]="addressInfo.remainingChars < 20">
+        {{ addressInfo.remainingChars }} caracteres restantes
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descripción</label>
+      <app-textarea 
+        id="description" 
+        formControlName="description"
+        [class.invalid]="descriptionInfo.isDirty && !descriptionInfo.isValid"
+        placeholder="Describe tu propiedad..."
+        rows="4"
+      ></app-textarea>
+      <div class="char-counter" [class.warning]="descriptionInfo.remainingChars < 50">
+        {{ descriptionInfo.remainingChars }} caracteres restantes
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h2>Detalles</h2>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label for="category">Categoría</label>
+        <app-category-select
+          id="category"
+          formControlName="category"
+        ></app-category-select>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Ubicación</label>
+        <app-location-select
+          id="location"
+          formControlName="location"
+        ></app-location-select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="rooms">Habitaciones</label>
+        <app-input 
+          type="number" 
+          id="rooms" 
+          formControlName="rooms"
+          min="0"
+        ></app-input>
+      </div>
+
+      <div class="form-group">
+        <label for="bathrooms">Baños</label>
+        <app-input 
+          type="number" 
+          id="bathrooms" 
+          formControlName="bathrooms"
+          min="0"
+        ></app-input>
+      </div>
+
+      <div class="form-group">
+        <label for="price">Precio</label>
+        <app-input 
+          type="number" 
+          id="price" 
+          formControlName="price"
+          min="0"
+        ></app-input>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="activePublicationDate">Fecha de Publicación</label>
+      <app-input 
+        type="date" 
+        id="activePublicationDate" 
+        formControlName="activePublicationDate"
+      ></app-input>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <app-button 
+      type="secondary" 
+      (click)="onCancel()"
+    >Cancelar</app-button>
+    <app-button 
+      type="primary" 
+      [disabled]="!propertyForm.valid"
+      label="Publicar"
+    ></app-button>
+  </div>
+</form> 
