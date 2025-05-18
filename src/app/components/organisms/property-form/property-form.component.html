@@ -121,12 +121,9 @@
 
   <div class="form-actions">
     <app-button 
-      type="secondary" 
-      (click)="onCancel()"
-    >Cancelar</app-button>
-    <app-button 
       type="primary" 
-      [disabled]="!propertyForm.valid"
+      
+      [isSubmit]="true"
       label="Publicar"
     ></app-button>
   </div>

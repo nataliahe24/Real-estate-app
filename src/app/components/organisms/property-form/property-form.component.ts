@@ -86,6 +86,7 @@ export class PropertyFormComponent {
   }
 
   onSubmit(): void {
+    console.log('Formulario:', this.propertyForm.value);
     if (this.propertyForm.valid) {
       this.submitForm.emit(this.propertyForm.value);
     }

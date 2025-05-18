@@ -8,6 +8,7 @@ import { PropertyResponse } from '../../../core/models/property.model';
 })
 export class PropertyCardComponent {
   @Input() property!: PropertyResponse;
+  type = 'Venta';
   propertyImages = [
     'assets/images/casa-1.png',
     'assets/images/casa-2.png',

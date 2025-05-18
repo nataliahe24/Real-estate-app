@@ -14,6 +14,9 @@ export class LocationSelectComponent implements OnInit {
   locations: LocationResponse[] = [];
   isLoading = true;
   error: string | null = null;
+  searchText = '';
+  filteredLocations: LocationResponse[] = [];
+  showDropdown = false;
 
   constructor(private locationService: LocationService) {}
 
@@ -31,6 +34,7 @@ export class LocationSelectComponent implements OnInit {
             const cityB = b.cityName.toLowerCase();
             return cityA.localeCompare(cityB);
           });
+          this.filteredLocations = this.locations;
         } else {
           this.error = 'El formato de ubicaciones es incorrecto';
         }
@@ -47,10 +51,22 @@ export class LocationSelectComponent implements OnInit {
     return `Barrio ${location.neighborhood || 'Sin barrio'}, ${location.cityName}, ${location.department}`;
   }
 
-  onLocationSelected(): void {
-    const selectedLocation = this.locations.find(loc => loc.id === this.selectedLocationId);
-    if (selectedLocation) {
-      this.locationSelected.emit(selectedLocation.id);
-    }
+  onSearchChange(): void {
+    const text = this.searchText.toLowerCase();
+    this.filteredLocations = this.locations.filter(loc =>
+      this.getLocationDisplay(loc).toLowerCase().includes(text)
+    );
+    this.showDropdown = true;
+  }
+
+  selectLocation(location: LocationResponse): void {
+    this.selectedLocationId = location.id;
+    this.searchText = this.getLocationDisplay(location);
+    this.locationSelected.emit(location.id);
+    this.showDropdown = false;
+  }
+
+  onBlur(): void {
+    setTimeout(() => this.showDropdown = false, 200);
   }
 } 
