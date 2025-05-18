@@ -14,7 +14,9 @@
   </header>
 
   <div class="content-wrapper">
-    <app-sidebar></app-sidebar>
+    <app-sidebar
+      [menuItems]="menuItems"
+    ></app-sidebar>
     
     <main class="main-content">
       <ng-content></ng-content>
