@@ -35,7 +35,7 @@ import { UsersFormComponent } from './users-form/users-form.component';
     SharedComponentsModule,
     AtomsModule,
     MoleculesModule
-  ],
+],
   exports: [
     CategoryManagerComponent,
     NotificationContainerComponent,

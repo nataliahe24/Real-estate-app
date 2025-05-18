@@ -1,0 +1,17 @@
+<div class="location-select-container">
+  <select 
+    [disabled]="isLoading" 
+    [(ngModel)]="selectedLocationId" 
+    (change)="onLocationSelected()"
+    class="location-select">
+    <option [ngValue]="null">Seleccione una ubicación</option>
+    <ng-container *ngIf="!isLoading && !error">
+      <option *ngFor="let location of locations" [ngValue]="location.id">
+        {{ getLocationDisplay(location) }}
+      </option>
+    </ng-container>
+  </select>
+  
+  <div *ngIf="isLoading" class="loading">Cargando ubicaciones...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+</div> 

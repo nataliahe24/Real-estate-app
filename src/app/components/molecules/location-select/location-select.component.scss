@@ -1,26 +1,32 @@
 @use '../../../shared/styles/_colors' as *;
 
-.category-select-container {
+.location-select-container {
   position: relative;
   width: 100%;
   max-width: 100%;
-  
 }
 
-.category-select {
+.location-select {
   width: 100%;
+  max-width: 100%;
   padding: 8px 12px;
   border: 1px solid $color-border;
   border-radius: 4px;
   font-size: 14px;
+  box-sizing: border-box;
   
   &:disabled {
     background-color: $color-light;
     cursor: not-allowed;
   }
+
+  option {
+    font-size:  14px;
+  }
   &:focus {
     border-color: $color-primary;
   }
+  
 }
 
 .loading, .error {

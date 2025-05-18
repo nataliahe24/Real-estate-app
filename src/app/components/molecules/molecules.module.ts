@@ -12,6 +12,7 @@ import { DepartmentSelectComponent } from './department-select/department-select
 import { CitySelectComponent } from './city-select/city-select.component';
 import { LocationListComponent } from './location-list/location-list.component';
 import { CategorySelectComponent } from './category-select/category-select.component';
+import { LocationSelectComponent } from './location-select/location-select.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CategorySelectComponent } from './category-select/category-select.compo
     DepartmentSelectComponent,
     CitySelectComponent,
     LocationListComponent,
-    CategorySelectComponent
+    CategorySelectComponent,
+    LocationSelectComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +41,8 @@ import { CategorySelectComponent } from './category-select/category-select.compo
     DepartmentSelectComponent,
     CitySelectComponent,
     LocationListComponent,
-    CategorySelectComponent
+    CategorySelectComponent,
+    LocationSelectComponent
   ],
   providers: [
     NotificationService

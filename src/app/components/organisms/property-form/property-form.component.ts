@@ -12,10 +12,12 @@ export class PropertyFormComponent {
 
   propertyForm: FormGroup;
 
-  readonly NAME_MAX_LENGTH = 100;
   readonly NAME_MIN_LENGTH = 3;
+  readonly NAME_MAX_LENGTH = 100;
+  readonly ADDRESS_MIN_LENGTH = 3;
   readonly ADDRESS_MAX_LENGTH = 200;
-  readonly DESC_MAX_LENGTH = 500;
+  readonly DESCRIPTION_MIN_LENGTH = 3;
+  readonly DESCRIPTION_MAX_LENGTH = 500;
   readonly PRICE_MIN = 0;
   readonly ROOMS_MIN = 0;
   readonly BATHROOMS_MIN = 0;
@@ -32,7 +34,7 @@ export class PropertyFormComponent {
       ]],
       description: ['', [
         Validators.required,
-        Validators.maxLength(this.DESC_MAX_LENGTH)
+        Validators.maxLength(this.DESCRIPTION_MAX_LENGTH)
       ]],
       category: ['', [Validators.required]],
       rooms: [0, [
@@ -77,7 +79,7 @@ export class PropertyFormComponent {
     const control = this.propertyForm.get('description');
     return {
       currentLength: control?.value?.length || 0,
-      remainingChars: this.DESC_MAX_LENGTH - (control?.value?.length || 0),
+      remainingChars: this.DESCRIPTION_MAX_LENGTH - (control?.value?.length || 0),
       isValid: control?.valid,
       isDirty: control?.dirty
     };

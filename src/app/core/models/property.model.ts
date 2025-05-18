@@ -1,5 +1,17 @@
 export interface Property {
-  
+  id?: number;
+  name: string;
+  address: string;
+  description: string;
+  category: number;
+  rooms: number;
+  bathrooms: number;
+  price: number;
+  location: number;
+  activePublicationDate: string;
+  sellerId: number;
+}
+
 export interface PropertyResponse {
   id: number;
   name: string;

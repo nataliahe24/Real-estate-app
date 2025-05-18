@@ -27,9 +27,13 @@
         formControlName="address"
         [class.invalid]="addressInfo.isDirty && !addressInfo.isValid"
         placeholder="Ej: Calle 123, Ciudad"
+        [ngClass]="propertyForm.get('address')?.touched && propertyForm.get('address')?.invalid ? 'input-error' : ''"
       ></app-input>
-      <div class="char-counter" [class.warning]="addressInfo.remainingChars < 20">
-        {{ addressInfo.remainingChars }} caracteres restantes
+      <div class="character-count" [class.invalid]="!addressInfo.isValid && addressInfo.isDirty">
+        <span>{{ addressInfo.currentLength }}</span>/{{ ADDRESS_MAX_LENGTH }} caracteres
+        <span *ngIf="!addressInfo.isValid && addressInfo.isDirty" class="error-message">
+          (Mínimo {{ ADDRESS_MIN_LENGTH }} caracteres)
+        </span>
       </div>
     </div>
 
@@ -41,9 +45,13 @@
         [class.invalid]="descriptionInfo.isDirty && !descriptionInfo.isValid"
         placeholder="Describe tu propiedad..."
         rows="4"
+        [ngClass]="propertyForm.get('description')?.touched && propertyForm.get('description')?.invalid ? 'input-error' : ''"
       ></app-textarea>
-      <div class="char-counter" [class.warning]="descriptionInfo.remainingChars < 50">
-        {{ descriptionInfo.remainingChars }} caracteres restantes
+      <div class="character-count" [class.invalid]="!descriptionInfo.isValid && descriptionInfo.isDirty">
+        <span>{{ descriptionInfo.currentLength }}</span>/{{ DESCRIPTION_MAX_LENGTH }} caracteres
+        <span *ngIf="!descriptionInfo.isValid && descriptionInfo.isDirty" class="error-message">
+          (Mínimo {{ DESCRIPTION_MIN_LENGTH }} caracteres)
+        </span>
       </div>
     </div>
   </div>
