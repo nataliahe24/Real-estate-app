@@ -4,20 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AtomsModule } from '../components/atoms/atoms.module';
 
 @NgModule({
-  declarations: [
-    
-  ],
+  declarations: [],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    AtomsModule 
+    AtomsModule
   ],
   exports: [
-    
-    AtomsModule,
+    CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AtomsModule
   ]
 })
-export class SharedComponentsModule {} 
+export class SharedComponentsModule { } 

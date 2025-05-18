@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MainLayoutComponent } from './components/templates/category-layout/main-layout.component';
 import { PropertiesLayoutComponent } from './components/templates/properties-layout/properties-layout.component';
 import { PropertiesComponent } from './pages/properties/properties.component';
+import { PublishPropertyComponent } from './pages/publish-property/publish-property.component';
 
 const routes: Routes = [
 
@@ -22,6 +23,10 @@ const routes: Routes = [
     path: 'users',
     loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule)
   },
+  {
+    path: 'publish',
+    loadChildren: () => import('./pages/publish-property/publish-property.module').then(m => m.PublishPropertyModule)
+  }
 
 ];
 

@@ -6,7 +6,6 @@ import { CategoryFormComponent } from './category-form/category-form.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { PropertyCardComponent } from './property-card/property-card.component';
 import { SearchFormComponent } from './search-form/search-form.component';
-import { SharedModule } from '@app/shared/shared.module';
 import { NotificationService } from '@app/core/services/notifications/notification.service';
 import { SharedComponentsModule } from '@app/shared/shared-components.module';
 import { DepartmentSelectComponent } from './department-select/department-select.component';
@@ -30,7 +29,6 @@ import { CategorySelectComponent } from './category-select/category-select.compo
     FormsModule,
     ReactiveFormsModule,
     AtomsModule,
-    SharedModule,
     SharedComponentsModule
   ],
   exports: [

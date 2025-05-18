@@ -9,11 +9,13 @@ import { OrganismsModule } from '../components/organisms/organisms.module';
 import { MoleculesModule } from '../components/molecules/molecules.module';
 import { CategoriesComponent } from './categories/categories.component';
 import { PropertiesComponent } from './properties/properties.component';
+import { PublishPropertyComponent } from './publish-property/publish-property.component';
 
 @NgModule({
   declarations: [
     CategoriesComponent,
-    PropertiesComponent
+    PropertiesComponent,
+    PublishPropertyComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { PropertiesComponent } from './properties/properties.component';
   ],
   exports: [
     CategoriesComponent,
-    PropertiesComponent
+    PropertiesComponent,
+    PublishPropertyComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

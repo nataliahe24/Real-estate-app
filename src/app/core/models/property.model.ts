@@ -1,11 +1,5 @@
-export enum PublicationStatus {
-  FOR_RENT = 'FOR_RENT',
-  FOR_SALE = 'FOR_SALE',
-  SOLD = 'SOLD',
-  RENTED = 'RENTED',
-  INACTIVE = 'INACTIVE'
-}
-
+export interface Property {
+  
 export interface PropertyResponse {
   id: number;
   name: string;
@@ -30,7 +24,6 @@ export interface PropertyFilter {
   maxPrice?: number;
   rooms?: number;
   bathrooms?: number;
-  publicationStatus?: PublicationStatus;
 } 
 
 export interface PaginatedPropertiesResponse {
