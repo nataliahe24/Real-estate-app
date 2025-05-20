@@ -9,7 +9,7 @@ import { environment } from '@env/environment';
   providedIn: 'root'
 })
 export class UsersService {
-  private readonly API_URL = `${environment.apiUrl}users/`;
+  private readonly API_URL = `${environment.apiUrlUsers}`;
   private readonly SELLER_ROLE_ID = 3;
 
   constructor(private readonly http: HttpClient) {}
@@ -34,6 +34,9 @@ export class UsersService {
     return this.http.post<User>(this.API_URL, userWithRole, httpOptions).pipe(
       catchError((error) => {
         console.error('Error in createUser:', error);
+        if (error.error?.message?.includes('El usuario ya existe')) {
+          return throwError(() => new Error('Ya existe un usuario registrado con este correo electrónico'));
+        }
         return throwError(() => error);
       })
     );
@@ -45,15 +48,15 @@ export class UsersService {
     const identityDocumentRegex = /^[0-9]+$/;
 
     if (!emailRegex.test(userData.email)) {
-      throw new Error('Invalid email format');
+      throw new Error('El correo electrónico ingresado no tiene un formato inválido.');
     }
 
     if (!phoneRegex.test(userData.phoneNumber)) {
-      throw new Error('Phone number must be between 10 and 13 digits and may include +');
+      throw new Error("El numero de telefono no puede exceder los 13 caracteres");
     }
 
     if (!identityDocumentRegex.test(userData.identityDocument.toString())) {
-      throw new Error('Identity document must contain only numbers');
+      throw new Error('El documento de identidad debe contener solo números');
     }
 
     const birthDate = new Date(userData.birthDate);
@@ -66,7 +69,7 @@ export class UsersService {
     }
 
     if (age < 18) {
-      throw new Error('User must be at least 18 years old');
+      throw new Error('La edad del usuario no cumple con el mínimo permitido');
     }
   }
 } 
