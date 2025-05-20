@@ -70,15 +70,14 @@ export class CategoryService {
       params: params
     };
     
-    console.log('Full request URL:', `${this.apiUrl}?${params.toString()}`);
     
     return this.http.get<any>(this.apiUrl, options).pipe(
       tap(data => {
         console.log('Categories received raw data:', data);
         if (data && data.content) {
-          console.log(`Received ${data.content.length} categories from page ${data.number} of ${data.totalPages}`);
+          
         } else {
-          console.log('Response format is not paginated or empty');
+          
         }
       }),
       catchError(this.handleError)
