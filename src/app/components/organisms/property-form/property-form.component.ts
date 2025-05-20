@@ -14,11 +14,11 @@ export class PropertyFormComponent {
   propertyForm: FormGroup;
 
   readonly NAME_MIN_LENGTH = 3;
-  readonly NAME_MAX_LENGTH = 100;
+  readonly NAME_MAX_LENGTH = 50;
   readonly ADDRESS_MIN_LENGTH = 3;
-  readonly ADDRESS_MAX_LENGTH = 200;
+  readonly ADDRESS_MAX_LENGTH = 100;
   readonly DESCRIPTION_MIN_LENGTH = 3;
-  readonly DESCRIPTION_MAX_LENGTH = 500;
+  readonly DESCRIPTION_MAX_LENGTH = 200;
   readonly PRICE_MIN = 0;
   readonly ROOMS_MIN = 0;
   readonly BATHROOMS_MIN = 0;
