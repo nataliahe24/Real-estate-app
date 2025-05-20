@@ -17,7 +17,7 @@ export class UsersFormComponent implements OnInit {
   readonly PHONE_NUMBER_MIN_LENGTH = 10;
   readonly PHONE_NUMBER_MAX_LENGTH = 13;
   readonly IDENTITY_DOCUMENT_MIN_LENGTH = 7;
-  readonly IDENTITY_DOCUMENT_MAX_LENGTH = 13;
+  readonly IDENTITY_DOCUMENT_MAX_LENGTH = 10;
   readonly PASSWORD_MIN_LENGTH = 8;
   readonly FIRST_NAME_MIN_LENGTH = 2;
   readonly LAST_NAME_MIN_LENGTH = 2;
