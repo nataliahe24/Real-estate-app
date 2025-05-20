@@ -16,7 +16,7 @@ describe('PropertiesComponent', () => {
       getProperties: jest.fn().mockReturnValue(of(MOCK_PROPERTIES))
     };
     categoryServiceMock = {
-      getCategoryNames: jest.fn().mockReturnValue(of(MOCK_CATEGORIES.map(c => c.name)))
+      getCategories: jest.fn().mockReturnValue(of(MOCK_CATEGORIES.map(c => c.name)))
     };
 
     await TestBed.configureTestingModule({
