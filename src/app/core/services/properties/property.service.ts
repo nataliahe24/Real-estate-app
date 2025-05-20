@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, map, pipe, throwError } from 'rxjs';
-import { PropertyResponse, PropertyFilter, PaginatedPropertiesResponse } from '../../models/property.model';
+import { PropertyResponse, PropertyFilter, PaginatedPropertiesResponse, Property } from '../../models/property.model';
 import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -15,7 +15,6 @@ export class PropertyService {
     
     this.apiUrl = `${this.apiUrl.endsWith('/') ? this.apiUrl.slice(0, -1) : this.apiUrl}/list`;
     
-    console.log('URL base configurada:', this.apiUrl);
   }
 
   getProperties(filters: { [key: string]: any } = {}): Observable<PropertyResponse[]> {
@@ -30,11 +29,8 @@ export class PropertyService {
     
     params = params.append('page', '0');
     params = params.append('size', '20');
-    
     params = params.append('orderAsc', 'true');
     
-    console.log('Request URL:', this.apiUrl);
-    console.log('Parameters:', params.toString());
 
     return this.http.get<PaginatedPropertiesResponse>(this.apiUrl, { params })
       .pipe(
@@ -49,23 +45,7 @@ export class PropertyService {
       );
   }
 
-  getPropertyById(id: number): Observable<PropertyResponse> {
-    return this.http.get<PropertyResponse>(`${this.apiUrl}/${id}`);
-  }
-
-  getPropertiesByLocation(locationId: number): Observable<PropertyResponse[]> {
-    return this.http.get<PropertyResponse[]>(`${this.apiUrl}/location/${locationId}`);
-  }
-
-  getPropertiesBySeller(sellerId: number): Observable<PropertyResponse[]> {
-    return this.http.get<PropertyResponse[]>(`${this.apiUrl}/seller/${sellerId}`);
-  }
-
-  getPropertiesByCategory(category: string): Observable<PropertyResponse[]> {
-    return this.http.get<PropertyResponse[]>(`${this.apiUrl}/category/${category}`);
-  }
-
-  getPropertiesByStatus(status: string): Observable<PropertyResponse[]> {
-    return this.http.get<PropertyResponse[]>(`${this.apiUrl}/status/${status}`);
+  createProperty(property: Property): Observable<Property> {
+    return this.http.post<Property>(`${environment.apiUrlProperties}/`, property);
   }
 }
