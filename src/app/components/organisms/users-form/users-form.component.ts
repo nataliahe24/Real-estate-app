@@ -50,6 +50,15 @@ export class UsersFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.userForm.get('phoneNumber')?.valueChanges.subscribe(value => {
+      this.phoneNumberInfo.currentLength = value?.length || 0;
+      this.phoneNumberInfo.isDirty = this.userForm.get('phoneNumber')?.dirty || false;
+    });
+
+    this.userForm.get('identityDocument')?.valueChanges.subscribe(value => {
+      this.identityDocumentInfo.currentLength = value?.length || 0;
+      this.identityDocumentInfo.isDirty = this.userForm.get('identityDocument')?.dirty || false;
+    });
   }
 
   private initForm(): void {

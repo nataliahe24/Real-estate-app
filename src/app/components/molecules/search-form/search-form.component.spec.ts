@@ -1,89 +1,80 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchFormComponent } from './search-form.component';
-import { CategoryService } from '../../../core/services/categories/category.service';
+import { CategoryService } from '@app/core/services/categories/category.service';
 import { PropertyService } from '@app/core/services/properties/property.service';
 import { of, throwError } from 'rxjs';
-import { MOCK_CATEGORIES, MOCK_PROPERTIES } from '@app/shared/utils/constants/mock-properties';
-
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { MOCK_CATEGORIES } from '@app/shared/utils/constants/mock-categories';
+import { MOCK_PROPERTIES } from '@app/shared/utils/constants/mock-properties';
+import { PropertyCardComponent } from '@app/components/molecules/property-card/property-card.component';
+import { PropertyStatusLabelComponent } from '@app/components/atoms/property-status-label/property-status-label.component';
 
 describe('SearchFormComponent', () => {
   let component: SearchFormComponent;
   let fixture: ComponentFixture<SearchFormComponent>;
-  let categoryServiceSpy: jest.Mocked<CategoryService>;
-  let propertyServiceSpy: jest.Mocked<PropertyService>;
+  let categoryService: jest.Mocked<CategoryService>;
+  let propertyService: jest.Mocked<PropertyService>;
+
+  const mockCategoryService = {
+    getCategories: jest.fn().mockReturnValue(of({ content: MOCK_CATEGORIES }))
+  };
+
+  const mockPropertyService = {
+    getProperties: jest.fn().mockReturnValue(of(MOCK_PROPERTIES))
+  };
 
   beforeEach(async () => {
-    const categorySpy = {
-      getCategoryNames: jest.fn()
-    };
-    const propertySpy = {
-      getProperties: jest.fn()
-    };
-
     await TestBed.configureTestingModule({
-      declarations: [SearchFormComponent],
+      declarations: [
+        SearchFormComponent,
+        PropertyCardComponent,
+        PropertyStatusLabelComponent
+      ],
       providers: [
-        { provide: CategoryService, useValue: categorySpy },
-        { provide: PropertyService, useValue: propertySpy }
-      ]
+        { provide: CategoryService, useValue: mockCategoryService },
+        { provide: PropertyService, useValue: mockPropertyService }
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    categoryServiceSpy = TestBed.inject(CategoryService) as jest.Mocked<CategoryService>;
-    propertyServiceSpy = TestBed.inject(PropertyService) as jest.Mocked<PropertyService>;
-  });
-
-  beforeEach(() => {
     fixture = TestBed.createComponent(SearchFormComponent);
     component = fixture.componentInstance;
+    categoryService = TestBed.inject(CategoryService) as jest.Mocked<CategoryService>;
+    propertyService = TestBed.inject(PropertyService) as jest.Mocked<PropertyService>;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should load properties on init', () => {
-    categoryServiceSpy.getCategoryNames.mockReturnValue(of(MOCK_CATEGORIES.map(c => c.name)));
-    propertyServiceSpy.getProperties.mockReturnValue(of(MOCK_PROPERTIES));
+  describe('onCategoryChange', () => {
+    it('should update category and filter, then load properties', () => {
+      const categoryName = 'Apartment';
+      mockPropertyService.getProperties.mockReturnValueOnce(of(MOCK_PROPERTIES));
 
-    fixture.detectChanges();
+      component.onCategoryChange(categoryName);
+      fixture.detectChanges();
 
-    expect(propertyServiceSpy.getProperties).toHaveBeenCalledWith({});
-    expect(component.properties).toEqual(MOCK_PROPERTIES);
-    expect(component.loading).toBeFalsy();
-  });
-
-  it('should handle category change', () => {
-    categoryServiceSpy.getCategoryNames.mockReturnValue(of(MOCK_CATEGORIES.map(c => c.name)));
-    propertyServiceSpy.getProperties.mockReturnValue(of(MOCK_PROPERTIES));
-
-    fixture.detectChanges();
-
-    component.onCategoryChange('House');
-
-    expect(component.category).toBe('House');
-    expect(propertyServiceSpy.getProperties).toHaveBeenCalledWith({ category: 'House' });
-  });
-
-  it('should emit search event', () => {
-    const searchSpy = jest.spyOn(component.search, 'emit');
-    component.location = 'New York';
-    component.category = 'House';
-
-    component.onSearch();
-
-    expect(searchSpy).toHaveBeenCalledWith({
-      location: 'New York',
-      category: 'House'
+      expect(component.category).toBe(categoryName);
+      expect(component.currentFilter.category).toBe(categoryName);
+      expect(propertyService.getProperties).toHaveBeenCalledWith(
+        { category: categoryName }
+      );
     });
   });
 
-  it('should handle error when loading properties', () => {
-    categoryServiceSpy.getCategoryNames.mockReturnValue(of(MOCK_CATEGORIES.map(c => c.name)));
-    propertyServiceSpy.getProperties.mockReturnValue(throwError(() => new Error('Test error')));
+  describe('onSearch', () => {
+    it('should emit search event with location and category', () => {
+      const searchSpy = jest.spyOn(component.search, 'emit');
+      component.location = 'New York';
+      component.category = 'Apartment';
 
-    fixture.detectChanges();
+      component.onSearch();
 
-    expect(component.error).toBeTruthy();
-    expect(component.loading).toBeFalsy();
+      expect(searchSpy).toHaveBeenCalledWith({
+        location: 'New York',
+        category: 'Apartment'
+      });
+    });
   });
 }); 

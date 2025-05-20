@@ -1,4 +1,4 @@
-import { PropertyResponse, PublicationStatus } from '@app/core/models/property.model';
+import { PropertyResponse} from '@app/core/models/property.model';
 
 export const MOCK_CATEGORIES = [
   { id: '1', name: 'House', description: 'Residential house' },
@@ -16,7 +16,7 @@ export const MOCK_PROPERTIES: PropertyResponse[] = [
     category: 'House',
     rooms: 4,
     bathrooms: 2,
-    publicationStatus: PublicationStatus.FOR_SALE,
+    publicationStatus: 'PUBLISHED',
     neighborhood: 'Downtown',
     city: 'New York',
     department: 'Manhattan',
@@ -32,7 +32,7 @@ export const MOCK_PROPERTIES: PropertyResponse[] = [
     category: 'Apartment',
     rooms: 2,
     bathrooms: 1,
-    publicationStatus: PublicationStatus.FOR_RENT,
+    publicationStatus: 'PUBLISHED',
     neighborhood: 'Westside',
     city: 'Los Angeles',
     department: 'California',

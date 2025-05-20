@@ -1,24 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategorySelectComponent } from './category-select.component';
-import { CategoryService } from '@core/services/categories/category.service';
+import { CategoryService } from '@app/core/services/categories/category.service';
 import { of, throwError } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { SelectComponent } from '../../atoms/select/select.component';
 import { CommonModule } from '@angular/common';
+import { Category } from '@app/core/models/category.model';
+import { MOCK_CATEGORIES } from '../../../shared/utils/constants/mock-categories';
 
 describe('CategorySelectComponent', () => {
   let component: CategorySelectComponent;
   let fixture: ComponentFixture<CategorySelectComponent>;
   let categoryService: jest.Mocked<CategoryService>;
 
-  const mockCategories = [
-    { id: '1', name: 'Casa', description: 'Vivienda unifamiliar' },
-    { id: '2', name: 'Apartamento', description: 'Vivienda en conjunto' },
-    { id: '3', name: 'Local', description: 'Espacio comercial' }
-  ];
-
   const mockCategoryService = {
-    getCategoryNames: jest.fn()
+    getCategories: jest.fn()
   };
 
   beforeEach(async () => {
@@ -54,13 +50,17 @@ describe('CategorySelectComponent', () => {
     });
 
     it('should load categories on init', () => {
-      mockCategoryService.getCategoryNames.mockReturnValue(of(mockCategories));
+      mockCategoryService.getCategories.mockReturnValue(of({ content: MOCK_CATEGORIES }));
       fixture.detectChanges();
-      expect(categoryService.getCategoryNames).toHaveBeenCalledWith(true);
+
+      expect(categoryService.getCategories).toHaveBeenCalledWith(0, 100, true);
+      expect(component.categories).toEqual(MOCK_CATEGORIES);
+      expect(component.isLoading).toBe(false);
+      expect(component.error).toBeNull();
     });
 
     it('should handle empty category array', () => {
-      mockCategoryService.getCategoryNames.mockReturnValue(of([]));
+      mockCategoryService.getCategories.mockReturnValue(of({ content: [] }));
       fixture.detectChanges();
 
       expect(component.categories).toEqual([]);
@@ -69,7 +69,7 @@ describe('CategorySelectComponent', () => {
     });
 
     it('should handle invalid category format', () => {
-      mockCategoryService.getCategoryNames.mockReturnValue(of(null));
+      mockCategoryService.getCategories.mockReturnValue(of(null));
       fixture.detectChanges();
 
       expect(component.error).toBe('El formato de categorías es incorrecto');
@@ -78,34 +78,94 @@ describe('CategorySelectComponent', () => {
 
     it('should handle API error', () => {
       const errorMessage = 'Network error';
-      mockCategoryService.getCategoryNames.mockReturnValue(
+      mockCategoryService.getCategories.mockReturnValue(
         throwError(() => ({ message: errorMessage }))
       );
       fixture.detectChanges();
 
-      expect(component.error).toBe('Failed to load categories: ' + errorMessage);
+      expect(component.error).toBe('Error al cargar categorías: ' + errorMessage);
       expect(component.isLoading).toBe(false);
     });
   });
 
   describe('Category Selection', () => {
-    it('should emit selected category name', () => {
+    beforeEach(() => {
+      mockCategoryService.getCategories.mockReturnValue(of({ content: MOCK_CATEGORIES }));
+      fixture.detectChanges();
+    });
+
+    it('should emit selected category name and id', () => {
       const selectedCategory = 'Casa';
       component.selectedCategoryName = selectedCategory;
       
-      const spy = jest.spyOn(component.categorySelected, 'emit');
+      const categorySelectedSpy = jest.spyOn(component.categorySelected, 'emit');
+      const categoryIdSelectedSpy = jest.spyOn(component.categoryIdSelected, 'emit');
+      
       component.onCategorySelected();
 
-      expect(spy).toHaveBeenCalledWith(selectedCategory);
+      expect(categorySelectedSpy).toHaveBeenCalledWith(selectedCategory);
+      expect(categoryIdSelectedSpy).toHaveBeenCalledWith(1);
     });
 
     it('should handle category selection with empty value', () => {
       component.selectedCategoryName = '';
       
-      const spy = jest.spyOn(component.categorySelected, 'emit');
+      const categorySelectedSpy = jest.spyOn(component.categorySelected, 'emit');
+      const categoryIdSelectedSpy = jest.spyOn(component.categoryIdSelected, 'emit');
+      
       component.onCategorySelected();
 
-      expect(spy).toHaveBeenCalledWith('');
+      expect(categorySelectedSpy).toHaveBeenCalledWith('');
+      expect(categoryIdSelectedSpy).toHaveBeenCalledWith(null);
     });
-  })
-});
+
+    it('should update selected category when categoryIdSelected is called', () => {
+      const categoryId = 1;
+      const category = MOCK_CATEGORIES.find(c => Number(c.id) === categoryId);
+      component.selectedCategoryName = category?.name || '';
+      component.onCategorySelected();
+      expect(component.selectedCategoryId).toBe(categoryId);
+    });
+
+    it('should handle invalid category ID', () => {
+      const invalidId = 999;
+      component.selectedCategoryName = '';
+      component.onCategorySelected();
+      expect(component.selectedCategoryId).toBe(null);
+    });
+  });
+
+  describe('Template Integration', () => {
+    beforeEach(() => {
+      mockCategoryService.getCategories.mockReturnValue(of({ content: MOCK_CATEGORIES }));
+      fixture.detectChanges();
+    });
+
+    it('should render select element with categories', () => {
+      const compiled = fixture.nativeElement;
+      const select = compiled.querySelector('select');
+      expect(select).toBeTruthy();
+      expect(select.options.length).toBe(MOCK_CATEGORIES.length + 1); // +1 for default option
+    });
+
+    it('should show loading state', () => {
+      component.isLoading = true;
+      fixture.detectChanges();
+
+      const compiled = fixture.nativeElement;
+      const loadingElement = compiled.querySelector('.loading');
+      expect(loadingElement).toBeTruthy();
+      expect(loadingElement.textContent).toContain('Cargando categorías');
+    });
+
+    it('should show error message when error occurs', () => {
+      component.error = 'Error loading categories';
+      fixture.detectChanges();
+
+      const compiled = fixture.nativeElement;
+      const errorElement = compiled.querySelector('.error');
+      expect(errorElement).toBeTruthy();
+      expect(errorElement.textContent).toContain('Error loading categories');
+    });
+  });
+}); 
