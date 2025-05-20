@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Category } from '@app/core/models/category.model';
 import { Property } from '@app/core/models/property.model';
 
@@ -51,9 +51,39 @@ export class PropertyFormComponent {
         Validators.min(this.PRICE_MIN)
       ]],
       location: ['', [Validators.required]],
-      activePublicationDate: [new Date().toISOString().split('T')[0], [Validators.required]],
+      activePublicationDate: [new Date().toISOString().split('T')[0], [
+        Validators.required,
+        this.dateNotInPastValidator()
+      ]],
       sellerId: [3, [Validators.required]]
     });
+  }
+
+  private dateNotInPastValidator(): (control: AbstractControl) => ValidationErrors | null {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return null;
+      }
+
+      const selectedDate = new Date(control.value);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (selectedDate < today) {
+        return { dateInPast: true };
+      }
+
+      return null;
+    };
+  }
+
+  get activePublicationDateInfo() {
+    const control = this.propertyForm.get('activePublicationDate');
+    return {
+      isValid: control?.valid,
+      isDirty: control?.dirty,
+      hasError: control?.errors?.['dateInPast']
+    };
   }
 
   get nameInfo() {

@@ -111,13 +111,17 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-date">
       <label for="activePublicationDate">Fecha de Publicación</label>
       <app-input 
         type="date" 
         id="activePublicationDate" 
         formControlName="activePublicationDate"
+        [ngClass]="propertyForm.get('activePublicationDate')?.touched && propertyForm.get('activePublicationDate')?.invalid ? 'input-error' : ''"
       ></app-input>
+      <span *ngIf="!activePublicationDateInfo.isValid && activePublicationDateInfo.isDirty" class="error-message">
+        {{ activePublicationDateInfo.hasError ? 'La fecha no puede ser anterior a hoy' : ''}}
+      </span>
     </div>
   </div>
 
