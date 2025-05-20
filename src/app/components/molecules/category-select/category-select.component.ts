@@ -11,8 +11,10 @@ import { FormsModule } from '@angular/forms';
 })
 export class CategorySelectComponent implements OnInit {
   @Input() selectedCategoryName: string = '';
+  @Input() selectedCategoryId: number | null = null;
   @Output() categorySelected = new EventEmitter<string>();
-  
+  @Output() categoryIdSelected = new EventEmitter<number | null>();
+
   categories: Category[] = [];
   isLoading = true;
   error: string | null = null;
@@ -25,33 +27,30 @@ export class CategorySelectComponent implements OnInit {
 
   loadCategoryNames(): void {
     this.isLoading = true;
-    this.categoryService.getCategoryNames(true).subscribe({
-      next: (categoryNames) => {
-        if (categoryNames && Array.isArray(categoryNames)) {
-          this.categories = categoryNames.map((name: any, index) => {
-            const categoryName = typeof name === 'object' ? 
-              ((name as any).name || String(name) || `Categoría ${index+1}`) : 
-              String(name);
-            
-            return {
-              id: index.toString(),
-              name: categoryName,
-              description: ''
-            };
-          });
+    this.categoryService.getCategories(0, 100, true).subscribe({
+      next: (response) => {
+        if (response && response.content) {
+          this.categories = response.content.map((category: Category) => ({
+            id: category.id,
+            name: category.name,
+            description: category.description || ''
+          }));
         } else {
           this.error = 'El formato de categorías es incorrecto';
         }
         this.isLoading = false;
       },
       error: (err) => {
-        this.error = 'Failed to load categories: ' + err.message;
+        this.error = 'Error al cargar categorías: ' + err.message;
         this.isLoading = false;
       }
     });
   }
 
   onCategorySelected(): void {
+    const selectedCategory = this.categories.find(cat => cat.name === this.selectedCategoryName);
+    this.selectedCategoryId = selectedCategory?.id ? +selectedCategory.id : null;
     this.categorySelected.emit(this.selectedCategoryName);
+    this.categoryIdSelected.emit(this.selectedCategoryId);
   }
 }
