@@ -5,7 +5,6 @@ import { LocationModel } from '../../../core/models/location.model';
 import { MoleculesModule } from '../../molecules/molecules.module';
 import { AtomsModule } from '../../atoms/atoms.module';
 import { NotificationService } from '@app/core/services/notifications/notification.service';
-import { LocationService } from '@app/core/services/locations/location.service';
 
 @Component({
   selector: 'app-location-form',
@@ -35,7 +34,7 @@ export class LocationFormComponent {
   constructor(
     private fb: FormBuilder,
     private notificationService: NotificationService,
-    private locationService: LocationService
+    
   ) {
     this.locationForm = this.fb.group({
       city: ['', [Validators.required, Validators.minLength(this.CITY_MIN_LENGTH)]],

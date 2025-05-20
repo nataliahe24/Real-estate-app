@@ -65,6 +65,7 @@
         <app-category-select
           id="category"
           formControlName="category"
+          (categoryIdSelected)="categoryIdSelected($event)"
         ></app-category-select>
       </div>
 
@@ -73,6 +74,7 @@
         <app-location-select
           id="location"
           formControlName="location"
+          (locationSelected)="locationSelected($event)"
         ></app-location-select>
       </div>
     </div>
@@ -122,7 +124,7 @@
   <div class="form-actions">
     <app-button 
       type="primary" 
-      
+      [disabled]="!propertyForm.valid"
       [isSubmit]="true"
       label="Publicar"
     ></app-button>

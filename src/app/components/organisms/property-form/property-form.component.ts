@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Category } from '@app/core/models/category.model';
 import { Property } from '@app/core/models/property.model';
 
 @Component({
@@ -51,7 +52,7 @@ export class PropertyFormComponent {
       ]],
       location: ['', [Validators.required]],
       activePublicationDate: [new Date().toISOString().split('T')[0], [Validators.required]],
-      sellerId: [null, [Validators.required]]
+      sellerId: [3, [Validators.required]]
     });
   }
 
@@ -94,5 +95,24 @@ export class PropertyFormComponent {
 
   onCancel(): void {
     this.propertyForm.reset();
+  }
+
+  categoryIdSelected(id: number | null) {
+    this.propertyForm.get('category')?.setValue(id);
+  }
+
+  locationSelected(locationId: number | null) {
+    this.propertyForm.get('location')?.setValue(locationId || '');
+  }
+
+  resetForm(): void {
+    this.propertyForm.reset();
+    this.propertyForm.patchValue({
+      rooms: 0,
+      bathrooms: 0,
+      price: 0,
+      activePublicationDate: new Date().toISOString().split('T')[0],
+      sellerId: 3
+    });
   }
 } 
