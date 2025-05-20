@@ -33,17 +33,22 @@ export class SearchFormComponent implements OnInit {
   }
 
   loadCategories(): void {
-    this.categoryService.getCategoryNames(true).subscribe({
-      next: (categoryNames) => {
-        this.categories = categoryNames.map((name, index) => ({
-          id: index.toString(),
-          name,
-          description: ''
-        }));
+    this.categoryService.getCategories(0, 100, true).subscribe({
+      next: (response) => {
+        if (response && response.content) {
+          this.categories = response.content.map((category: Category) => ({
+            id: category.id,
+            name: category.name,
+            description: category.description || ''
+          }));
+        } else {
+          this.error = true;
+        }
+        this.loading = false;
       },
       error: (err) => {
-        console.error('Error al cargar categorías:', err);
         this.error = true;
+        this.loading = false;
       }
     });
   }
