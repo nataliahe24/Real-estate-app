@@ -1,71 +1,108 @@
 <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="users-form">
     <section class="white-section">
   <div class="form-row">
-    <app-input
-      label="Nombre"
-      formControlName="firstName"
-      placeholder="Ingrese su nombre"
-      [required]="true"
-      [ngClass]="userForm.get('firstName')?.touched && userForm.get('firstName')?.invalid ? 'input-error' : ''"
-    ></app-input>
+    <div class="input-container">
+      <app-input
+        label="Nombre"
+        formControlName="firstName"
+        placeholder="Ingrese su nombre"
+        [required]="true"
+        [ngClass]="userForm.get('firstName')?.touched && userForm.get('firstName')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="userForm.get('firstName')?.touched && userForm.get('firstName')?.invalid" class="error-message">
+        {{ userForm.get('firstName')?.errors?.['required'] ? 'El nombre es requerido' : 'El nombre debe tener al menos 2 caracteres' }}
+      </span>
+    </div>
 
-    <app-input
-      label="Apellido"
-      formControlName="lastName"
-      placeholder="Ingrese su apellido"
-      [required]="true"
-      [ngClass]="userForm.get('lastName')?.touched && userForm.get('lastName')?.invalid ? 'input-error' : ''"
-    ></app-input>
+    <div class="input-container">
+      <app-input
+        label="Apellido"
+        formControlName="lastName"
+        placeholder="Ingrese su apellido"
+        [required]="true"
+        [ngClass]="userForm.get('lastName')?.touched && userForm.get('lastName')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="userForm.get('lastName')?.touched && userForm.get('lastName')?.invalid" class="error-message">
+        {{ userForm.get('lastName')?.errors?.['required'] ? 'El apellido es requerido' : 'El apellido debe tener al menos 2 caracteres' }}
+      </span>
+    </div>
   </div>
 
   <div class="form-row">
-    <app-input
-      label="Documento de Identidad"
-      formControlName="identityDocument"
-      placeholder="Ingrese su documento"
-      type="number"
-      [required]="true"
-      [ngClass]="userForm.get('identityDocument')?.touched && userForm.get('identityDocument')?.invalid ? 'input-error' : ''"
-    ></app-input> 
+    <div class="input-container">
+      <app-input
+        label="Documento de Identidad"
+        formControlName="identityDocument"
+        placeholder="Ingrese su documento"
+        type="number"
+        [required]="true"
+        [ngClass]="userForm.get('identityDocument')?.touched && userForm.get('identityDocument')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="userForm.get('identityDocument')?.touched && userForm.get('identityDocument')?.invalid" class="error-message">
+        {{ userForm.get('identityDocument')?.errors?.['required'] ? 'El documento es requerido' : 'Documento inválido' }}
+      </span>
+    </div>
 
-    <app-input
-      label="Teléfono"
-      formControlName="phoneNumber"
-      placeholder="+573005698325"
-      [required]="true"
-      [ngClass]="userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.invalid ? 'input-error' : ''"
-    ></app-input>
+    <div class="input-container">
+      <app-input
+        label="Teléfono"
+        formControlName="phoneNumber"
+        placeholder="+573005698325"
+        [required]="true"
+        [ngClass]="userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.invalid" class="error-message">
+        {{ userForm.get('phoneNumber')?.errors?.['required'] ? 'El teléfono es requerido' : 'Teléfono inválido' }}
+      </span>
+    </div>
   </div>
 
   <div class="form-row">
-    <app-input
-      label="Fecha de Nacimiento"
-      formControlName="birthDate"
-      type="date"
-      [required]="true"
-      [maxLength]="10"
-      [ngClass]="userForm.get('birthDate')?.touched && userForm.get('birthDate')?.invalid ? 'input-error' : ''"
-    ></app-input>
+    <div class="input-container">
+      <app-input
+        label="Fecha de Nacimiento"
+        formControlName="birthDate"
+        type="date"
+        [required]="true"
+        [maxLength]="10"
+        [ngClass]="userForm.get('birthDate')?.touched && userForm.get('birthDate')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="userForm.get('birthDate')?.touched && userForm.get('birthDate')?.invalid" class="error-message">
+        {{ userForm.get('birthDate')?.errors?.['required'] ? 'La fecha es requerida' : 
+           userForm.get('birthDate')?.errors?.['minAge'] ? 'La edad del usuario no cumple con el mínimo permitido' : 
+           'Fecha inválida' }}
+      </span>
+    </div>
 
-    <app-input
-      label="Correo Electrónico"
-      formControlName="email"
-      placeholder="ejemplo@correo.com"
-      type="email"
-      [required]="true"
-      [ngClass]="userForm.get('email')?.touched && userForm.get('email')?.invalid ? 'input-error' : ''"
-    ></app-input>
+    <div class="input-container">
+      <app-input
+        label="Correo Electrónico"
+        formControlName="email"
+        placeholder="ejemplo@correo.com"
+        type="email"
+        [required]="true"
+        [ngClass]="userForm.get('email')?.touched && userForm.get('email')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid" class="error-message">
+        {{ userForm.get('email')?.errors?.['required'] ? 'El correo es requerido' : 'Correo inválido' }}
+      </span>
+    </div>
   </div>
 
   <div class="form-row">
-    <app-input
-      label="Contraseña"
-      formControlName="password"  
-      type="password"
-      placeholder="Ingrese su contraseña"
-      [required]="true"
-      [ngClass]="userForm.get('password')?.touched && userForm.get('password')?.invalid ? 'input-error' : ''"
-    ></app-input>
+    <div class="input-container">
+      <app-input
+        label="Contraseña"
+        formControlName="password"  
+        type="password"
+        placeholder="Ingrese su contraseña"
+        [required]="true"
+        [ngClass]="userForm.get('password')?.touched && userForm.get('password')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid" class="error-message">
+        {{ userForm.get('password')?.errors?.['required'] ? 'La contraseña es requerida' : 'Contraseña inválida' }}
+      </span>
+    </div>
   </div>
 
   <div class="form-actions">
@@ -74,7 +111,7 @@
       [disabled]="!userForm.valid"
       [isSubmit]="true"
       label="Crear usuario"
-      class="button-primary"
+      [ngClass]="{'button-disabled': !userForm.valid}"
     >
     </app-button>
   </div>

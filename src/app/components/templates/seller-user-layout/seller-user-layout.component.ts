@@ -11,7 +11,7 @@ export class SellerUserLayoutComponent {
     avatar: '/assets/images/usuario.jpeg'
   };
   menuItems = [
-    { icon: 'home', label: 'Publicaciones', route: '/publications'},
+    { icon: 'home', label: 'Publicaciones', route: '/publish'},
     { icon: 'meeting_room', label: 'Citas', route: '/appointments'}
   ];
 }

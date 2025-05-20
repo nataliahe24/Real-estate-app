@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { UsersService } from '@core/services/users/users.service';
 import { CreateUserDto } from '@core/models/user.model';
 import { NotificationService } from '@core/services/notifications/notification.service';
@@ -21,7 +21,7 @@ export class UsersFormComponent implements OnInit {
   readonly PASSWORD_MIN_LENGTH = 8;
   readonly FIRST_NAME_MIN_LENGTH = 2;
   readonly LAST_NAME_MIN_LENGTH = 2;
-
+  readonly MIN_AGE = 18;
 
   phoneNumberInfo = {
     currentLength: 0,
@@ -84,12 +84,30 @@ export class UsersFormComponent implements OnInit {
         Validators.maxLength(this.PHONE_NUMBER_MAX_LENGTH)
       ]],
 
-      birthDate: ['', [Validators.required]],
+      birthDate: ['', [Validators.required, this.minAgeValidator(this.MIN_AGE)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(this.PASSWORD_MIN_LENGTH)]]
     });
   }
 
+  minAgeValidator(minAge: number) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return null;
+      }
+
+      const birthDate = new Date(control.value);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+
+      return age >= minAge ? null : { minAge: true };
+    };
+  }
 
   onSubmit(): void {
     if (this.userForm.valid) {
@@ -102,9 +120,6 @@ export class UsersFormComponent implements OnInit {
         next: () => {
           this.notificationService.success('Usuario creado correctamente');
           this.userForm.reset();
-        },
-        complete: () => {
-          this.notificationService.warning('Complete el formulario correctamente');
         },
         error: (error) => {
           console.error('Error creating user:', error);
