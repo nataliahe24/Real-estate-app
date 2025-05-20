@@ -131,6 +131,7 @@
       [disabled]="!propertyForm.valid"
       [isSubmit]="true"
       label="Publicar"
+      [ngClass]="{'button-disabled': !propertyForm.valid}"
     ></app-button>
   </div>
 </form> 

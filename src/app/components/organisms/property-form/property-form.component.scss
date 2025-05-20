@@ -145,6 +145,14 @@
     }
   }
 }
+app-button {
+  &.button-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+    border-radius: 5px;
+    background-color: #9e9e9e !important;
+  }
+}
 
 @media (max-width: 768px) {
   .property-form {
