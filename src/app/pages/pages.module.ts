@@ -18,12 +18,12 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'categories',
-        component: CategoriesComponent
-      },
-      {
         path: '',
         component: PropertiesComponent
+      },
+      {
+        path: 'categories',
+        component: CategoriesComponent
       },
       {
         path: 'locations',
@@ -37,11 +37,6 @@ const routes: Routes = [
         path: 'publish',
         component: PublishPropertyComponent
       },
-      {
-        path: 'locations',
-        redirectTo: 'locations',
-        pathMatch: 'full'
-      }
     ]
   }
 ];
