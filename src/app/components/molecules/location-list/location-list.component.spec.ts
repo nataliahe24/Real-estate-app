@@ -157,4 +157,44 @@ describe('LocationListComponent', () => {
     }));
     
   });
+
+  describe('UI Actions', () => {
+    beforeEach(() => {
+      fixture.detectChanges();
+      jest.clearAllMocks();
+    });
+
+    it('should reset to page 1 and load locations on search click', () => {
+      component.currentPage = 3;
+      const loadSpy = jest.spyOn(component, 'loadLocations');
+      component.onSearchClick();
+      expect(component.currentPage).toBe(1);
+      expect(loadSpy).toHaveBeenCalled();
+    });
+
+    it('should update order, reset to page 1, and load locations on order change', () => {
+      component.currentPage = 2;
+      component.orderAsc = false;
+      const loadSpy = jest.spyOn(component, 'loadLocations');
+      const event = { target: { value: 'asc' } } as unknown as Event;
+
+      component.onOrderChange(event);
+
+      expect(component.orderAsc).toBe(true);
+      expect(component.currentPage).toBe(1);
+      expect(loadSpy).toHaveBeenCalled();
+    });
+
+    it('should set orderAsc to false if value is "desc"', () => {
+      component.orderAsc = true;
+      const loadSpy = jest.spyOn(component, 'loadLocations');
+      const event = { target: { value: 'desc' } } as unknown as Event;
+
+      component.onOrderChange(event);
+
+      expect(component.orderAsc).toBe(false);
+      expect(component.currentPage).toBe(1);
+      expect(loadSpy).toHaveBeenCalled();
+    });
+  });
 }); 
