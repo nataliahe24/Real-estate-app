@@ -13,8 +13,8 @@ import { AtomsModule } from './components/atoms/atoms.module';
 import { TemplatesModule } from './components/templates/templates.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
-import { PropertiesModule } from './pages/properties/properties.module';
 import { MoleculesModule } from './components/molecules/molecules.module';
+import { PagesModule } from './pages/pages.module';
 
 @NgModule({
   declarations: [
@@ -30,10 +30,10 @@ import { MoleculesModule } from './components/molecules/molecules.module';
     OrganismsModule,
     AtomsModule,
     TemplatesModule,
-    PropertiesModule,
     AppRoutingModule,
     MoleculesModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    PagesModule
   ],
   providers: [
     {
