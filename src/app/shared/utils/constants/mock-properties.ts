@@ -5,7 +5,19 @@ export const MOCK_CATEGORIES = [
   { id: '2', name: 'Apartment', description: 'Residential apartment' },
   { id: '3', name: 'Commercial', description: 'Commercial property' }
 ];
-
+export const MOCK_PROPERTY_PUBLISHED = {
+  id: 1,
+  name: 'Test Property',
+  description: 'Test Description',
+  price: 100000,
+  category: 1,
+  location: 1,
+  address: 'Test Address',
+  rooms: 1,
+  bathrooms: 1,
+  activePublicationDate: new Date().toISOString(),
+  sellerId: 3,
+}
 export const MOCK_PROPERTIES: PropertyResponse[] = [
   {
     id: 1,
