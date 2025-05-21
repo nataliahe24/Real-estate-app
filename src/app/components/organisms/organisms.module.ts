@@ -14,6 +14,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PropertyFormComponent } from './property-form/property-form.component';
 import { UsersFormComponent } from './users-form/users-form.component';
+import { PropertiesToolbarComponent } from './properties-toolbar/properties-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { UsersFormComponent } from './users-form/users-form.component';
     FooterComponent,
     NavbarComponent,
     PropertyFormComponent,
-    UsersFormComponent
+    UsersFormComponent,
+    PropertiesToolbarComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +47,8 @@ import { UsersFormComponent } from './users-form/users-form.component';
     SidebarComponent,
     FooterComponent,
     NavbarComponent,
-    PropertyFormComponent
+    PropertyFormComponent,
+    PropertiesToolbarComponent
   ]
 })
 export class OrganismsModule { } 

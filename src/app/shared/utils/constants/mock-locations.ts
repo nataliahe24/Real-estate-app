@@ -1,20 +1,20 @@
 export const MOCK_LOCATIONS = [
     {
       id: 1,
-      neighborhood: 'Centro',
       cityName: 'Bogotá',
+      neighborhood: 'Centro',
       department: 'Cundinamarca'
     },
     {
       id: 2,
-      neighborhood: 'Poblado',
       cityName: 'Medellín',
+      neighborhood: 'Poblado',
       department: 'Antioquia'
     },
     {
       id: 3,
-      neighborhood: 'Bocagrande',
       cityName: 'Cartagena',
+      neighborhood: 'Bocagrande',
       department: 'Bolívar'
     }
   ];

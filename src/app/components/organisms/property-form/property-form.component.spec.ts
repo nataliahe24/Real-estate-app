@@ -2,8 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PropertyFormComponent } from './property-form.component';
 import { ReactiveFormsModule, FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { NO_ERRORS_SCHEMA, Component, Input, forwardRef } from '@angular/core';
+import { MOCK_PROPERTY_PUBLISHED } from '@app/shared/utils/constants/mock-properties';
+import { jest } from '@jest/globals';
 
-// Mock Components
 @Component({
   selector: 'app-input',
   template: '<input [formControl]="control">',
@@ -179,5 +180,65 @@ describe('PropertyFormComponent', () => {
     expect(form.get('bathrooms')?.value).toBe(0);
     expect(form.get('price')?.value).toBe(0);
     expect(form.get('sellerId')?.value).toBe(3);
+  });
+
+  describe('form validation', () => {
+    it('should validate required fields', () => {
+      const form = component.propertyForm;
+      expect(form.valid).toBeFalsy();
+      
+      form.patchValue(MOCK_PROPERTY_PUBLISHED);
+      expect(form.valid).toBeTruthy();
+    });
+
+    it('should validate price is greater than 0', () => {
+      const form = component.propertyForm;
+      form.patchValue({ ...MOCK_PROPERTY_PUBLISHED, price: -1 });
+      expect(form.get('price')?.errors?.['min']).toBeTruthy();
+    });
+  });
+
+  describe('form submission', () => {
+    it('should emit property data when form is valid', () => {
+      const form = component.propertyForm;
+      form.patchValue(MOCK_PROPERTY_PUBLISHED);
+      
+      jest.spyOn(component.submitForm, 'emit');
+      component.onSubmit();
+      
+      expect(component.submitForm.emit).toHaveBeenCalledWith(form.value);
+    });
+
+    it('should not emit when form is invalid', () => {
+      const form = component.propertyForm;
+      form.patchValue({ ...MOCK_PROPERTY_PUBLISHED, name: '' });
+      
+      jest.spyOn(component.submitForm, 'emit');
+      component.onSubmit();
+      
+      expect(component.submitForm.emit).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('form reset', () => {
+    it('should reset form to initial state', () => {
+      const form = component.propertyForm;
+      form.patchValue(MOCK_PROPERTY_PUBLISHED);
+      
+      component.resetForm();
+      
+      expect(form.value).toEqual({
+        name: null,
+        description: null,
+        price: 0,
+        category: null,
+        location: null,
+        address: null,
+        rooms: 0,
+        bathrooms: 0,
+        activePublicationDate: new Date().toISOString().split('T')[0],
+        sellerId: 3
+      });
+    });
   });
 });

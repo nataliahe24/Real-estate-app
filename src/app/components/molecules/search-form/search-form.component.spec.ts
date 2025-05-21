@@ -77,4 +77,32 @@ describe('SearchFormComponent', () => {
       });
     });
   });
-}); 
+
+  describe('Form Submission', () => {
+    it('should emit search criteria when location and category are set', () => {
+      const searchSpy = jest.spyOn(component.search, 'emit');
+      component.location = 'New York';
+      component.category = 'Apartment';
+  
+      component.onSearch();
+  
+      expect(searchSpy).toHaveBeenCalledWith({
+        location: 'New York',
+        category: 'Apartment'
+      });
+    });
+  
+    it('should emit empty values if location and category are empty', () => {
+      const searchSpy = jest.spyOn(component.search, 'emit');
+      component.location = '';
+      component.category = '';
+  
+      component.onSearch();
+  
+      expect(searchSpy).toHaveBeenCalledWith({
+        location: '',
+        category: ''
+      });
+    });
+  });
+});
