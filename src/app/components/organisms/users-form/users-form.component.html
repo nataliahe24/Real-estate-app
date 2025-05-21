@@ -39,7 +39,13 @@
         [ngClass]="userForm.get('identityDocument')?.touched && userForm.get('identityDocument')?.invalid ? 'input-error' : ''"
       ></app-input>
       <span *ngIf="userForm.get('identityDocument')?.touched && userForm.get('identityDocument')?.invalid" class="error-message">
-        {{ userForm.get('identityDocument')?.errors?.['required'] ? 'El documento es requerido' : 'Documento inválido' }}
+        {{ userForm.get('identityDocument')?.errors?.['required'] ? 'El documento es requerido' : '' }}
+      </span>
+      <span *ngIf="userForm.get('identityDocument')?.touched && userForm.get('identityDocument')?.invalid" class="error-message">
+        {{ userForm.get('identityDocument')?.errors?.['minlength'] ? 'El documento debe tener al menos 7 caracteres' : '' }}
+      </span>
+      <span *ngIf="userForm.get('identityDocument')?.touched && userForm.get('identityDocument')?.invalid" class="error-message">
+        {{ userForm.get('identityDocument')?.errors?.['maxlength'] ? 'El documento debe tener máximo 10 caracteres' : '' }}
       </span>
     </div>
 
@@ -52,7 +58,13 @@
         [ngClass]="userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.invalid ? 'input-error' : ''"
       ></app-input>
       <span *ngIf="userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.invalid" class="error-message">
-        {{ userForm.get('phoneNumber')?.errors?.['required'] ? 'El teléfono es requerido' : 'Teléfono inválido' }}
+        {{ userForm.get('phoneNumber')?.errors?.['required'] ? 'El teléfono es requerido' : '' }}
+      </span>
+      <span *ngIf="userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.invalid" class="error-message">
+        {{ userForm.get('phoneNumber')?.errors?.['minlength'] ? 'El teléfono debe tener al menos 10 caracteres' : '' }}
+      </span>
+      <span *ngIf="userForm.get('phoneNumber')?.touched && userForm.get('phoneNumber')?.invalid" class="error-message">
+        {{ userForm.get('phoneNumber')?.errors?.['maxlength'] ? 'El teléfono debe tener máximo 13 caracteres' : '' }}
       </span>
     </div>
   </div>
@@ -84,7 +96,7 @@
         [ngClass]="userForm.get('email')?.touched && userForm.get('email')?.invalid ? 'input-error' : ''"
       ></app-input>
       <span *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid" class="error-message">
-        {{ userForm.get('email')?.errors?.['required'] ? 'El correo es requerido' : 'Correo inválido' }}
+        {{ userForm.get('email')?.errors?.['required'] ? 'El correo es requerido' : 'Formato de correo inválido' }}
       </span>
     </div>
   </div>
