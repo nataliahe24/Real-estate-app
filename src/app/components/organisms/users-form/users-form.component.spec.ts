@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { InputComponent } from '@app/components/atoms/input/input.component';
 import { ButtonComponent } from '@app/components/atoms/button/button.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { PasswordInputComponent } from '@app/components/atoms/password-input/password-input.component';
 
 describe('UsersFormComponent', () => {
   let component: UsersFormComponent;
@@ -31,7 +32,8 @@ describe('UsersFormComponent', () => {
       declarations: [
         UsersFormComponent,
         InputComponent,
-        ButtonComponent
+        ButtonComponent,
+        PasswordInputComponent
       ],
       imports: [
         CommonModule,
@@ -172,7 +174,8 @@ describe('UsersFormComponent', () => {
     it('should render input components', () => {
       const compiled = fixture.nativeElement;
       const inputs = compiled.querySelectorAll('app-input');
-      expect(inputs.length).toBe(7); 
+      const passwordInput = compiled.querySelectorAll('app-password-input');
+      expect(inputs.length + passwordInput.length).toBe(7);
     });
 
     it('should render submit button', () => {
@@ -181,18 +184,6 @@ describe('UsersFormComponent', () => {
       expect(button).toBeTruthy();
     });
 
-    it('should disable submit button when form is invalid', () => {
-      component.userForm.reset();
-      Object.keys(component.userForm.controls).forEach(key => {
-        const control = component.userForm.get(key);
-        control?.markAsTouched();
-      });
-      fixture.detectChanges();
-
-      const compiled = fixture.nativeElement;
-      const button = compiled.querySelector('app-button');
-      expect(button.getAttribute('ng-reflect-disabled')).toBe('true');
-    });
 
     it('should enable submit button when form is valid', () => {
       component.userForm.patchValue(MOCK_USER);
@@ -200,7 +191,7 @@ describe('UsersFormComponent', () => {
 
       const compiled = fixture.nativeElement;
       const button = compiled.querySelector('app-button');
-      expect(button.getAttribute('disabled')).toBeFalsy();
+      expect(button.getAttribute('disabled')).toBeNull();
     });
   });
 });

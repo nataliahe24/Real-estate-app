@@ -91,14 +91,14 @@
 
   <div class="form-row">
     <div class="input-container">
-      <app-input
+      <app-password-input
         label="Contraseña"
         formControlName="password"  
         type="password"
         placeholder="Ingrese su contraseña"
         [required]="true"
         [ngClass]="userForm.get('password')?.touched && userForm.get('password')?.invalid ? 'input-error' : ''"
-      ></app-input>
+      ></app-password-input>
       <span *ngIf="userForm.get('password')?.touched && userForm.get('password')?.invalid" class="error-message">
         {{ userForm.get('password')?.errors?.['required'] ? 'La contraseña es requerida' : 'Contraseña inválida' }}
       </span>
