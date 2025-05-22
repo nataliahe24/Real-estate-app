@@ -35,16 +35,5 @@
       min="0"
       step="0.01"
     ></app-input>
-    <div class="select-arrow-container">
-    <select
-  [formControl]="config.sortByControl"
-  class="filter-input"
->
-  <option value="" disabled selected>Ordenar por</option>
-  <option *ngFor="let option of config.sortOptions" [value]="option.value">
-    {{ option.label }}
-  </option>
-</select>
-    </div>
   </div>
 </div> 
