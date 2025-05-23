@@ -15,7 +15,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { PropertyFormComponent } from './property-form/property-form.component';
 import { UsersFormComponent } from './users-form/users-form.component';
 import { PropertiesToolbarComponent } from './properties-toolbar/properties-toolbar.component';
-
+import { PropertyListComponent } from './property-list/property-list.component';
 @NgModule({
   declarations: [
     CategoryManagerComponent,
@@ -27,7 +27,8 @@ import { PropertiesToolbarComponent } from './properties-toolbar/properties-tool
     NavbarComponent,
     PropertyFormComponent,
     UsersFormComponent,
-    PropertiesToolbarComponent
+    PropertiesToolbarComponent,
+    PropertyListComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +49,8 @@ import { PropertiesToolbarComponent } from './properties-toolbar/properties-tool
     FooterComponent,
     NavbarComponent,
     PropertyFormComponent,
-    PropertiesToolbarComponent
+    PropertiesToolbarComponent,
+    PropertyListComponent
   ]
 })
 export class OrganismsModule { } 

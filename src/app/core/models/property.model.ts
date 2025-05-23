@@ -36,7 +36,9 @@ export interface PropertyFilter {
   maxPrice?: number;
   rooms?: number;
   bathrooms?: number;
-} 
+  sortBy?: string;
+  orderAsc?: boolean;
+}
 
 export interface PaginatedPropertiesResponse {
   content: PropertyResponse[];
@@ -44,4 +46,17 @@ export interface PaginatedPropertiesResponse {
   size: number;
   totalElements: number;
   totalPages: number;
+}
+
+export interface PropertyFilters {
+  page?: number;
+  size?: number;
+  location?: string;
+  category?: string;
+  rooms?: number;
+  bathrooms?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  sortBy?: string;
+  orderAsc?: boolean;
 }

@@ -13,6 +13,7 @@ import { CitySelectComponent } from './city-select/city-select.component';
 import { LocationListComponent } from './location-list/location-list.component';
 import { CategorySelectComponent } from './category-select/category-select.component';
 import { LocationSelectComponent } from './location-select/location-select.component';
+import { FiltersModalComponent } from './filters-modal/filters-modal.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { LocationSelectComponent } from './location-select/location-select.compo
     CitySelectComponent,
     LocationListComponent,
     CategorySelectComponent,
-    LocationSelectComponent
+    LocationSelectComponent,
+    FiltersModalComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +44,8 @@ import { LocationSelectComponent } from './location-select/location-select.compo
     CitySelectComponent,
     LocationListComponent,
     CategorySelectComponent,
-    LocationSelectComponent
+    LocationSelectComponent,
+    FiltersModalComponent
   ],
   providers: [
     NotificationService
