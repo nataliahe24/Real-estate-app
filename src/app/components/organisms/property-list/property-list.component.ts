@@ -85,7 +85,9 @@ export class PropertyListComponent implements OnInit, OnDestroy {
       bathrooms: this.bathroomsControl.value ? Number(this.bathroomsControl.value) : undefined,
       minPrice: this.minPriceControl.value ? Number(this.minPriceControl.value) : undefined,
       maxPrice: this.maxPriceControl.value ? Number(this.maxPriceControl.value) : undefined,
-      sortBy: this.sortByControl.value || 'price',
+      sortBy: this.sortByControl.value === 'location' || this.sortByControl.value === 'category' 
+        ? 'id' 
+        : (this.sortByControl.value || 'price'),
       orderAsc: this.orderAsc
     };
 
@@ -95,6 +97,26 @@ export class PropertyListComponent implements OnInit, OnDestroy {
       next: (response: any) => {
         this.properties = response.content || [];
         this.totalItems = response.totalElements || 0;
+        
+        if (this.sortByControl.value === 'location' || this.sortByControl.value === 'category') {
+          this.properties.sort((a, b) => {
+            let valueA: string;
+            let valueB: string;
+            
+            if (this.sortByControl.value === 'location') {
+              valueA = `${a.city} ${a.neighborhood}`.toLowerCase();
+              valueB = `${b.city} ${b.neighborhood}`.toLowerCase();
+            } else {
+              valueA = a.category.toLowerCase();
+              valueB = b.category.toLowerCase();
+            }
+            
+            if (valueA < valueB) return this.orderAsc ? -1 : 1;
+            if (valueA > valueB) return this.orderAsc ? 1 : -1;
+            return 0;
+          });
+        }
+        
         this.loading = false;
       },
       error: (error) => {
