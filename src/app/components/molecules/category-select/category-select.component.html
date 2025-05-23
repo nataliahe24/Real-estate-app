@@ -1,5 +1,6 @@
 <div class="category-select-container">
   <select 
+    [formControl]="control"
     [disabled]="isLoading" 
     [(ngModel)]="selectedCategoryName" 
     (change)="onCategorySelected()"

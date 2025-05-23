@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CategoryService } from '../../../core/services/categories/category.service';
 import { Category } from '../../../core/models/category.model';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-category-select',
@@ -14,10 +14,13 @@ export class CategorySelectComponent implements OnInit {
   @Input() selectedCategoryId: number | null = null;
   @Output() categorySelected = new EventEmitter<string>();
   @Output() categoryIdSelected = new EventEmitter<number | null>();
+  @Input()  categories: Category[] = [];
+  control = new FormControl();
 
-  categories: Category[] = [];
+  
   isLoading = true;
   error: string | null = null;
+  
 
   constructor(private categoryService: CategoryService) {}
 
