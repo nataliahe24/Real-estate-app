@@ -1,7 +1,9 @@
 .property-list {
   width: 100%;
   padding: 2rem 0;
-
+  display: flex;
+  flex-direction: column;
+  
   .white-section {
     background: white;
     padding: 2rem;
@@ -25,7 +27,6 @@
     .search-group {
       display: flex;
       gap: 1rem;
-      flex: 1;
       min-width: 300px;
     }
 
@@ -78,16 +79,21 @@
   }
 
   .table-container {
-    overflow-x: auto;
-    border-radius: 0.5rem;
-    border: 1px solid #eee;
-    
+    overflow-x: auto !important;
+    width: 1000px;
+    max-width: 100vw;
+    box-sizing: border-box;
+    padding-bottom: 1rem;
+    font-size: 14px;
+
     table {
       width: 100%;
+      min-width: 1100px;
       border-collapse: collapse;
+      background: white;
       
       th, td {
-        padding: 1rem;
+        padding: 0.5rem;
         text-align: left;
         border-bottom: 1px solid #eee;
       }
@@ -95,12 +101,11 @@
       th {
         font-weight: 600;
         background-color: #f8f9fa;
-        color: #333;
+        
       }
 
-      .actions-cell {
+      .date-cell {
         text-align: center;
-        width: 80px;
       }
     }
   }
@@ -142,9 +147,11 @@
 
     .table-container {
       font-size: 0.85rem;
-      
-      th, td {
-        padding: 0.75rem 0.5rem;
+      max-width: 100vw;
+      overflow-x: auto !important;
+      padding-bottom: 1rem;
+      table {
+        min-width: 900px;
       }
     }
   }
@@ -187,6 +194,41 @@
     height: 36px;
     padding: 0.5rem 0.75rem;
     box-sizing: border-box;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 5px;
+  
+  button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #d9d9d9;
+    background-color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &.active {
+      background-color: #3366FF;
+      color: white;
+      border-color: #3366FF;
+    }
+    
+    &:disabled {
+      color: #d9d9d9;
+      cursor: not-allowed;
+    }
+    
+    &:hover:not(:disabled):not(.active) {
+      border-color: #3366FF;
+      color: #3366FF;
+    }
   }
 }
 
