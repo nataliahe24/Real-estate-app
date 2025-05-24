@@ -162,6 +162,71 @@ describe('CategoryService', () => {
       statusText: 'Internal Server Error' 
     });
   });
+
+  it('should handle category update with invalid data', () => {
+    const invalidCategory = { id: '1', name: '', description: '' };
+    
+    service.updateCategory(invalidCategory).subscribe({
+      next: () => fail('Expected an error'),
+      error: (error) => {
+        expect(error).toBeTruthy();
+      }
+    });
+
+    const req = httpMock.expectOne(`${apiUrl}/1`);
+    req.flush('Invalid data', { 
+      status: 400, 
+      statusText: 'Bad Request' 
+    });
+  });
+
+  it('should handle category creation with invalid data', () => {
+    const invalidCategory = { name: '', description: '' };
+    
+    service.createCategory(invalidCategory).subscribe({
+      next: () => fail('Expected an error'),
+      error: (error) => {
+        expect(error).toBeTruthy();
+      }
+    });
+
+    const req = httpMock.expectOne(`${apiUrl}/`);
+    req.flush('Invalid data', { 
+      status: 400, 
+      statusText: 'Bad Request' 
+    });
+  });
+
+  it('should handle non-existent category', () => {
+    const nonExistentId = 999;
+    
+    service.getCategory(nonExistentId).subscribe({
+      next: () => fail('Expected an error'),
+      error: (error) => {
+        expect(error).toBeTruthy();
+      }
+    });
+
+    const req = httpMock.expectOne(`${apiUrl}/${nonExistentId}`);
+    req.flush('Not found', { 
+      status: 404, 
+      statusText: 'Not Found' 
+    });
+  });
+
+  it('should handle network timeout', () => {
+    service.getCategories(0, 10, true).subscribe({
+      next: () => fail('Expected an error'),
+      error: (error) => {
+        expect(error).toBeTruthy();
+      }
+    });
+
+    const req = httpMock.expectOne(
+      req => req.url === `${apiUrl}/`
+    );
+    req.error(new ErrorEvent('timeout'));
+  });
 });
 
 
