@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { JwtService } from './jwt.service';
 import { environment } from '../../../../environments/environment';
 import { LoginResponse } from '../../models/login-response.interface';
+import { NotificationService } from '../notifications/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,12 @@ export class AuthService {
   public currentUser = this.currentUserSubject.asObservable();
   private apiUrl = environment.apiUrl;
   private loginUrl = environment.apiUrlAuth;
+  private userUrl = `${environment.apiUrlUsers}`;
 
   constructor(
     private http: HttpClient,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private notificationService: NotificationService
   ) {
     this.populateUser();
   }
@@ -46,6 +49,13 @@ export class AuthService {
         tap(response => {
           if (response && response.accessToken) {
             this.setAuth(response);
+            this.getUserByUsername(credentials.email).subscribe({
+              next: (userData) => {
+                if (userData.role_id === 3) { 
+                  this.notificationService.warning('Redirigiendo a panel de vendedor');
+                }
+              }
+            });
           }
         }),
         catchError(error => {
@@ -114,5 +124,42 @@ export class AuthService {
   getUserRole(): number | null {
     const user = this.getCurrentUser();
     return user ? user.role : null;
+  }
+
+  getUserByUsername(username: string): Observable<any> {
+    return this.http.get(`${this.userUrl}/${username}`);
+  }
+
+  hasRole(requiredRole: number): boolean {
+    const user = this.getCurrentUser();
+    return user?.role === requiredRole;
+  }
+
+  isAdmin(): boolean {
+    return this.hasRole(2);
+  }
+
+  isSeller(): boolean {
+    return this.hasRole(3);
+  }
+
+  isBuyer(): boolean {
+    return this.hasRole(1);
+  }
+
+  validateAdminAccess(): boolean {
+    if (!this.isAdmin()) {
+      this.notificationService.warning('Acceso denegado: Se requieren permisos de administrador');
+      return false;
+    }
+    return true;
+  }
+
+  validateSellerAccess(): boolean {
+    if (!this.isSeller()) {
+      this.notificationService.warning('Acceso denegado: Se requieren permisos de vendedor');
+      return false;
+    }
+    return true;
   }
 } 

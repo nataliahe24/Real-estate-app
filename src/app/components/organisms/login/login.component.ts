@@ -12,8 +12,8 @@ import { NotificationService } from '@core/services/notifications/notification.s
 export class LoginComponent {
   loginForm: FormGroup;
   menuItems = [
-    { label: 'Compra', route: '/properties' },
-    { label: 'Renta', route: '/properties' },
+    { label: 'Compra', route: '' },
+    { label: 'Renta', route: '' },
     { label: 'Vende', route: '/publish' }
   ];
 
@@ -40,13 +40,25 @@ export class LoginComponent {
         next: (response) => {
           if (response && response.accessToken) {
             this.notificationService.success('Inicio de sesión exitoso');
-            this.router.navigate(['/']);
+            
+            
+            if (this.authService.isAdmin()) {
+              this.router.navigate(['/wellcome-admin']);
+            } else if (this.authService.isSeller()) {
+              this.router.navigate(['/wellcome-seller']);
+            } else {
+              this.router.navigate(['/properties']);
+            }
           }
         },
         error: (error) => {
           console.error('Login error:', error);
-          this.notificationService.error('Error al iniciar sesión: ' + 
-            (error.error?.message || 'Error desconocido'));
+          if (error.status === 403) {
+            this.notificationService.error('Usuario o contraseña incorrectos');
+          } else {
+            this.notificationService.error('Error al iniciar sesión: ' + 
+              (error.error?.message || 'Error desconocido'));
+          }
         }
       });
     }

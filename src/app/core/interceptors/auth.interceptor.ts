@@ -13,8 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (token && token.length > 0) {
       const cleanToken = token.trim();
       console.log('Token length:', cleanToken.length);
-      
-      // Prueba este formato
+    
       request = request.clone({
         headers: request.headers
           .set('Authorization', 'Bearer ' + cleanToken)
