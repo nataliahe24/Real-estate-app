@@ -9,6 +9,7 @@ import { NotificationComponent } from './notification/notification.component';
 import { LogoComponent } from './logo/logo.component';
 import { PropertyStatusLabelComponent } from './property-status-label/property-status-label.component';
 import { PasswordInputComponent } from './password-input/password-input.component';
+import { LogoutButtonComponent } from './logout-button/logout-button.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { PasswordInputComponent } from './password-input/password-input.componen
     NotificationComponent,
     LogoComponent,
     PropertyStatusLabelComponent,
-    PasswordInputComponent
+    PasswordInputComponent,
+    LogoutButtonComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +36,8 @@ import { PasswordInputComponent } from './password-input/password-input.componen
     NotificationComponent,
     LogoComponent,
     PropertyStatusLabelComponent,
-    PasswordInputComponent
+    PasswordInputComponent,
+    LogoutButtonComponent
   ]
 })
 export class AtomsModule { } 

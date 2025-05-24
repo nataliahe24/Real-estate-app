@@ -13,6 +13,8 @@ import { PublishPropertyComponent } from './publish-property/publish-property.co
 import { UsersComponent } from './users/users.component';
 import { LocationsComponent } from './locations/locations.component';
 import { LoginAuthComponent } from './login-auth/login-auth.component';
+import { WellcomeAdminComponent } from './wellcome-admin/wellcome-admin.component';
+import { WellcomeSellerComponent } from './wellcome-seller/wellcome-seller.component';
 
 const routes: Routes = [
   {
@@ -41,6 +43,14 @@ const routes: Routes = [
       {
         path: 'login',
         component: LoginAuthComponent
+      },
+      {
+        path: 'wellcome-admin',
+        component: WellcomeAdminComponent
+      },
+      {
+        path: 'wellcome-seller',
+        component: WellcomeSellerComponent
       }
     ]
   }
@@ -53,7 +63,9 @@ const routes: Routes = [
     UsersComponent,
     PublishPropertyComponent,
     LocationsComponent,
-    LoginAuthComponent
+    LoginAuthComponent,
+    WellcomeAdminComponent,
+    WellcomeSellerComponent
   ],
   imports: [
     CommonModule,
@@ -65,6 +77,16 @@ const routes: Routes = [
     MoleculesModule,
     AtomsModule,
     SharedComponentsModule
+  ],
+  exports: [
+    CategoriesComponent,
+    PropertiesComponent,
+    UsersComponent,
+    PublishPropertyComponent,
+    LocationsComponent,
+    LoginAuthComponent,
+    WellcomeAdminComponent,
+    WellcomeSellerComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
