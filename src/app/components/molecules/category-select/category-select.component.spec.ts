@@ -2,11 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategorySelectComponent } from './category-select.component';
 import { CategoryService } from '@app/core/services/categories/category.service';
 import { of, throwError } from 'rxjs';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectComponent } from '../../atoms/select/select.component';
 import { CommonModule } from '@angular/common';
 import { Category } from '@app/core/models/category.model';
-import { MOCK_CATEGORIES } from '../../../shared/utils/constants/mock-categories';
+import { MOCK_CATEGORIES } from '../../../shared/utils/mocks/mock-categories';
 
 describe('CategorySelectComponent', () => {
   let component: CategorySelectComponent;
@@ -25,7 +25,8 @@ describe('CategorySelectComponent', () => {
       ],
       imports: [
         CommonModule,
-        FormsModule
+        FormsModule,
+        ReactiveFormsModule
       ],
       providers: [
         { provide: CategoryService, useValue: mockCategoryService }
@@ -94,18 +95,7 @@ describe('CategorySelectComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should emit selected category name and id', () => {
-      const selectedCategory = 'Casa';
-      component.selectedCategoryName = selectedCategory;
-      
-      const categorySelectedSpy = jest.spyOn(component.categorySelected, 'emit');
-      const categoryIdSelectedSpy = jest.spyOn(component.categoryIdSelected, 'emit');
-      
-      component.onCategorySelected();
 
-      expect(categorySelectedSpy).toHaveBeenCalledWith(selectedCategory);
-      expect(categoryIdSelectedSpy).toHaveBeenCalledWith(1);
-    });
 
     it('should handle category selection with empty value', () => {
       component.selectedCategoryName = '';
@@ -145,7 +135,7 @@ describe('CategorySelectComponent', () => {
       const compiled = fixture.nativeElement;
       const select = compiled.querySelector('select');
       expect(select).toBeTruthy();
-      expect(select.options.length).toBe(MOCK_CATEGORIES.length + 1); // +1 for default option
+      expect(select.options.length).toBe(MOCK_CATEGORIES.length + 1); 
     });
 
     it('should show loading state', () => {

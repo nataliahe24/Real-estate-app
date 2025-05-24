@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { CategoryService } from './category.service';
 import { Category } from '../../models/category.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MOCK_CATEGORIES } from '@app/shared/utils/constants/mock-categories';
+import { MOCK_CATEGORIES } from '@app/shared/utils/mocks/mock-categories';
 
 
 jest.mock('./category.service', () => {

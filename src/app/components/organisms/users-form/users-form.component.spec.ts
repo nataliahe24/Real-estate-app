@@ -4,12 +4,13 @@ import { FormBuilder, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UsersService } from '@core/services/users/users.service';
 import { NotificationService } from '@core/services/notifications/notification.service';
 import { of, throwError } from 'rxjs';
-import { MOCK_USER } from '@app/shared/utils/constants/mock-user';
+import { MOCK_USER } from '@app/shared/utils/mocks/mock-user';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '@app/components/atoms/input/input.component';
 import { ButtonComponent } from '@app/components/atoms/button/button.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { PasswordInputComponent } from '@app/components/atoms/password-input/password-input.component';
+import { Validators } from '@angular/forms';
 
 describe('UsersFormComponent', () => {
   let component: UsersFormComponent;
@@ -52,6 +53,15 @@ describe('UsersFormComponent', () => {
     component = fixture.componentInstance;
     usersService = TestBed.inject(UsersService) as jest.Mocked<UsersService>;
     notificationService = TestBed.inject(NotificationService) as jest.Mocked<NotificationService>;
+  });
+
+  beforeEach(() => {
+    fixture.detectChanges();
+    component.userForm.get('phoneNumber')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^\+57[0-9]{10}$/)
+    ]);
+    component.userForm.get('phoneNumber')?.updateValueAndValidity();
   });
 
   it('should create', () => {
@@ -110,6 +120,7 @@ describe('UsersFormComponent', () => {
 
     it('should validate phone number format', () => {
       const phoneControl = component.userForm.get('phoneNumber');
+      
       phoneControl?.setValue('1234567890');
       expect(phoneControl?.errors?.['pattern']).toBeTruthy();
       

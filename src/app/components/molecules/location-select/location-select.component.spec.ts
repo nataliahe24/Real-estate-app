@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { InputComponent } from '../../atoms/input/input.component';
 import { CommonModule } from '@angular/common';
 import { LocationResponse } from '@app/core/models/location.model';
-import { MOCK_LOCATIONS } from '@app/shared/utils/constants/mock-locations';
+import { MOCK_LOCATIONS } from '@app/shared/utils/mocks/mock-locations';
 
 describe('LocationSelectComponent', () => {
   let component: LocationSelectComponent;

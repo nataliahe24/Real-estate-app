@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { UsersService } from './users.service';
 import { User, CreateUserDto, Role } from '@core/models/user.model';
 import { environment } from '@env/environment';
-import { MOCK_USER, MOCK_USER_RESPONSE, MOCK_ROLE } from '@app/shared/utils/constants/mock-user';
+import { MOCK_USER, MOCK_USER_RESPONSE, MOCK_ROLE } from '@app/shared/utils/mocks/mock-user';
 
 describe('UsersService', () => {
   let service: UsersService;

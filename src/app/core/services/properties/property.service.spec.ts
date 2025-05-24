@@ -3,37 +3,17 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { PropertyService } from './property.service';
 import { PropertyResponse, Property, PaginatedPropertiesResponse } from '../../models/property.model';
 import { environment } from '../../../../environments/environment';
+import { PropertyFilters } from '@core/models/property.model';
+import { MOCK_PAGINATED_PROPERTIES, MOCK_PROPERTIES } from '@app/shared/utils/mocks/mock-properties';
 
 describe('PropertyService', () => {
   let service: PropertyService;
   let httpMock: HttpTestingController;
+  const apiUrl = environment.apiUrlProperties;
 
-  const mockProperties: PropertyResponse[] = [
-    {
-      id: 1,
-      name: 'Casa en la playa',
-      address: 'Calle 123',
-      description: 'Hermosa casa frente al mar',
-      price: 150000,
-      category: 'Casa',
-      rooms: 3,
-      bathrooms: 2,
-      neighborhood: 'Miami Beach',
-      city: 'Miami',
-      department: 'Florida',
-      activePublicationDate: '2024-01-01',
-      publicationStatus: 'ACTIVE',
-      sellerId: 1
-    }
-  ];
+ 
 
-  const mockPaginatedResponse: PaginatedPropertiesResponse = {
-    content: mockProperties,
-    page: 0,
-    size: 20,
-    totalElements: 1,
-    totalPages: 1
-  };
+
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,38 +36,38 @@ describe('PropertyService', () => {
   describe('getProperties', () => {
     it('should return properties with default filters', () => {
       service.getProperties().subscribe(properties => {
-        expect(properties).toEqual(mockProperties);
+        expect(properties).toEqual(MOCK_PROPERTIES);
       });
 
-      const req = httpMock.expectOne(`${environment.apiUrlProperties}/list?page=0&size=20&orderAsc=true`);
+      const req = httpMock.expectOne(`${apiUrl}list?page=0&size=20&orderAsc=true`);
       expect(req.request.method).toBe('GET');
-      req.flush(mockPaginatedResponse);
+      req.flush(MOCK_PAGINATED_PROPERTIES);
     });
 
     it('should return properties with category filter', () => {
       const filters = { category: 'Casa' };
       service.getProperties(filters).subscribe(properties => {
-        expect(properties).toEqual(mockProperties);
+        expect(properties).toEqual(MOCK_PROPERTIES);
       });
 
       const req = httpMock.expectOne(
-        `${environment.apiUrlProperties}/list?category=Casa&page=0&size=20&orderAsc=true`
+        `${apiUrl}list?category=Casa&page=0&size=20&orderAsc=true`
       );
       expect(req.request.method).toBe('GET');
-      req.flush(mockPaginatedResponse);
+      req.flush(MOCK_PAGINATED_PROPERTIES);
     });
 
     it('should return properties with location filter', () => {
       const filters = { location: 'Miami' };
       service.getProperties(filters).subscribe(properties => {
-        expect(properties).toEqual(mockProperties);
+        expect(properties).toEqual(MOCK_PROPERTIES);
       });
 
       const req = httpMock.expectOne(
-        `${environment.apiUrlProperties}/list?location=Miami&page=0&size=20&orderAsc=true`
+        `${apiUrl}list?location=Miami&page=0&size=20&orderAsc=true`
       );
       expect(req.request.method).toBe('GET');
-      req.flush(mockPaginatedResponse);
+      req.flush(MOCK_PAGINATED_PROPERTIES);
     });
 
     it('should handle empty response', () => {
@@ -103,7 +83,7 @@ describe('PropertyService', () => {
         expect(properties).toEqual([]);
       });
 
-      const req = httpMock.expectOne(`${environment.apiUrlProperties}/list?page=0&size=20&orderAsc=true`);
+      const req = httpMock.expectOne(`${apiUrl}list?page=0&size=20&orderAsc=true`);
       expect(req.request.method).toBe('GET');
       req.flush(emptyResponse);
     });
@@ -118,7 +98,7 @@ describe('PropertyService', () => {
         }
       });
 
-      const req = httpMock.expectOne(`${environment.apiUrlProperties}/list?page=0&size=20&orderAsc=true`);
+      const req = httpMock.expectOne(`${apiUrl}list?page=0&size=20&orderAsc=true`);
       expect(req.request.method).toBe('GET');
       req.flush(errorMessage, { 
         status: 500, 
@@ -181,6 +161,106 @@ describe('PropertyService', () => {
         status: 400, 
         statusText: errorMessage 
       });
+    });
+  });
+
+  describe('getFilteredProperties', () => {
+    it('should make GET request with default parameters', () => {
+
+      service.getFilteredProperties({}).subscribe(response => {
+        expect(response).toEqual(MOCK_PAGINATED_PROPERTIES);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrlProperties}?page=0&size=10&orderAsc=true`);
+      expect(req.request.method).toBe('GET');
+      req.flush(MOCK_PAGINATED_PROPERTIES);
+    });
+
+    it('should make GET request with all filters', () => {
+      const filters: PropertyFilters = {
+        page: 1,
+        size: 5,
+        sortBy: 'price',
+        orderAsc: false,
+        location: 'Bogota',
+        category: 'Casa',
+        rooms: 3,
+        bathrooms: 2,
+        minPrice: 100000,
+        maxPrice: 300000
+      };
+
+
+      service.getFilteredProperties(filters).subscribe(response => {
+        expect(response).toEqual(MOCK_PAGINATED_PROPERTIES);
+      });
+
+      const expectedUrl = `${environment.apiUrlProperties}?page=1&size=5&orderAsc=false&sortBy=price&location=Bogota&category=Casa&rooms=3&bathrooms=2&minPrice=100000&maxPrice=300000`;
+      const req = httpMock.expectOne(expectedUrl);
+      expect(req.request.method).toBe('GET');
+      req.flush(MOCK_PAGINATED_PROPERTIES);
+    });
+
+    it('should handle error response', () => {
+      const errorResponse = {
+        status: 404,
+        statusText: 'Not Found'
+      };
+
+      service.getFilteredProperties({}).subscribe({
+        error: (error) => {
+          expect(error.status).toBe(404);
+        }
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrlProperties}?page=0&size=10&orderAsc=true`);
+      req.flush('Error', errorResponse);
+    });
+
+    it('should handle empty filters correctly', () => {
+   
+
+      service.getFilteredProperties({
+        page: undefined,
+        size: undefined,
+        sortBy: undefined,
+        orderAsc: undefined
+      }).subscribe(response => {
+        expect(response).toEqual(MOCK_PAGINATED_PROPERTIES);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrlProperties}?page=0&size=10&orderAsc=true`);
+      expect(req.request.method).toBe('GET');
+      req.flush(MOCK_PAGINATED_PROPERTIES);
+    });
+
+
+
+    it('should handle undefined orderAsc correctly', () => {
+      
+      service.getFilteredProperties({
+        orderAsc: undefined
+      }).subscribe(response => {
+        expect(response).toEqual(MOCK_PAGINATED_PROPERTIES);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrlProperties}?page=0&size=10&orderAsc=true`);
+      expect(req.request.method).toBe('GET');
+      req.flush(MOCK_PAGINATED_PROPERTIES);
+    });
+
+    it('should handle custom page size', () => {
+   
+
+      service.getFilteredProperties({
+        size: 20
+      }).subscribe(response => {
+        expect(response).toEqual(MOCK_PAGINATED_PROPERTIES);
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrlProperties}?page=0&size=20&orderAsc=true`);
+      expect(req.request.method).toBe('GET');
+      req.flush(MOCK_PAGINATED_PROPERTIES);
     });
   });
 });

@@ -4,7 +4,7 @@ import { LocationService } from '@app/core/services/locations/location.service';
 import { NotificationService } from '@app/core/services/notifications/notification.service';
 import { delay, of, throwError } from 'rxjs';
 import { LocationModel } from '@app/core/models/location.model';
-import { MOCK_LOCATIONS } from '@app/shared/utils/constants/mock-locations';
+import { MOCK_LOCATIONS } from '@app/shared/utils/mocks/mock-locations';
 import { fakeAsync, tick } from '@angular/core/testing';
 
 describe('LocationListComponent', () => {

@@ -4,8 +4,8 @@ import { CategoryService } from '@app/core/services/categories/category.service'
 import { PropertyService } from '@app/core/services/properties/property.service';
 import { of, throwError } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { MOCK_CATEGORIES } from '@app/shared/utils/constants/mock-categories';
-import { MOCK_PROPERTIES } from '@app/shared/utils/constants/mock-properties';
+import { MOCK_CATEGORIES } from '@app/shared/utils/mocks/mock-categories';
+import { MOCK_PROPERTIES } from '@app/shared/utils/mocks/mock-properties';
 import { PropertyCardComponent } from '@app/components/molecules/property-card/property-card.component';
 import { PropertyStatusLabelComponent } from '@app/components/atoms/property-status-label/property-status-label.component';
 

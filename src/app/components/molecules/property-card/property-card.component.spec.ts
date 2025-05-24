@@ -15,7 +15,7 @@ describe('PropertyCardComponent', () => {
     publicationStatus: 'FOR_SALE',
     rooms: 3,
     bathrooms: 2,
-    // ...otros campos requeridos por tu modelo
+    
   } as PropertyResponse;
 
   beforeEach(async () => {

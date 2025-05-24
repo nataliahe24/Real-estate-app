@@ -5,7 +5,7 @@ import { NotificationService } from '@app/core/services/notifications/notificati
 import { PropertyFormComponent } from '@app/components/organisms/property-form/property-form.component';
 import { Property } from '@app/core/models/property.model';
 import { of, throwError } from 'rxjs';
-import { MOCK_PROPERTY_PUBLISHED } from '@app/shared/utils/constants/mock-properties';
+import { MOCK_PROPERTY_PUBLISHED } from '@app/shared/utils/mocks/mock-properties';
 
 describe('PublishPropertyComponent', () => {
   let component: PublishPropertyComponent;

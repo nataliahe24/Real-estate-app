@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PropertyFormComponent } from './property-form.component';
 import { ReactiveFormsModule, FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR, FormControl } from '@angular/forms';
 import { NO_ERRORS_SCHEMA, Component, Input, forwardRef } from '@angular/core';
-import { MOCK_PROPERTY_PUBLISHED } from '@app/shared/utils/constants/mock-properties';
+import { MOCK_PROPERTY_PUBLISHED } from '@app/shared/utils/mocks/mock-properties';
 import { jest } from '@jest/globals';
 
 @Component({

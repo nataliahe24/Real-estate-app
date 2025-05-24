@@ -3,7 +3,7 @@ import { PropertiesComponent } from './properties.component';
 import { PropertyService } from '../../core/services/properties/property.service';
 import { CategoryService } from '../../core/services/categories/category.service';
 import { of, throwError } from 'rxjs';
-import { MOCK_CATEGORIES, MOCK_PROPERTIES } from '../../shared/utils/constants/mock-categories';
+import { MOCK_CATEGORIES, MOCK_PROPERTIES } from '../../shared/utils/mocks/mock-categories';
 
 describe('PropertiesComponent', () => {
   let component: PropertiesComponent;
@@ -47,5 +47,4 @@ describe('PropertiesComponent', () => {
     component.loadProperties();
     expect(component.error).toBe(true);
   });
-  
 }); 
