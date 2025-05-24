@@ -17,6 +17,7 @@ export class TextareaComponent implements ControlValueAccessor {
   @Input() label: string = '';
   @Input() placeholder: string = '';
   @Input() required: boolean = false;
+  @Input() ngClass: any;
   
   value: string = '';
   disabled: boolean = false;

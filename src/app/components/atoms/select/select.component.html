@@ -10,7 +10,6 @@
     (change)="onValueChange($event)"
     [required]="required"
     class="select-input">
-    [ngClass]="ngClass"
     <option value="" disabled selected>{{ placeholder }}</option>
     <option *ngFor="let option of options" [value]="option.value">
       {{ option.label }}

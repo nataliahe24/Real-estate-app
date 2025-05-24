@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -23,6 +23,13 @@ export class InputComponent implements ControlValueAccessor {
   @Input() required: boolean = false;
   @Input() ngClass: any;
   @Input() errorMessage: string = '';
+  @Input() class = '';
+  @Input() autocomplete = 'off';
+  @Input() ngModel: any;
+  @Output() ngModelChange = new EventEmitter<any>();
+  @Output() input = new EventEmitter<Event>();
+  @Output() focus = new EventEmitter<Event>();
+  @Output() blur = new EventEmitter<Event>();
 
   onChange: any = () => {};
   onTouched: any = () => {};

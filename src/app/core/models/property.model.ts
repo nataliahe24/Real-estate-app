@@ -1,9 +1,15 @@
-export enum PublicationStatus {
-  FOR_RENT = 'FOR_RENT',
-  FOR_SALE = 'FOR_SALE',
-  SOLD = 'SOLD',
-  RENTED = 'RENTED',
-  INACTIVE = 'INACTIVE'
+export interface Property {
+  id?: number;
+  name: string;
+  address: string;
+  description: string;
+  category: number;
+  rooms: number;
+  bathrooms: number;
+  price: number;
+  location: number;
+  activePublicationDate: string;
+  sellerId: number;
 }
 
 export interface PropertyResponse {
@@ -30,8 +36,9 @@ export interface PropertyFilter {
   maxPrice?: number;
   rooms?: number;
   bathrooms?: number;
-  publicationStatus?: PublicationStatus;
-} 
+  sortBy?: string;
+  orderAsc?: boolean;
+}
 
 export interface PaginatedPropertiesResponse {
   content: PropertyResponse[];
@@ -39,4 +46,17 @@ export interface PaginatedPropertiesResponse {
   size: number;
   totalElements: number;
   totalPages: number;
+}
+
+export interface PropertyFilters {
+  page?: number;
+  size?: number;
+  location?: string;
+  category?: string;
+  rooms?: number;
+  bathrooms?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  sortBy?: string;
+  orderAsc?: boolean;
 }

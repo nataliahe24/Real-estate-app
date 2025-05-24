@@ -1,0 +1,137 @@
+<form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" class="property-form">
+  <div class="form-section">
+    <h2>Información Básica</h2>
+    
+    <div class="form-group">
+      <label for="name">Nombre de la Propiedad</label>
+      <app-input 
+        type="text" 
+        id="name" 
+        formControlName="name" 
+        [class.invalid]="nameInfo.isDirty && !nameInfo.isValid"
+        placeholder="Ej: Casa en el centro"
+        [ngClass]="propertyForm.get('name')?.touched && propertyForm.get('name')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <div class="character-count" [class.invalid]="!nameInfo.isValid && nameInfo.isDirty">
+        <span>{{ nameInfo.currentLength }}</span>/{{ NAME_MAX_LENGTH }} caracteres
+        <span *ngIf="!nameInfo.isValid && nameInfo.isDirty" class="error-message">
+          (Mínimo {{ NAME_MIN_LENGTH }} caracteres)
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Dirección</label>
+      <app-input 
+        id="address" 
+        formControlName="address"
+        [class.invalid]="addressInfo.isDirty && !addressInfo.isValid"
+        placeholder="Ej: Calle 123, Ciudad"
+        [ngClass]="propertyForm.get('address')?.touched && propertyForm.get('address')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <div class="character-count" [class.invalid]="!addressInfo.isValid && addressInfo.isDirty">
+        <span>{{ addressInfo.currentLength }}</span>/{{ ADDRESS_MAX_LENGTH }} caracteres
+        <span *ngIf="!addressInfo.isValid && addressInfo.isDirty" class="error-message">
+          (Mínimo {{ ADDRESS_MIN_LENGTH }} caracteres)
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descripción</label>
+      <app-textarea 
+        id="description" 
+        formControlName="description"
+        [class.invalid]="descriptionInfo.isDirty && !descriptionInfo.isValid"
+        placeholder="Describe tu propiedad..."
+        rows="4"
+        [ngClass]="propertyForm.get('description')?.touched && propertyForm.get('description')?.invalid ? 'input-error' : ''"
+      ></app-textarea>
+      <div class="character-count" [class.invalid]="!descriptionInfo.isValid && descriptionInfo.isDirty">
+        <span>{{ descriptionInfo.currentLength }}</span>/{{ DESCRIPTION_MAX_LENGTH }} caracteres
+        <span *ngIf="!descriptionInfo.isValid && descriptionInfo.isDirty" class="error-message">
+          (Mínimo {{ DESCRIPTION_MIN_LENGTH }} caracteres)
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-section">
+    <h2>Detalles</h2>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label for="category">Categoría</label>
+        <app-category-select
+          id="category"
+          formControlName="category"
+          (categoryIdSelected)="categoryIdSelected($event)"
+        ></app-category-select>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Ubicación</label>
+        <app-location-select
+          id="location"
+          formControlName="location"
+          (locationSelected)="locationSelected($event)"
+        ></app-location-select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="rooms">Habitaciones</label>
+        <app-input 
+          type="number" 
+          id="rooms" 
+          formControlName="rooms"
+          min="0"
+        ></app-input>
+      </div>
+
+      <div class="form-group">
+        <label for="bathrooms">Baños</label>
+        <app-input 
+          type="number" 
+          id="bathrooms" 
+          formControlName="bathrooms"
+          min="0"
+        ></app-input>
+      </div>
+
+      <div class="form-group">
+        <label for="price">Precio</label>
+        <app-input 
+          type="number" 
+          id="price" 
+          formControlName="price"
+          min="0"
+        ></app-input>
+      </div>
+    </div>
+
+    <div class="form-date">
+      <label for="activePublicationDate">Fecha de Publicación</label>
+      <app-input 
+        type="date" 
+        id="activePublicationDate" 
+        formControlName="activePublicationDate"
+        [ngClass]="propertyForm.get('activePublicationDate')?.touched && propertyForm.get('activePublicationDate')?.invalid ? 'input-error' : ''"
+      ></app-input>
+      <span *ngIf="!activePublicationDateInfo.isValid && activePublicationDateInfo.isDirty" class="error-message">
+        {{ activePublicationDateInfo.hasError ? 'La fecha no puede ser anterior a hoy' : ''}}
+      </span>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <app-button 
+      type="primary" 
+      [disabled]="!propertyForm.valid"
+      [isSubmit]="true"
+      label="Publicar"
+      [ngClass]="{'button-disabled': !propertyForm.valid}"
+    ></app-button>
+  </div>
+</form> 

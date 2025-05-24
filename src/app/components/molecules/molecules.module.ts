@@ -6,13 +6,14 @@ import { CategoryFormComponent } from './category-form/category-form.component';
 import { CategoryListComponent } from './category-list/category-list.component';
 import { PropertyCardComponent } from './property-card/property-card.component';
 import { SearchFormComponent } from './search-form/search-form.component';
-import { SharedModule } from '@app/shared/shared.module';
 import { NotificationService } from '@app/core/services/notifications/notification.service';
 import { SharedComponentsModule } from '@app/shared/shared-components.module';
 import { DepartmentSelectComponent } from './department-select/department-select.component';
 import { CitySelectComponent } from './city-select/city-select.component';
 import { LocationListComponent } from './location-list/location-list.component';
 import { CategorySelectComponent } from './category-select/category-select.component';
+import { LocationSelectComponent } from './location-select/location-select.component';
+import { FiltersModalComponent } from './filters-modal/filters-modal.component';
 
 @NgModule({
   declarations: [
@@ -23,14 +24,15 @@ import { CategorySelectComponent } from './category-select/category-select.compo
     DepartmentSelectComponent,
     CitySelectComponent,
     LocationListComponent,
-    CategorySelectComponent
+    CategorySelectComponent,
+    LocationSelectComponent,
+    FiltersModalComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     AtomsModule,
-    SharedModule,
     SharedComponentsModule
   ],
   exports: [
@@ -41,7 +43,9 @@ import { CategorySelectComponent } from './category-select/category-select.compo
     DepartmentSelectComponent,
     CitySelectComponent,
     LocationListComponent,
-    CategorySelectComponent
+    CategorySelectComponent,
+    LocationSelectComponent,
+    FiltersModalComponent
   ],
   providers: [
     NotificationService

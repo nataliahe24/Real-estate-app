@@ -38,24 +38,6 @@ export class CategoryService {
       });
   }
    
-    getCategoryNames(orderAsc: boolean = true): Observable<string[]> {
-      console.log(`Requesting category names with orderAsc=${orderAsc}`);
-      
-      const params = new HttpParams().set('orderAsc', orderAsc.toString());
-      
-      const options = {
-        ...this.httpOptions,
-        params: params
-      };
-      console.log('Full request URL for category names:', `${this.apiUrl}list?${params.toString()}`);
-    
-      return this.http.get<any>(`${this.apiUrl}list`, options).pipe(
-        tap(data => {
-          console.log('Category names received:', data);
-        }),
-        catchError(this.handleError)
-      );
-    }
 
   getCategories(page: number = 0, size: number = 10, orderAsc: boolean = true): Observable<any> {
     console.log(`Requesting categories: page=${page}, size=${size}, orderAsc=${orderAsc}`);
@@ -70,15 +52,14 @@ export class CategoryService {
       params: params
     };
     
-    console.log('Full request URL:', `${this.apiUrl}?${params.toString()}`);
     
     return this.http.get<any>(this.apiUrl, options).pipe(
       tap(data => {
         console.log('Categories received raw data:', data);
         if (data && data.content) {
-          console.log(`Received ${data.content.length} categories from page ${data.number} of ${data.totalPages}`);
+          
         } else {
-          console.log('Response format is not paginated or empty');
+          
         }
       }),
       catchError(this.handleError)

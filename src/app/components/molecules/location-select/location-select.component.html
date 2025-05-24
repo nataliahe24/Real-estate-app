@@ -1,0 +1,26 @@
+<div class="location-select-container">
+  <app-input
+    type="text"
+    class="location-autocomplete"
+    placeholder="Escribe para buscar ubicación"
+    [(ngModel)]="searchText"
+    (input)="onSearchChange()"
+    (focus)="showDropdown = true"
+    (blur)="onBlur()"
+    [disabled]="isLoading"
+    autocomplete="off"
+  ></app-input>
+
+  <ul *ngIf="showDropdown && filteredLocations.length > 0" class="autocomplete-dropdown">
+    <li
+      *ngFor="let location of filteredLocations"
+      (mousedown)="selectLocation(location)"
+      [class.selected]="location.id === selectedLocationId"
+    >
+      {{ getLocationDisplay(location) }}
+    </li>
+  </ul>
+
+  <div *ngIf="isLoading" class="loading">Cargando ubicaciones...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+</div>

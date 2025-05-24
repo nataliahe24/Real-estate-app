@@ -13,5 +13,11 @@
     [attr.aria-required]="required"
     (input)="updateValue($any($event.target).value)"
     [ngClass]="ngClass"
+    [autocomplete]="autocomplete"
+    [(ngModel)]="ngModel"
+    (ngModelChange)="ngModelChange.emit($event)"
+    (input)="input.emit($event)"
+    (focus)="focus.emit($event)"
+    (blur)="blur.emit($event)"
   />
 </div> 

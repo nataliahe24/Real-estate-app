@@ -1,0 +1,14 @@
+<app-seller-user-layout>
+    <div class="publish-property-page">
+        <h1 class="page-title">Publicar propiedad</h1>
+
+        <div class="content-container">
+            <app-property-form
+            (submitForm)="onPropertyCreated($event)"
+            (error)="handleError($event)"
+            ></app-property-form>
+            <app-notification-container></app-notification-container>
+        </div>
+        <app-property-list></app-property-list>
+    </div>
+</app-seller-user-layout>

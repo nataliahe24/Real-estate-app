@@ -10,5 +10,6 @@
     [disabled]="disabled"
     [attr.aria-required]="required"
     (input)="updateValue($any($event.target).value)"
+    [ngClass]="ngClass"
   ></textarea>
 </div> 

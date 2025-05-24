@@ -1,6 +1,8 @@
+
 export const MOCK_CATEGORIES = [
-  { id: '1', name: 'Casa', description: 'Casa familiar' },
-  { id: '2', name: 'Departamento', description: 'Departamento moderno' }
+  { id: '1', name: 'House', description: 'Residential house' },
+  { id: '2', name: 'Apartment', description: 'Residential apartment' },
+  { id: '3', name: 'Commercial', description: 'Commercial property' }
 ];
 
 export const MOCK_PROPERTIES = [

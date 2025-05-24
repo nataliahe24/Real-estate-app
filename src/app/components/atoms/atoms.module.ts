@@ -8,6 +8,7 @@ import { TextareaComponent } from './textarea/textarea.component';
 import { NotificationComponent } from './notification/notification.component';
 import { LogoComponent } from './logo/logo.component';
 import { PropertyStatusLabelComponent } from './property-status-label/property-status-label.component';
+import { PasswordInputComponent } from './password-input/password-input.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { PropertyStatusLabelComponent } from './property-status-label/property-s
     TextareaComponent,
     NotificationComponent,
     LogoComponent,
-    PropertyStatusLabelComponent
+    PropertyStatusLabelComponent,
+    PasswordInputComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import { PropertyStatusLabelComponent } from './property-status-label/property-s
     TextareaComponent,
     NotificationComponent,
     LogoComponent,
-    PropertyStatusLabelComponent
+    PropertyStatusLabelComponent,
+    PasswordInputComponent
   ]
 })
 export class AtomsModule { } 

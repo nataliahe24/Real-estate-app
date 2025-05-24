@@ -61,4 +61,76 @@ describe('CitySelectComponent', () => {
     component.setDisabledState(true);
     expect(component.disabled).toBe(true);
   });
+
+  describe('Department Changes', () => {
+    it('should load cities when departmentId changes', () => {
+      component.departmentId = 1;
+      fixture.detectChanges();
+      
+      component.ngOnChanges({
+        departmentId: new SimpleChange(null, 1, true)
+      });
+      fixture.detectChanges();
+
+      const req = httpMock.expectOne('assets/data/city.json');
+      expect(req.request.method).toBe('GET');
+      req.flush(mockCities);
+      
+      const expectedCities = mockCities
+        .filter(city => city.departmentId === 1)
+        .map(city => ({
+          value: city.name,
+          label: city.name
+        }));
+      
+      expect(component.cities).toEqual(expectedCities);
+    });
+
+    it('should handle error when loading cities', () => {
+      component.departmentId = 1;
+      fixture.detectChanges();
+      
+      component.ngOnChanges({
+        departmentId: new SimpleChange(null, 1, true)
+      });
+      fixture.detectChanges();
+
+      const req = httpMock.expectOne('assets/data/city.json');
+      req.error(new ErrorEvent('Network error'));
+      
+      expect(component.cities).toEqual([]);
+    });
+  });
+
+  describe('Value Selection', () => {
+    it('should handle value selection and emit changes', () => {
+      const mockFn = jest.fn();
+      component.registerOnChange(mockFn);
+      
+      component.onValueChange({ target: { value: '1' } });
+      
+      expect(component.value).toBe('1');
+      expect(mockFn).toHaveBeenCalledWith('1');
+    });
+
+    it('should handle empty value selection', () => {
+      const mockFn = jest.fn();
+      component.registerOnChange(mockFn);
+      
+      component.onValueChange({ target: { value: '' } });
+      
+      expect(component.value).toBe('');
+      expect(mockFn).toHaveBeenCalledWith('');
+    });
+  });
+
+  describe('Disabled State', () => {
+    it('should update disabled state and form control', () => {
+      component.setDisabledState(true);
+      expect(component.disabled).toBe(true);
+
+      component.setDisabledState(false);
+      expect(component.disabled).toBe(false);
+    });
+  });
 }); 

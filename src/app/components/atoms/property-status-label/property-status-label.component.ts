@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./property-status-label.component.scss']
 })
 export class PropertyStatusLabelComponent {
-  @Input() status: string = '';
+  @Input() type: string = '';
 } 

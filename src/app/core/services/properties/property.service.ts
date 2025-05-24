@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, map, pipe, throwError } from 'rxjs';
-import { PropertyResponse, PropertyFilter, PaginatedPropertiesResponse } from '../../models/property.model';
+import { PropertyResponse, PropertyFilter, PaginatedPropertiesResponse, Property, PropertyFilters } from '../../models/property.model';
 import { environment } from '../../../../environments/environment';
+import { BehaviorSubject } from 'rxjs';
+import { ValidationPropertyFilter} from '@app/shared/utils/validators/validatePropertyFilter';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PropertyService {
   private apiUrl: string;
+ 
 
   constructor(private http: HttpClient) {
-    this.apiUrl = environment.apiUrlProperties;
-    
-    this.apiUrl = `${this.apiUrl.endsWith('/') ? this.apiUrl.slice(0, -1) : this.apiUrl}/list`;
-    
-    console.log('URL base configurada:', this.apiUrl);
+    this.apiUrl = `${environment.apiUrlProperties}`;
   }
 
   getProperties(filters: { [key: string]: any } = {}): Observable<PropertyResponse[]> {
@@ -30,13 +30,10 @@ export class PropertyService {
     
     params = params.append('page', '0');
     params = params.append('size', '20');
-    
     params = params.append('orderAsc', 'true');
     
-    console.log('Request URL:', this.apiUrl);
-    console.log('Parameters:', params.toString());
 
-    return this.http.get<PaginatedPropertiesResponse>(this.apiUrl, { params })
+    return this.http.get<PaginatedPropertiesResponse>(`${environment.apiUrlProperties}list`, { params })
       .pipe(
         map((response: PaginatedPropertiesResponse) => response.content),
         catchError(error => {
@@ -49,23 +46,38 @@ export class PropertyService {
       );
   }
 
-  getPropertyById(id: number): Observable<PropertyResponse> {
-    return this.http.get<PropertyResponse>(`${this.apiUrl}/${id}`);
+  createProperty(property: Property): Observable<Property> {
+    return this.http.post<Property>(`${this.apiUrl}/`, property).pipe(
+      catchError(error => {
+        console.error('Error creating property:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
-  getPropertiesByLocation(locationId: number): Observable<PropertyResponse[]> {
-    return this.http.get<PropertyResponse[]>(`${this.apiUrl}/location/${locationId}`);
-  }
+  getFilteredProperties(filters: PropertyFilters): Observable<PaginatedPropertiesResponse> {
+    let params = new HttpParams()
+      .set('page', (filters.page || 0).toString())
+      .set('size', (filters.size || 10).toString())
+      .set('orderAsc', (filters.orderAsc ?? true).toString());
 
-  getPropertiesBySeller(sellerId: number): Observable<PropertyResponse[]> {
-    return this.http.get<PropertyResponse[]>(`${this.apiUrl}/seller/${sellerId}`);
-  }
+    if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
+    if (filters.location) params = params.set('location', filters.location);
+    if (filters.category) params = params.set('category', filters.category);
+    if (filters.rooms) params = params.set('rooms', filters.rooms.toString());
+    if (filters.bathrooms) params = params.set('bathrooms', filters.bathrooms.toString());
+    if (filters.minPrice) params = params.set('minPrice', filters.minPrice.toString());
+    if (filters.maxPrice) params = params.set('maxPrice', filters.maxPrice.toString());
 
-  getPropertiesByCategory(category: string): Observable<PropertyResponse[]> {
-    return this.http.get<PropertyResponse[]>(`${this.apiUrl}/category/${category}`);
-  }
+    const url = `${this.apiUrl}?${params.toString()}`;
+    console.log('Request URL:', url);
+    console.log('Request Parameters:', params.toString());
 
-  getPropertiesByStatus(status: string): Observable<PropertyResponse[]> {
-    return this.http.get<PropertyResponse[]>(`${this.apiUrl}/status/${status}`);
+    return this.http.get<PaginatedPropertiesResponse>(this.apiUrl, { params }).pipe(
+      catchError((error) => {
+        console.error('Error fetching filtered properties: ', error);
+        return throwError(() => error);
+      })
+    );
   }
 }

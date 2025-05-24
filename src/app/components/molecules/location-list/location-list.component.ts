@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { LocationService } from '../../../core/services/locations/location.service';
 import { LocationResponse } from '../../../core/models/location.model';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-location-list',
@@ -17,7 +18,7 @@ export class LocationListComponent implements OnInit {
   totalItems = 0;
   loading = false;
   orderAsc = true;
-
+  private destroy$ = new Subject<void>();
   constructor(private locationService: LocationService) {}
 
   ngOnInit(): void {
@@ -25,11 +26,17 @@ export class LocationListComponent implements OnInit {
     this.loadLocations();
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   private setupSearch(): void {
     this.searchControl.valueChanges
       .pipe(
         debounceTime(300),
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
       )
       .subscribe(() => {
         this.currentPage = 1;
@@ -80,6 +87,7 @@ export class LocationListComponent implements OnInit {
   }
 
   onPageChange(page: number): void {
+    if (page === this.currentPage) return;
     this.currentPage = page;
     this.loadLocations();
   }

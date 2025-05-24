@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { UsersService } from './users.service';
+import { User, CreateUserDto, Role } from '@core/models/user.model';
 import { environment } from '@env/environment';
-import { CreateUserDto } from '@core/models/user.model';
+import { MOCK_USER, MOCK_USER_RESPONSE, MOCK_ROLE } from '@app/shared/utils/mocks/mock-user';
 
 describe('UsersService', () => {
   let service: UsersService;
   let httpMock: HttpTestingController;
-  const mockToken = 'mock-token';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,13 +17,12 @@ describe('UsersService', () => {
 
     service = TestBed.inject(UsersService);
     httpMock = TestBed.inject(HttpTestingController);
-    
-    
-    Storage.prototype.getItem = jest.fn(() => mockToken);
+    localStorage.setItem('token', 'test-token');
   });
 
   afterEach(() => {
     httpMock.verify();
+    localStorage.removeItem('token');
   });
 
   it('should be created', () => {
@@ -31,105 +30,86 @@ describe('UsersService', () => {
   });
 
   describe('createUser', () => {
-    const mockUserData: CreateUserDto = {
-      email: 'test@example.com',
-      phoneNumber: '+1234567890',
-      identityDocument: 123456789,
-      birthDate: new Date('1990-01-01'),
-      firstName: 'John',
-      lastName: 'Doe',
-      password: 'password123'
-    };
-
-    const mockResponse = {
-      id: 1,
-      ...mockUserData,
-      role: 3,
-      createdAt: new Date(),
-      updatedAt: new Date()
-    };
-
     it('should create a user successfully', () => {
-      service.createUser(mockUserData).subscribe(response => {
-        expect(response).toEqual(mockResponse);
+      service.createUser(MOCK_USER).subscribe(user => {
+        expect(user).toEqual(MOCK_USER_RESPONSE);
       });
 
-      const req = httpMock.expectOne(`${environment.apiUrl}users/`);
+      const req = httpMock.expectOne(`${environment.apiUrlUsers}`);
       expect(req.request.method).toBe('POST');
-      expect(req.request.headers.get('Authorization')).toBe(`Bearer ${mockToken}`);
-      expect(req.request.body).toEqual({ ...mockUserData, role: 3 });
-      req.flush(mockResponse);
+      expect(req.request.body).toEqual({ ...MOCK_USER, role: MOCK_ROLE.id });
+      expect(req.request.headers.get('Authorization')).toBe('Bearer test-token');
+      req.flush(MOCK_USER_RESPONSE);
     });
 
-    it('should handle HTTP errors', () => {
-      const errorResponse = { status: 400, statusText: 'Bad Request' };
-
-      service.createUser(mockUserData).subscribe({
+    it('should handle existing user error', () => {
+      const errorMessage = 'Ya existe un usuario registrado con este correo electrónico';
+      
+      service.createUser(MOCK_USER).subscribe({
         error: (error) => {
-          expect(error.status).toBe(400);
+          expect(error.message).toBe(errorMessage);
         }
       });
 
-      const req = httpMock.expectOne(`${environment.apiUrl}users/`);
-      req.flush('Error', errorResponse);
+      const req = httpMock.expectOne(`${environment.apiUrlUsers}`);
+      req.flush(
+        { message: 'El usuario ya existe' },
+        { status: 400, statusText: 'Bad Request' }
+      );
+    });
+
+    it('should handle server error', () => {
+      const errorMessage = 'Server error';
+      
+      service.createUser(MOCK_USER).subscribe({
+        error: (error) => {
+          expect(error.status).toBe(500);
+          expect(error.statusText).toBe(errorMessage);
+        }
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrlUsers}`);
+      req.flush(errorMessage, { 
+        status: 500, 
+        statusText: errorMessage 
+      });
     });
   });
 
   describe('validateUserData', () => {
-    it('should throw error for invalid email format', () => {
-      const invalidUserData: CreateUserDto = {
-        email: 'invalid-email',
-        phoneNumber: '+1234567890',
-        identityDocument: 123456789,
-        birthDate: new Date('1990-01-01'),
-        firstName: 'John',
-        lastName: 'Doe',
-        password: 'password123'
-      };
+    it('should validate correct user data', () => {
+      expect(() => service.createUser(MOCK_USER)).not.toThrow();
+    });
 
-      expect(() => service.createUser(invalidUserData)).toThrow('Invalid email format');
+    it('should throw error for invalid email', () => {
+      const invalidUser = { ...MOCK_USER, email: 'invalid-email' };
+      expect(() => service.createUser(invalidUser)).toThrow(
+        'El correo electrónico ingresado no tiene un formato inválido.'
+      );
     });
 
     it('should throw error for invalid phone number', () => {
-      const invalidUserData: CreateUserDto = {
-        email: 'test@example.com',
-        phoneNumber: '123', 
-        identityDocument: 123456789,
-        birthDate: new Date('1990-01-01'),
-        firstName: 'John',
-        lastName: 'Doe',
-        password: 'password123'
-      };
-
-      expect(() => service.createUser(invalidUserData)).toThrow('Phone number must be between 10 and 13 digits and may include +');
+      const invalidUser = { ...MOCK_USER, phoneNumber: '123' };
+      expect(() => service.createUser(invalidUser)).toThrow(
+        'El numero de telefono no puede exceder los 13 caracteres'
+      );
     });
 
     it('should throw error for invalid identity document', () => {
-      const invalidUserData: CreateUserDto = {
-        email: 'test@example.com',
-        phoneNumber: '+1234567890',
-        identityDocument: 123456789.5, 
-        birthDate: new Date('1990-01-01'),
-        firstName: 'John',
-        lastName: 'Doe',
-        password: 'password123'
-      };
-
-      expect(() => service.createUser(invalidUserData)).toThrow('Identity document must contain only numbers');
+      const invalidUser = { ...MOCK_USER, identityDocument: 'ABC123' as any };
+      expect(() => service.createUser(invalidUser)).toThrow(
+        'El documento de identidad debe contener solo números'
+      );
     });
 
     it('should throw error for underage user', () => {
-      const invalidUserData: CreateUserDto = {
-        email: 'test@example.com',
-        phoneNumber: '+1234567890',
-        identityDocument: 123456789,
-        birthDate: new Date(),
-        firstName: 'John',
-        lastName: 'Doe',
-        password: 'password123'
+      const underageUser = { 
+        ...MOCK_USER, 
+        birthDate: new Date() 
       };
-
-      expect(() => service.createUser(invalidUserData)).toThrow('User must be at least 18 years old');
+      expect(() => service.createUser(underageUser)).toThrow(
+        'La edad del usuario no cumple con el mínimo permitido'
+      );
     });
   });
 }); 
