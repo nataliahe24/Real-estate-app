@@ -1,0 +1,47 @@
+<div class="login-container">
+    <app-navbar 
+    [menuItems]="menuItems" 
+    [showLoginButton]="false"
+    class="navbar">
+    </app-navbar>
+    
+    <main class="login-main">
+      <div class="login-card">
+        
+        
+        <h2>Iniciar Sesión</h2>
+        
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="input-group">
+            <app-input
+              formControlName="username"
+              placeholder="Usuario"
+              icon="user"
+              type="text">
+            </app-input>
+          </div>
+          
+          <div class="input-group">
+            <app-password-input
+              formControlName="password"
+              placeholder="Contraseña"
+              icon="lock"
+              type="password">
+            </app-password-input>
+          </div>
+          
+          <app-button
+            [label]="'Ingresar'"
+            type="primary"
+            [disabled]="!loginForm.valid"
+            text="Ingresar">
+          </app-button>
+        </form>
+        
+        <div class="options">
+          <a routerLink="/forgot-password">No recuerdo mi contraseña</a>
+          <a routerLink="/register">Registrarse</a>
+        </div>
+      </div>
+    </main>
+  </div>

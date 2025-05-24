@@ -12,6 +12,7 @@ import { PropertiesComponent } from './properties/properties.component';
 import { PublishPropertyComponent } from './publish-property/publish-property.component';
 import { UsersComponent } from './users/users.component';
 import { LocationsComponent } from './locations/locations.component';
+import { LoginAuthComponent } from './login-auth/login-auth.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
         path: 'publish',
         component: PublishPropertyComponent
       },
+      {
+        path: 'login',
+        component: LoginAuthComponent
+      }
     ]
   }
 ];
@@ -47,7 +52,8 @@ const routes: Routes = [
     PropertiesComponent,
     UsersComponent,
     PublishPropertyComponent,
-    LocationsComponent
+    LocationsComponent,
+    LoginAuthComponent
   ],
   imports: [
     CommonModule,
