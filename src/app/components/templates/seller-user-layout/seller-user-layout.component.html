@@ -9,14 +9,13 @@
         <div class="user-avatar">
           <img [src]="user.avatar" alt="User Avatar">
         </div>
+        <app-logout-button></app-logout-button>
       </div>
     </div>
   </header>
 
   <div class="content-wrapper">
-    <app-sidebar
-      [menuItems]="menuItems"
-    ></app-sidebar>
+    <app-sidebar *ngIf="showSidebar" [menuItems]="menuItems"></app-sidebar>
     
     <main class="main-content">
       <ng-content></ng-content>
