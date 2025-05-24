@@ -15,7 +15,7 @@
           <div class="input-group">
             <app-input
               formControlName="username"
-              placeholder="Usuario"
+              placeholder=" Usuario"
               icon="user"
               type="text">
             </app-input>
@@ -31,6 +31,7 @@
           </div>
           
           <app-button
+            [isSubmit]="true"
             [label]="'Ingresar'"
             type="primary"
             [disabled]="!loginForm.valid"

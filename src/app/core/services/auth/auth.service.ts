@@ -12,8 +12,8 @@ import { LoginResponse } from '../../models/login-response.interface';
 export class AuthService {
   private currentUserSubject = new BehaviorSubject<LoginResponse | null>(null);
   public currentUser = this.currentUserSubject.asObservable();
-  private apiUrl = environment.PropertypiUrl;
-  private loginUrl = `${environment.userApiUrl}/api/v1/users/login`;
+  private apiUrl = environment.apiUrl;
+  private loginUrl = environment.apiUrlAuth;
 
   constructor(
     private http: HttpClient,
@@ -36,11 +36,21 @@ export class AuthService {
   }
 
   login(credentials: { email: string; password: string }): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.loginUrl, credentials)
+    const body = {
+      email: credentials.email,
+      password: credentials.password
+    };
+
+    return this.http.post<LoginResponse>(this.loginUrl, body)
       .pipe(
         tap(response => {
-          console.log('Login successful, saving token:', response.accessToken);
-          this.setAuth(response);
+          if (response && response.accessToken) {
+            this.setAuth(response);
+          }
+        }),
+        catchError(error => {
+          console.error('Login error:', error);
+          throw error;
         })
       );
   }
@@ -50,7 +60,7 @@ export class AuthService {
     email: string; 
     password: string 
   }): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/`, userData)
+    return this.http.post<LoginResponse>(this.loginUrl , userData)
       .pipe(
         tap(response => this.setAuth(response)),
         catchError(error => {
@@ -67,7 +77,7 @@ export class AuthService {
       return of(null);
     }
     
-    return this.http.get<LoginResponse>(`${this.apiUrl}`)
+    return this.http.get<LoginResponse>(`${this.loginUrl}`)
       .pipe(
         tap(response => this.setAuth(response)),
         catchError(() => {
@@ -78,7 +88,7 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, {}).pipe(
+    return this.http.post(`${this.loginUrl}`, {}).pipe(
       tap(() => this.purgeAuth()),
       catchError(error => {
         this.purgeAuth();
