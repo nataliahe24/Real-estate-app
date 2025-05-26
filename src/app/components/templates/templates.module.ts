@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MainLayoutComponent } from './category-layout/main-layout.component';
+import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 import { SharedComponentsModule } from '../../shared/shared-components.module';
 import { AtomsModule } from '../atoms/atoms.module';
 import { PropertiesLayoutComponent } from './properties-layout/properties-layout.component';
@@ -10,7 +10,7 @@ import { OrganismsModule } from '../organisms/organisms.module';
 
 @NgModule({
   declarations: [
-    MainLayoutComponent,
+    AdminLayoutComponent,
     PropertiesLayoutComponent,
     SellerUserLayoutComponent
   ],
@@ -22,7 +22,7 @@ import { OrganismsModule } from '../organisms/organisms.module';
     OrganismsModule
   ],
   exports: [
-    MainLayoutComponent,
+    AdminLayoutComponent,
     PropertiesLayoutComponent,
     SellerUserLayoutComponent
   ]

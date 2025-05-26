@@ -142,6 +142,9 @@ export class PropertyFormComponent {
     this.currentUserId = this.authService.getCurrentUser()?.id ?? null;
     this.propertyForm.reset();
     this.propertyForm.patchValue({
+      name: '',
+      address: '',
+      description: '',
       rooms: 0,
       bathrooms: 0,
       price: 0,
