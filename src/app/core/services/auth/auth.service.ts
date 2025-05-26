@@ -15,7 +15,7 @@ export class AuthService {
   public currentUser = this.currentUserSubject.asObservable();
   private apiUrl = environment.apiUrl;
   private loginUrl = environment.apiUrlAuth;
-  private userUrl = `${environment.apiUrlUsers}`;
+  private userUrl = environment.apiUrlUsers;
 
   constructor(
     private http: HttpClient,

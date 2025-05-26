@@ -45,6 +45,7 @@
   </div>
 
   <div class="pagination" *ngIf="totalItems > 0">
+    
     <button 
       [disabled]="currentPage === 1"
       (click)="onPageChange(currentPage - 1)"
@@ -69,6 +70,9 @@
     >
       <i class="fas fa-chevron-right"></i>
     </button>
+  </div>
+  <div class="pagination-info">
+    Mostrando {{ locations.length }} de {{ totalItems }} ubicaciones
   </div>
 </section>
 </div> 
