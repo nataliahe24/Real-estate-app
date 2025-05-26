@@ -12,9 +12,9 @@ import { NotificationService } from '@core/services/notifications/notification.s
 export class LoginComponent {
   loginForm: FormGroup;
   menuItems = [
-    { label: 'Compra', route: '' },
-    { label: 'Renta', route: '' },
-    { label: 'Vende', route: '/publish' }
+    { label: 'Inicio', route: '' },
+    { label: 'Nosotros', route: '' },
+    { label: 'Contacto', route: '' }
   ];
 
   constructor(
@@ -41,13 +41,12 @@ export class LoginComponent {
           if (response && response.accessToken) {
             this.notificationService.success('Inicio de sesión exitoso');
             
-            
             if (this.authService.isAdmin()) {
               this.router.navigate(['/wellcome-admin']);
             } else if (this.authService.isSeller()) {
               this.router.navigate(['/wellcome-seller']);
             } else {
-              this.router.navigate(['/properties']);
+              this.router.navigate(['/login']);
             }
           }
         },
