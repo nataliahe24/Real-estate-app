@@ -3,4 +3,5 @@ export interface LoginResponse {
   message: string;
   accessToken: string;
   role: number;
+  id: number;
 } 
