@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { JwtService } from './jwt.service';
+import { JwtService } from '../jwt/jwt.service';
 import { environment } from '../../../../environments/environment';
 import { LoginResponse } from '../../models/login-response.interface';
+import { NotificationService } from '../notifications/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,14 @@ import { LoginResponse } from '../../models/login-response.interface';
 export class AuthService {
   private currentUserSubject = new BehaviorSubject<LoginResponse | null>(null);
   public currentUser = this.currentUserSubject.asObservable();
-  private apiUrl = environment.PropertypiUrl;
-  private loginUrl = `${environment.userApiUrl}/api/v1/users/login`;
+  private apiUrl = environment.apiUrl;
+  private loginUrl = environment.apiUrlAuth;
+ 
 
   constructor(
     private http: HttpClient,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private notificationService: NotificationService
   ) {
     this.populateUser();
   }
@@ -36,11 +39,21 @@ export class AuthService {
   }
 
   login(credentials: { email: string; password: string }): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.loginUrl, credentials)
+    const body = {
+      email: credentials.email,
+      password: credentials.password
+    };
+
+    return this.http.post<LoginResponse>(this.loginUrl, body)
       .pipe(
         tap(response => {
-          console.log('Login successful, saving token:', response.accessToken);
-          this.setAuth(response);
+          if (response && response.accessToken) {
+            this.setAuth(response);
+          }
+        }),
+        catchError(error => {
+          console.error('Login error:', error);
+          throw error;
         })
       );
   }
@@ -50,7 +63,7 @@ export class AuthService {
     email: string; 
     password: string 
   }): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/auth/`, userData)
+    return this.http.post<LoginResponse>(this.loginUrl , userData)
       .pipe(
         tap(response => this.setAuth(response)),
         catchError(error => {
@@ -67,7 +80,7 @@ export class AuthService {
       return of(null);
     }
     
-    return this.http.get<LoginResponse>(`${this.apiUrl}`)
+    return this.http.get<LoginResponse>(`${this.loginUrl}`)
       .pipe(
         tap(response => this.setAuth(response)),
         catchError(() => {
@@ -78,7 +91,7 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, {}).pipe(
+    return this.http.post(`${this.loginUrl}`, {}).pipe(
       tap(() => this.purgeAuth()),
       catchError(error => {
         this.purgeAuth();
@@ -104,5 +117,38 @@ export class AuthService {
   getUserRole(): number | null {
     const user = this.getCurrentUser();
     return user ? user.role : null;
+  }
+
+  hasRole(requiredRole: number): boolean {
+    const user = this.getCurrentUser();
+    return user?.role === requiredRole;
+  }
+
+  isAdmin(): boolean {
+    return this.hasRole(2);
+  }
+
+  isSeller(): boolean {
+    return this.hasRole(3);
+  }
+
+  isBuyer(): boolean {
+    return this.hasRole(1);
+  }
+
+  validateAdminAccess(): boolean {
+    if (!this.isAdmin()) {
+      this.notificationService.warning('Acceso denegado: Se requieren permisos de administrador');
+      return false;
+    }
+    return true;
+  }
+
+  validateSellerAccess(): boolean {
+    if (!this.isSeller()) {
+      this.notificationService.warning('Acceso denegado: Se requieren permisos de vendedor');
+      return false;
+    }
+    return true;
   }
 } 

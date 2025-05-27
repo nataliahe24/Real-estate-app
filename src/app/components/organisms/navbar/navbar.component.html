@@ -17,7 +17,7 @@
       </div>
       
       <div class="navbar-end">
-        <a routerLink="/login" class="login-button">
+        <a *ngIf="showLoginButton" routerLink="/login" class="login-button">
           Ingresar
         </a>
       </div>

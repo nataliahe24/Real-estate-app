@@ -126,7 +126,7 @@ describe('PropertyService', () => {
         expect(property).toEqual(newProperty);
       });
 
-      const req = httpMock.expectOne(`${environment.apiUrlProperties}/`);
+      const req = httpMock.expectOne(environment.apiUrlProperties);
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(newProperty);
       req.flush(newProperty);
@@ -155,7 +155,7 @@ describe('PropertyService', () => {
         }
       });
 
-      const req = httpMock.expectOne(`${environment.apiUrlProperties}/`);
+      const req = httpMock.expectOne(environment.apiUrlProperties);
       expect(req.request.method).toBe('POST');
       req.flush(errorMessage, { 
         status: 400, 

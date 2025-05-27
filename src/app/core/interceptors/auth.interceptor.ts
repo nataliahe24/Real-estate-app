@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { JwtService } from '../services/auth/jwt.service';
+import { JwtService } from '../services/jwt/jwt.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -13,8 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (token && token.length > 0) {
       const cleanToken = token.trim();
       console.log('Token length:', cleanToken.length);
-      
-      // Prueba este formato
+    
       request = request.clone({
         headers: request.headers
           .set('Authorization', 'Bearer ' + cleanToken)

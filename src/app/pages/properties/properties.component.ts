@@ -22,7 +22,9 @@ export class PropertiesComponent implements OnInit {
     'assets/images/casa-1.png',
     'assets/images/casa-2.png',
     'assets/images/casa-3.png',
-    'assets/images/casa-4.png'
+    'assets/images/casa-4.png',
+    'assets/images/casa-5.png',
+    'assets/images/casa-6.png'
   ];
   
   constructor(private propertyService: PropertyService) {}

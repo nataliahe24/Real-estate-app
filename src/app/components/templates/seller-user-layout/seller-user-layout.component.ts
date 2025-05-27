@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-seller-user-layout',
@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./seller-user-layout.component.scss']
 })
 export class SellerUserLayoutComponent {
+  @Input() showSidebar: boolean = true;
+
   user = {
     name: 'Vendedor',
     avatar: '/assets/images/usuario.jpeg'

@@ -15,7 +15,7 @@ export class PropertyService {
  
 
   constructor(private http: HttpClient) {
-    this.apiUrl = `${environment.apiUrlProperties}`;
+    this.apiUrl = environment.apiUrlProperties;
   }
 
   getProperties(filters: { [key: string]: any } = {}): Observable<PropertyResponse[]> {
@@ -47,7 +47,7 @@ export class PropertyService {
   }
 
   createProperty(property: Property): Observable<Property> {
-    return this.http.post<Property>(`${this.apiUrl}/`, property).pipe(
+    return this.http.post<Property>(this.apiUrl, property).pipe(
       catchError(error => {
         console.error('Error creating property:', error);
         return throwError(() => error);

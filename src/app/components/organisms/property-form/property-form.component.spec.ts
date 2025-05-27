@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormsModule, ControlValueAccessor, NG_VALUE_ACCESS
 import { NO_ERRORS_SCHEMA, Component, Input, forwardRef } from '@angular/core';
 import { MOCK_PROPERTY_PUBLISHED } from '@app/shared/utils/mocks/mock-properties';
 import { jest } from '@jest/globals';
+import { AuthService } from '@app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-input',
@@ -136,8 +137,13 @@ class MockButtonComponent {
 describe('PropertyFormComponent', () => {
   let component: PropertyFormComponent;
   let fixture: ComponentFixture<PropertyFormComponent>;
+  let authServiceMock: any;
 
   beforeEach(async () => {
+    authServiceMock = {
+      getCurrentUser: jest.fn().mockReturnValue({ id: 99 })
+    };
+
     await TestBed.configureTestingModule({
       declarations: [
         PropertyFormComponent,
@@ -148,9 +154,13 @@ describe('PropertyFormComponent', () => {
         MockButtonComponent
       ],
       imports: [ReactiveFormsModule, FormsModule],
+      providers: [
+        { provide: AuthService, useValue: authServiceMock }
+      ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
+    authServiceMock.getCurrentUser.mockReturnValue({ id: 99 });
     fixture = TestBed.createComponent(PropertyFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -179,7 +189,7 @@ describe('PropertyFormComponent', () => {
     expect(form.get('rooms')?.value).toBe(0);
     expect(form.get('bathrooms')?.value).toBe(0);
     expect(form.get('price')?.value).toBe(0);
-    expect(form.get('sellerId')?.value).toBe(3);
+    expect(form.get('sellerId')?.value).toBe(99);
   });
 
   describe('form validation', () => {
@@ -228,16 +238,16 @@ describe('PropertyFormComponent', () => {
       component.resetForm();
       
       expect(form.value).toEqual({
-        name: null,
-        description: null,
+        name: '',
+        description: '',
         price: 0,
-        category: null,
-        location: null,
-        address: null,
+        category: '',
+        location: '',
+        address: '',
         rooms: 0,
         bathrooms: 0,
         activePublicationDate: new Date().toISOString().split('T')[0],
-        sellerId: 3
+        sellerId: 99
       });
     });
   });

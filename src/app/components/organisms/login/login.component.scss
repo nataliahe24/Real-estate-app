@@ -1,0 +1,59 @@
+.login-container {
+    min-height: 100vh;
+    background: url('/assets/images/fondo-login.jpeg') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+
+  .login-main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    
+  }
+  
+  .navbar {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+  }
+  
+  .login-card {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 350px;
+    text-align: center;
+  }
+  
+  .login-logo {
+    margin-bottom: 1.5rem;
+  }
+  
+  h2 {
+    margin-bottom: 1.5rem;
+    color: #003366;
+  }
+  
+  .input-group {
+    margin-bottom: 1rem;
+  }
+  
+  .options {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    
+    a {
+      text-decoration: none;
+      color: #0077cc;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

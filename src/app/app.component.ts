@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { JwtService } from './core/services/auth/jwt.service';
+import { AuthService } from './core/services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,10 +9,10 @@ import { JwtService } from './core/services/auth/jwt.service';
 export class AppComponent implements OnInit {
   title = 'real-estate-app';
 
-  constructor(private jwtService: JwtService) {}
+  constructor(private authService: AuthService) {}
   
   ngOnInit(): void {
-    // Solo para pruebas - establecer token manualmente
-    this.jwtService.setManualTestToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJNaUFwcEpXVCIsInN1YiI6Im5hdGFsaWFoZW5hb3IyNEBnbWFpbC5jb20iLCJhdXRob3JpdGllcyI6IkFETUlOIiwiaWF0IjoxNzQ3MjQ4NDM1LCJleHAiOjE3NDgzMzQ4MzUsIm5iZiI6MTc0NzI0ODQzNX0.rUOleig8_zoHIaiXC1UAuhdcW-2_nToUl0bh7dVr4T4');
+
+    this.authService.verifyToken().subscribe();
   }
 }

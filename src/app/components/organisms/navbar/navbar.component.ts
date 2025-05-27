@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -6,9 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  menuItems = [
-    { label: 'Compra', route: '/properties' },
-    { label: 'Renta', route: '/properties' },
-    { label: 'Vende', route: '/publish' }
-  ];
+  @Input() menuItems: any[] = [];
+  @Input() showLoginButton: boolean = true;
 } 

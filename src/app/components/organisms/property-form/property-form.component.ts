@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Category } from '@app/core/models/category.model';
 import { Property } from '@app/core/models/property.model';
+import { AuthService } from '@app/core/services/auth/auth.service';
 
 @Component({
   selector: 'app-property-form',
@@ -12,6 +13,7 @@ export class PropertyFormComponent {
   @Output() submitForm = new EventEmitter<Property>();
 
   propertyForm: FormGroup;
+  private currentUserId: number | null;
 
   readonly NAME_MIN_LENGTH = 3;
   readonly NAME_MAX_LENGTH = 50;
@@ -23,7 +25,9 @@ export class PropertyFormComponent {
   readonly ROOMS_MIN = 0;
   readonly BATHROOMS_MIN = 0;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
+    this.currentUserId = this.authService.getCurrentUser()?.id ?? null;
+    console.log('ID del usuario autenticado:', this.currentUserId);
     this.propertyForm = this.fb.group({
       name: ['', [
         Validators.required,
@@ -55,7 +59,7 @@ export class PropertyFormComponent {
         Validators.required,
         this.dateNotInPastValidator()
       ]],
-      sellerId: [3, [Validators.required]]
+      sellerId: [this.currentUserId, [Validators.required]]
     });
   }
 
@@ -117,7 +121,6 @@ export class PropertyFormComponent {
   }
 
   onSubmit(): void {
-    console.log('Formulario:', this.propertyForm.value);
     if (this.propertyForm.valid) {
       this.submitForm.emit(this.propertyForm.value);
     }
@@ -136,13 +139,19 @@ export class PropertyFormComponent {
   }
 
   resetForm(): void {
+    this.currentUserId = this.authService.getCurrentUser()?.id ?? null;
     this.propertyForm.reset();
     this.propertyForm.patchValue({
+      name: '',
+      address: '',
+      description: '',
       rooms: 0,
       bathrooms: 0,
       price: 0,
+      location: '',
+      category: '',
       activePublicationDate: new Date().toISOString().split('T')[0],
-      sellerId: 3
+      sellerId: this.currentUserId
     });
   }
 } 
