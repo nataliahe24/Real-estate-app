@@ -15,6 +15,10 @@ import { LocationsComponent } from './locations/locations.component';
 import { LoginAuthComponent } from './login-auth/login-auth.component';
 import { WellcomeAdminComponent } from './wellcome-admin/wellcome-admin.component';
 import { WellcomeSellerComponent } from './wellcome-seller/wellcome-seller.component';
+import { VisitComponent } from './visit/visit.component';
+import { AuthGuard } from '../core/guards/auth.guard';
+import { AdminGuard } from '../core/guards/admin.guard';
+import { SellerGuard } from '../core/guards/seller.guard';
 
 const routes: Routes = [
   {
@@ -26,19 +30,23 @@ const routes: Routes = [
       },
       {
         path: 'categories',
-        component: CategoriesComponent
+        component: CategoriesComponent,
+        canActivate: [AuthGuard, AdminGuard]
       },
       {
         path: 'locations',
-        component: LocationsComponent
+        component: LocationsComponent,
+        canActivate: [AuthGuard, AdminGuard]
       },
       {
         path: 'users',
-        component: UsersComponent
+        component: UsersComponent,
+        canActivate: [AuthGuard, AdminGuard]
       },
       {
         path: 'publish',
-        component: PublishPropertyComponent
+        component: PublishPropertyComponent,
+        canActivate: [AuthGuard, SellerGuard]
       },
       {
         path: 'login',
@@ -46,11 +54,18 @@ const routes: Routes = [
       },
       {
         path: 'wellcome-admin',
-        component: WellcomeAdminComponent
+        component: WellcomeAdminComponent,
+        canActivate: [AuthGuard, AdminGuard]
       },
       {
         path: 'wellcome-seller',
-        component: WellcomeSellerComponent
+        component: WellcomeSellerComponent,
+        canActivate: [AuthGuard, SellerGuard]
+      },
+      {
+        path: 'visit',
+        component: VisitComponent,
+        canActivate: [AuthGuard]
       }
     ]
   }
@@ -65,7 +80,8 @@ const routes: Routes = [
     LocationsComponent,
     LoginAuthComponent,
     WellcomeAdminComponent,
-    WellcomeSellerComponent
+    WellcomeSellerComponent,
+    VisitComponent
   ],
   imports: [
     CommonModule,
@@ -86,7 +102,8 @@ const routes: Routes = [
     LocationsComponent,
     LoginAuthComponent,
     WellcomeAdminComponent,
-    WellcomeSellerComponent
+    WellcomeSellerComponent,
+    VisitComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
