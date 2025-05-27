@@ -4,5 +4,5 @@ export const environment = {
   apiUrlProperties: 'http://localhost:8090/api/v1/properties/',
   apiUrlUsers: 'http://localhost:8030/api/v1/users/',
   apiUrlAuth: 'http://localhost:8030/api/v1/auth/',
-  apiUrlVisits: 'http://localhost:8030/api/v1/visit-schedules/'
+  apiUrlVisits: 'http://localhost:8090/api/v1/visit/'
 }; 
