@@ -30,19 +30,6 @@ export class JwtService {
     window.localStorage.removeItem(this.TOKEN_KEY);
   }
 
-  setManualTestToken(token: string): void {
-    console.log('Setting manual test token');
-    this.saveToken(token);
-  }
-
-  createCategory(category: { name: string; description: string }): Observable<any> {
-    console.log('Creating category:', category);
-    return this.http.post<any>(`${this.apiUrl}`, category, this.httpOptions).pipe(
-      tap(data => console.log('Category created:', data)),
-      catchError(this.handleError)
-    );
-  }
-
   private handleError(error: any): Observable<never> {
     console.error('Error:', error);
     throw error;

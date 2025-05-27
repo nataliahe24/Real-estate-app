@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { JwtService } from './jwt.service';
+import { JwtService } from '../jwt/jwt.service';
 import { environment } from '../../../../environments/environment';
 import { LoginResponse } from '../../models/login-response.interface';
 import { NotificationService } from '../notifications/notification.service';
