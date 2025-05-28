@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SellerUserLayoutComponent } from './seller-user-layout.component';
+import { BuyerUserLayoutComponent } from './buyer-user-layout.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedComponentsModule } from '../../../shared/shared-components.module';
@@ -8,9 +8,9 @@ import { OrganismsModule } from '../../organisms/organisms.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from '@core/services/auth/auth.service';
 
-describe('SellerUserLayoutComponent', () => {
-  let component: SellerUserLayoutComponent;
-  let fixture: ComponentFixture<SellerUserLayoutComponent>;
+describe('BuyerUserLayoutComponent', () => {
+  let component: BuyerUserLayoutComponent;
+  let fixture: ComponentFixture<BuyerUserLayoutComponent>;
   let authServiceMock: any;
 
   beforeEach(async () => {
@@ -28,14 +28,14 @@ describe('SellerUserLayoutComponent', () => {
         OrganismsModule,
         HttpClientTestingModule
       ],
-      declarations: [SellerUserLayoutComponent],
+      declarations: [BuyerUserLayoutComponent],
       providers: [
         { provide: AuthService, useValue: authServiceMock }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SellerUserLayoutComponent);
+    fixture = TestBed.createComponent(BuyerUserLayoutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -52,11 +52,11 @@ describe('SellerUserLayoutComponent', () => {
 
   it('should have correct menu items', () => {
     expect(component.menuItems).toBeDefined();
-    expect(component.menuItems.length).toBe(2);
+    expect(component.menuItems.length).toBe(1);
     expect(component.menuItems[0]).toEqual({
       icon: 'home',
-      label: 'Publicaciones',
-      route: '/publish'
+      label: 'Agendar Visita',
+      route: '/visit-schedules'
     });
   });
 
