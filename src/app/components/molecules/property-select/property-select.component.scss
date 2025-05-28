@@ -1,0 +1,37 @@
+.property-select {
+  position: relative;
+  width: 100%;
+  
+  &__input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 15px;
+    background-color: white;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    
+    &:focus {
+      outline: none;
+      border-color: #3366FF;
+    }
+    
+    &:disabled {
+      background-color: #f5f5f5;
+      cursor: not-allowed;
+    }
+  }
+  
+  &__loading {
+    margin-top: 0.5rem;
+    color: #666;
+    font-size: 0.875rem;
+  }
+  
+  &__error {
+    margin-top: 0.5rem;
+    color: #dc3545;
+    font-size: 0.875rem;
+  }
+} 

@@ -1,0 +1,21 @@
+<div class="property-select">
+  <select 
+    [value]="selectedPropertyId"
+    (change)="onPropertyChange($event)"
+    [disabled]="loading"
+    class="property-select__input">
+    <option value="" disabled>Seleccione una propiedad</option>
+    <option *ngFor="let property of properties" 
+            [value]="property.id">
+      {{ property.id }}  -  {{ property.name }}
+    </option>
+  </select>
+  
+  <div *ngIf="loading" class="property-select__loading">
+    Cargando propiedades...
+  </div>
+  
+  <div *ngIf="error" class="property-select__error">
+    {{ error }}
+  </div>
+</div> 

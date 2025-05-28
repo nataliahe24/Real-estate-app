@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Visit } from '@core/models/visit.model';
 import { AuthService } from '@core/services/auth/auth.service';
+import { dateInPastValidator, maxDateValidator, endDateValidator } from '@app/shared/utils/validators/validators-visit';
 
 @Component({
   selector: 'app-visit-form',
@@ -20,8 +21,8 @@ export class VisitFormComponent {
     this.visitForm = this.fb.group({
       sellerId: [this.currentUserId, [Validators.required]],
       propertyId: ['', [Validators.required]],
-      startDate: ['', [Validators.required, this.dateInPastValidator()]],
-      endDate: ['', [Validators.required]]
+      startDate: ['', [Validators.required, dateInPastValidator(), maxDateValidator(21)]],
+      endDate: ['', [Validators.required, maxDateValidator(21)]]
     });
 
     this.visitForm.get('startDate')?.valueChanges.subscribe(startDate => {
@@ -29,7 +30,8 @@ export class VisitFormComponent {
       if (startDate) {
         endDateControl?.setValidators([
           Validators.required,
-          this.endDateValidator(startDate)
+          maxDateValidator(21),
+          endDateValidator(startDate)
         ]);
         endDateControl?.updateValueAndValidity();
         if (endDateControl?.value && new Date(endDateControl.value) <= new Date(startDate)) {
@@ -39,25 +41,6 @@ export class VisitFormComponent {
     });
 
     this.visitForm.get('sellerId')?.setValue(this.authService.getCurrentUser()?.id ?? null);
-  }
-
-  private dateInPastValidator(): (control: AbstractControl) => ValidationErrors | null {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value) return null;
-      const selectedDate = new Date(control.value);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return selectedDate < today ? { dateInPast: true } : null;
-    };
-  }
-
-  private endDateValidator(startDate: string): (control: AbstractControl) => ValidationErrors | null {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if (!control.value || !startDate) return null;
-      const endDate = new Date(control.value);
-      const start = new Date(startDate);
-      return endDate <= start ? { endDateBeforeStart: true } : null;
-    };
   }
 
   onSubmit(): void {
@@ -70,5 +53,9 @@ export class VisitFormComponent {
   resetForm(): void {
     this.visitForm.reset();
     this.visitForm.get('sellerId')?.setValue(this.currentUserId);  
+  }
+
+  onPropertySelected(propertyId: number): void {
+    this.visitForm.patchValue({ propertyId });
   }
 } 
