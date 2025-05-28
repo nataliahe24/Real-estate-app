@@ -83,64 +83,34 @@ describe('CategoryService', () => {
       });
 
       const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true`);
-      req.error(new ErrorEvent('Network Error'));
-    });
-  });
-
-  describe('createCategory', () => {
-    const newCategory = { name: 'New Category', description: 'New Description' };
-
-    it('should create category successfully', () => {
-      const mockResponse = { id: 1, ...newCategory };
-
-      service.createCategory(newCategory).subscribe(data => {
-        expect(data).toEqual(mockResponse);
-      });
-
-      const req = httpMock.expectOne(apiUrl);
-      expect(req.request.method).toBe('POST');
-      req.flush(mockResponse);
+      req.error(new ErrorEvent('Network Error', { message: 'CORS' }));
     });
 
-    it('should handle duplicate category error', () => {
-      service.createCategory(newCategory).subscribe({
+    it('should handle unauthorized error', () => {
+      service.getCategories().subscribe({
         error: (error) => {
-          expect(error.message).toBe('Ya existe una categoría con ese nombre');
+          expect(error.message).toBe('No autorizado. Por favor, inicie sesión nuevamente.');
         }
       });
 
-      const req = httpMock.expectOne(apiUrl);
-      req.flush('Category already exists', { 
-        status: 409, 
-        statusText: 'Conflict' 
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true`);
+      req.flush('Unauthorized', { 
+        status: 401, 
+        statusText: 'Unauthorized' 
       });
     });
 
-    it('should handle name max size exceeded error', () => {
-      service.createCategory(newCategory).subscribe({
+    it('should handle forbidden error', () => {
+      service.getCategories().subscribe({
         error: (error) => {
-          expect(error.message).toBe('El nombre excede el tamaño máximo permitido');
+          expect(error.message).toBe('No tiene permisos para realizar esta acción.');
         }
       });
 
-      const req = httpMock.expectOne(apiUrl);
-      req.flush('NAME_MAX_SIZE_EXCEEDED', { 
-        status: 400, 
-        statusText: 'Bad Request' 
-      });
-    });
-
-    it('should handle description max size exceeded error', () => {
-      service.createCategory(newCategory).subscribe({
-        error: (error) => {
-          expect(error.message).toBe('La descripción excede el tamaño máximo permitido');
-        }
-      });
-
-      const req = httpMock.expectOne(apiUrl);
-      req.flush('DESCRIPTION_MAX_SIZE_EXCEEDED', { 
-        status: 400, 
-        statusText: 'Bad Request' 
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true`);
+      req.flush('Forbidden', { 
+        status: 403, 
+        statusText: 'Forbidden' 
       });
     });
   });
@@ -179,8 +149,67 @@ describe('CategoryService', () => {
     });
   });
 
+  describe('createCategory', () => {
+    const newCategory = { name: 'New Category', description: 'New Description' };
+
+    it('should create category successfully', () => {
+      const mockResponse = { id: 1, ...newCategory };
+
+      service.createCategory(newCategory).subscribe(data => {
+        expect(data).toEqual(mockResponse);
+      });
+
+      const req = httpMock.expectOne(apiUrl);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(newCategory);
+      req.flush(mockResponse);
+    });
+
+    it('should handle name size exceeded error', () => {
+      service.createCategory(newCategory).subscribe({
+        error: (error) => {
+          expect(error.message).toBe('El nombre excede el tamaño máximo permitido');
+        }
+      });
+
+      const req = httpMock.expectOne(apiUrl);
+      req.flush({ message: 'NAME_MAX_SIZE_EXCEEDED' }, { 
+        status: 400, 
+        statusText: 'Bad Request' 
+      });
+    });
+
+    it('should handle description size exceeded error', () => {
+      service.createCategory(newCategory).subscribe({
+        error: (error) => {
+          expect(error.message).toBe('La descripción excede el tamaño máximo permitido');
+        }
+      });
+
+      const req = httpMock.expectOne(apiUrl);
+      req.flush({ message: 'DESCRIPTION_MAX_SIZE_EXCEEDED' }, { 
+        status: 400, 
+        statusText: 'Bad Request' 
+      });
+    });
+
+    it('should handle duplicate category error', () => {
+      service.createCategory(newCategory).subscribe({
+        error: (error) => {
+          expect(error.message).toBe('Ya existe una categoría con ese nombre');
+        }
+      });
+
+      const req = httpMock.expectOne(apiUrl);
+      req.flush('Category already exists', { 
+        status: 409, 
+        statusText: 'Conflict' 
+      });
+    });
+  });
+
   describe('updateCategory', () => {
-    const category = { 
+    const category: Category = { 
       id: 1, 
       name: 'Updated Category', 
       description: 'Updated Description' 
@@ -193,34 +222,21 @@ describe('CategoryService', () => {
 
       const req = httpMock.expectOne(`${apiUrl}${category.id}`);
       expect(req.request.method).toBe('PUT');
+      expect(req.request.body).toEqual(category);
       req.flush(category);
     });
 
-    it('should handle unauthorized error', () => {
+    it('should handle update error', () => {
       service.updateCategory(category).subscribe({
         error: (error) => {
-          expect(error.message).toBe('No autorizado. Por favor, inicie sesión nuevamente.');
+          expect(error.message).toBe('Datos inválidos. Por favor, verifique la información.');
         }
       });
 
       const req = httpMock.expectOne(`${apiUrl}${category.id}`);
-      req.flush('Unauthorized', { 
-        status: 401, 
-        statusText: 'Unauthorized' 
-      });
-    });
-
-    it('should handle forbidden error', () => {
-      service.updateCategory(category).subscribe({
-        error: (error) => {
-          expect(error.message).toBe('No tiene permisos para realizar esta acción.');
-        }
-      });
-
-      const req = httpMock.expectOne(`${apiUrl}${category.id}`);
-      req.flush('Forbidden', { 
-        status: 403, 
-        statusText: 'Forbidden' 
+      req.flush('Invalid data', { 
+        status: 400, 
+        statusText: 'Bad Request' 
       });
     });
   });
