@@ -6,6 +6,7 @@ import { environment } from '@env/environment';
 import { Role, User } from '@core/models/user.model';
 import { NotificationService } from '../notifications/notification.service';
 import { of, throwError } from 'rxjs';
+import { SELLER_PAYLOAD, ADMIN_PAYLOAD, BUYER_PAYLOAD } from '../../../shared/utils/mocks/mock-jwt';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -202,95 +203,68 @@ describe('AuthService', () => {
   });
 
   it('should get user role', () => {
-    const mockUser = {
-      email: 'test@test.com',
-      accessToken: 'fake-token',
-      role: 3,
-      id: 1,
-      message: 'Success',
-      name: 'Test User'
-    };
-    service['currentUserSubject'].next(mockUser);
-    expect(service.getUserRole()).toBe(3);
+    const base64Url = btoa(JSON.stringify(SELLER_PAYLOAD)).replace(/=/g, '');
+    const fakeToken = `header.${base64Url}.signature`;
+
+    jwtServiceMock.getToken.mockReturnValue(fakeToken);
+
+    expect(service.hasRole('SELLER')).toBe(true);
   });
 
   it('should check role access', () => {
-    const mockUser = {
-      email: 'test@test.com',
-      accessToken: 'fake-token',
-      role: 3,
-      id: 1,
-      message: 'Success',
-      name: 'Test User'
-    };
-    service['currentUserSubject'].next(mockUser);
-    expect(service.hasRole(3)).toBeTruthy();
-    expect(service.hasRole(2)).toBeFalsy();
+
+    const base64Url = btoa(JSON.stringify(SELLER_PAYLOAD)).replace(/=/g, '');
+    const fakeToken = `header.${base64Url}.signature`;
+
+    jwtServiceMock.getToken.mockReturnValue(fakeToken);
+
+    expect(service.hasRole('SELLER')).toBeTruthy();
+    expect(service.hasRole('ADMIN')).toBeFalsy();
   });
 
   it('should check admin role', () => {
-    const mockUser = {
-      email: 'test@test.com',
-      accessToken: 'fake-token',
-      role: 2,
-      id: 1,
-      message: 'Success',
-      name: 'Test User'
-    };
-    service['currentUserSubject'].next(mockUser);
+    const base64Url = btoa(JSON.stringify(ADMIN_PAYLOAD)).replace(/=/g, '');
+    const fakeToken = `header.${base64Url}.signature`;
+
+    jwtServiceMock.getToken.mockReturnValue(fakeToken);
+
     expect(service.isAdmin()).toBeTruthy();
   });
 
   it('should check seller role', () => {
-    const mockUser = {
-      email: 'test@test.com',
-      accessToken: 'fake-token',
-      role: 3,
-      id: 1,
-      message: 'Success',
-      name: 'Test User'
-    };
-    service['currentUserSubject'].next(mockUser);
+    const base64Url = btoa(JSON.stringify(SELLER_PAYLOAD)).replace(/=/g, '');
+    const fakeToken = `header.${base64Url}.signature`;
+
+    jwtServiceMock.getToken.mockReturnValue(fakeToken);
+
     expect(service.isSeller()).toBeTruthy();
   });
 
   it('should check buyer role', () => {
-    const mockUser = {
-      email: 'test@test.com',
-      accessToken: 'fake-token',
-      role: 1,
-      id: 1,
-      message: 'Success',
-      name: 'Test User'
-    };
-    service['currentUserSubject'].next(mockUser);
+    const base64Url = btoa(JSON.stringify(BUYER_PAYLOAD)).replace(/=/g, '');
+    const fakeToken = `header.${base64Url}.signature`;
+
+    jwtServiceMock.getToken.mockReturnValue(fakeToken);
+
     expect(service.isBuyer()).toBeTruthy();
   });
 
   it('should validate admin access', () => {
-    const mockUser = {
-      email: 'test@test.com',
-      accessToken: 'fake-token',
-      role: 2,
-      id: 1,
-      message: 'Success',
-      name: 'Test User'
-    };
-    service['currentUserSubject'].next(mockUser);
+    const base64Url = btoa(JSON.stringify(ADMIN_PAYLOAD)).replace(/=/g, '');
+    const fakeToken = `header.${base64Url}.signature`;
+
+    jwtServiceMock.getToken.mockReturnValue(fakeToken);
+
     expect(service.validateAdminAccess()).toBeTruthy();
     expect(notificationServiceMock.warning).not.toHaveBeenCalled();
   });
 
   it('should deny admin access for non-admin users', () => {
-    const mockUser = {
-      email: 'test@test.com',
-      accessToken: 'fake-token',
-      role: 3,
-      id: 1,
-      message: 'Success',
-      name: 'Test User'
-    };
-    service['currentUserSubject'].next(mockUser);
+    const base64Url = btoa(JSON.stringify(BUYER_PAYLOAD)).replace(/=/g, '');
+    const fakeToken = `header.${base64Url}.signature`;
+
+    jwtServiceMock.getToken.mockReturnValue(fakeToken);
+
     expect(service.validateAdminAccess()).toBeFalsy();
     expect(notificationServiceMock.warning).toHaveBeenCalledWith(
       'Acceso denegado: Se requieren permisos de administrador'
@@ -298,31 +272,23 @@ describe('AuthService', () => {
   });
 
   it('should validate seller access', () => {
-    const mockUser = {
-      email: 'test@test.com',
-      accessToken: 'fake-token',
-      role: 3,
-      id: 1,
-      message: 'Success',
-      name: 'Test User'
-    };
-    service['currentUserSubject'].next(mockUser);
+    const base64Url = btoa(JSON.stringify(SELLER_PAYLOAD)).replace(/=/g, '');
+    const fakeToken = `header.${base64Url}.signature`;
+
+    jwtServiceMock.getToken.mockReturnValue(fakeToken);
+
     expect(service.validateSellerAccess()).toBeTruthy();
     expect(notificationServiceMock.warning).not.toHaveBeenCalled();
   });
 
   it('should deny seller access for non-seller users', () => {
-    const mockUser = {
-      email: 'test@test.com',
-      accessToken: 'fake-token',
-      role: 1,
-      id: 1,
-      message: 'Success',
-      name: 'Test User'
-    };
-    service['currentUserSubject'].next(mockUser);
-    expect(service.validateSellerAccess()).toBeFalsy();
-    expect(notificationServiceMock.warning).toHaveBeenCalledWith(
+    const base64Url = btoa(JSON.stringify(BUYER_PAYLOAD)).replace(/=/g, '');
+const fakeToken = `header.${base64Url}.signature`;
+jwtServiceMock.getToken.mockReturnValue(fakeToken);
+
+  service.validateSellerAccess();
+
+expect(notificationServiceMock.warning).toHaveBeenCalledWith(
       'Acceso denegado: Se requieren permisos de vendedor'
     );
   });
