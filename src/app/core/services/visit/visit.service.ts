@@ -34,24 +34,22 @@ export class VisitService {
     let httpParams = new HttpParams();
     
     if (params.startDate) {
-      httpParams = httpParams.set('startDate', params.startDate);
+      httpParams = httpParams.set('startDate', new Date(params.startDate).toISOString());
     }
     if (params.endDate) {
-      httpParams = httpParams.set('endDate', params.endDate);
+      httpParams = httpParams.set('endDate', new Date(params.endDate).toISOString());
     }
     if (params.location) {
       httpParams = httpParams.set('location', params.location);
     }
-    if (params.page !== undefined) {
-      httpParams = httpParams.set('page', params.page.toString());
-    }
-    if (params.size) {
-      httpParams = httpParams.set('size', params.size.toString());
-    }
+    
+   
+    httpParams = httpParams.set('page', '0');
+    httpParams = httpParams.set('size', '10');
 
-    return this.http.get<VisitResponse>(this.apiUrl, { params: httpParams }).pipe(
-      catchError(this.handleError.bind(this))
-    );
+    console.log('Request URL:', `${this.apiUrl}?${httpParams.toString()}`);
+    
+    return this.http.get<VisitResponse>(this.apiUrl, { params: httpParams });
   }
 
 
