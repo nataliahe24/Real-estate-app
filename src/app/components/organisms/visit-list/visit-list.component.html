@@ -28,7 +28,13 @@
       />
     </div>
 
-    <button type="submit" class="btn-primary">Filtrar</button>
+      <app-button
+      class="reset-btn"
+      [label]="'Limpiar filtros'" 
+      [type]="'secondary'" 
+      (click)="resetFilters()">
+      </app-button>
+    
   </form>
 
   <div *ngIf="loading" class="loading-state">
@@ -40,9 +46,13 @@
     <i class="material-icons">error</i>
     <p>Error al cargar las visitas. Intenta de nuevo.</p>
   </div>
+  <div *ngIf="visits.length === 0" class="no-results">
+    <i class="material-icons">search_off</i>
+    <p>No se encontraron visitas con los filtros seleccionados.</p>
+  </div>
 
   <div *ngIf="!loading && !error" class="visits-container">
-    <ng-container *ngIf="visits.length > 0; else noResults">
+    <ng-container>
       <div *ngFor="let visit of visits" class="visit-card">
          <div class="property-image">
     <img [src]="propertyImages[visit.id % propertyImages.length]" alt="Imagen de propiedad">
@@ -65,12 +75,31 @@
           </div>
       </div>
     </ng-container>
-
-    <ng-template #noResults>
-      <div class="no-results">
-        <i class="material-icons">search_off</i>
-        <p>No se encontraron visitas con los filtros seleccionados.</p>
-      </div>
-    </ng-template>
+  </div>
+  <div class="pagination" *ngIf="totalPages > 0">
+    <button 
+      [disabled]="currentPage === 1"
+      (click)="onPageChange(currentPage - 1)"
+      class="pagination-btn"
+    >
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    
+    <button 
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      [class.active]="currentPage === i + 1"
+      (click)="onPageChange(i + 1)"
+      class="pagination-btn"
+    >
+      {{ i + 1 }}
+    </button>
+    
+    <button 
+      [disabled]="currentPage === totalPages"
+      (click)="onPageChange(currentPage + 1)"
+      class="pagination-btn"
+    >
+      <i class="fas fa-chevron-right"></i>
+    </button>
   </div>
 </div>
