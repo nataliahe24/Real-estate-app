@@ -52,7 +52,7 @@ describe('AdminLayoutComponent', () => {
 
   it('should have correct menu items', () => {
     expect(component.menuItems).toBeDefined();
-    expect(component.menuItems.length).toBe(6);
+    expect(component.menuItems.length).toBe(4);
     expect(component.menuItems[0]).toEqual({
       icon: 'dashboard',
       label: 'Dashboard',

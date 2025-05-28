@@ -17,9 +17,7 @@ export class AdminLayoutComponent {
   menuItems = [
     { icon: 'dashboard', label: 'Dashboard', route: '/dashboard'},
     { icon: 'category', label: 'Categorías', route: '/categories'},
-    { icon: 'home', label: 'Propiedades'},
     { icon: 'location_on', label: 'Ubicaciones', route: '/locations'},
-    { icon: 'person', label: 'Usuarios', route: '/users'},
-    { icon: 'settings', label: 'Configuración', route: '/settings'}
+    { icon: 'person', label: 'Usuarios', route: '/users'}
   ];
 } 
