@@ -46,6 +46,7 @@ export interface PaginatedPropertiesResponse {
   size: number;
   totalElements: number;
   totalPages: number;
+  sellerId?: number;
 }
 
 export interface PropertyFilters {
