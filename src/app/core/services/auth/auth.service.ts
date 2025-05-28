@@ -6,6 +6,7 @@ import { JwtService } from '../jwt/jwt.service';
 import { environment } from '../../../../environments/environment';
 import { LoginResponse } from '../../models/login-response.interface';
 import { NotificationService } from '../notifications/notification.service';
+import { JwtPayload } from '../../models/jwt-model.';
 
 @Injectable({
   providedIn: 'root'
@@ -114,26 +115,38 @@ export class AuthService {
     return !!this.currentUserSubject.value;
   }
 
-  getUserRole(): number | null {
-    const user = this.getCurrentUser();
-    return user ? user.role : null;
+  private decodeToken(token: string): JwtPayload | null {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      return null;
+    }
   }
 
-  hasRole(requiredRole: number): boolean {
-    const user = this.getCurrentUser();
-    return user?.role === requiredRole;
+  getUserRole(): string | null {
+    const token = this.jwtService.getToken();
+    if (!token) return null;
+    
+    const decodedToken = this.decodeToken(token);
+    return decodedToken?.authorities || null;
+  }
+
+  hasRole(requiredRole: string): boolean {
+    const userRole = this.getUserRole();
+    return userRole === requiredRole;
   }
 
   isAdmin(): boolean {
-    return this.hasRole(2);
+    return this.hasRole('ADMIN');
   }
 
   isSeller(): boolean {
-    return this.hasRole(3);
+    return this.hasRole('SELLER');
   }
 
   isBuyer(): boolean {
-    return this.hasRole(1);
+    return this.hasRole('BUYER');
   }
 
   validateAdminAccess(): boolean {
