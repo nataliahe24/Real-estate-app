@@ -52,7 +52,12 @@ export class VisitFormComponent {
 
   resetForm(): void {
     this.visitForm.reset();
-    this.visitForm.get('sellerId')?.setValue(this.currentUserId);  
+    this.visitForm.patchValue({
+      propertyId: null,
+      startDate: '',
+      endDate: ''
+    });
+    this.visitForm.get('sellerId')?.setValue(this.authService.getCurrentUser()?.id ?? null);
   }
 
   onPropertySelected(propertyId: number): void {
