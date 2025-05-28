@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { CategoryService } from '../../../core/services/categories/category.service';
 import { NotificationService } from '../../../core/services/notifications/notification.service';
-import { validateCategory } from '../../../shared/utils/validators/validateCategory';
 
 @Component({
   selector: 'app-category-form',
@@ -74,44 +73,11 @@ export class CategoryFormComponent {
 
   createCategory(): void {
     if (this.categoryForm.invalid) {
-      const nameControl = this.categoryForm.get('name');
-      const descControl = this.categoryForm.get('description');
-
-      if (nameControl?.errors) {
-        if (nameControl.errors['required']) {
-          this.notificationService.warning('El nombre es requerido');
-        } else if (nameControl.errors['minlength']) {
-          this.notificationService.warning(
-            `El nombre debe tener al menos ${this.NAME_MIN_LENGTH} caracteres`
-          );
-        } else if (nameControl.errors['maxlength']) {
-          this.notificationService.warning(
-            `El nombre no puede exceder ${this.NAME_MAX_LENGTH} caracteres`
-          );
-        }
-      }
-
-      if (descControl?.errors) {
-        if (descControl.errors['required']) {
-          this.notificationService.warning('La descripción es requerida');
-        } else if (descControl.errors['minlength']) {
-          this.notificationService.warning(
-            `La descripción debe tener al menos ${this.DESC_MIN_LENGTH} caracteres`
-          );
-        } else if (descControl.errors['maxlength']) {
-          this.notificationService.warning(
-            `La descripción no puede exceder ${this.DESC_MAX_LENGTH} caracteres`
-          );
-        }
-      }
+      this.notificationService.warning('Por favor, complete correctamente todos los campos');
       return;
     }
 
     const newCategory = this.categoryForm.value;
-
-    if (!validateCategory(newCategory, this.notificationService)) {
-      return;
-    }
 
     this.categoryService.createCategory(newCategory).subscribe({
       next: () => {
@@ -119,8 +85,8 @@ export class CategoryFormComponent {
         this.categoryForm.reset();
         this.submitForm.emit(newCategory);
       },
-      error: () => {
-        this.notificationService.error('La categoría ya existe');
+      error: (error) => {
+        this.notificationService.error(error.message);
       }
     });
   }
