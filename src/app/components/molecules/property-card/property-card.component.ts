@@ -10,10 +10,10 @@ export class PropertyCardComponent {
   @Input() property!: PropertyResponse;
   type = 'Venta';
   propertyImages = [
-    'assets/images/casa-1.png',
     'assets/images/casa-2.png',
     'assets/images/casa-3.png',
-    'assets/images/casa-4.png'
+    'assets/images/casa-4.png',
+    'assets/images/casa-5.png'
   ];
   
   toggleFavorite(event: Event): void {
