@@ -4,7 +4,7 @@ import { Observable, catchError, map, pipe, throwError } from 'rxjs';
 import { PropertyResponse, PropertyFilter, PaginatedPropertiesResponse, Property, PropertyFilters } from '../../models/property.model';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
-import { ValidationPropertyFilter} from '@app/shared/utils/validators/validatePropertyFilter';
+import { ValidationPropertyFilter} from '@app/shared/utils/validators/validate-property-filter';
 import { AuthService } from '@core/services/auth/auth.service';
 
 
