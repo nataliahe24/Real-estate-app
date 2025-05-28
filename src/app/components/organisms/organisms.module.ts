@@ -18,7 +18,7 @@ import { PropertiesToolbarComponent } from './properties-toolbar/properties-tool
 import { PropertyListComponent } from './property-list/property-list.component';
 import { LoginComponent } from './login/login.component';
 import { VisitFormComponent } from './visit-form/visit-form.component';
-
+import { VisitListComponent } from './visit-list/visit-list.component';
 @NgModule({
   declarations: [
     CategoryManagerComponent,
@@ -34,6 +34,7 @@ import { VisitFormComponent } from './visit-form/visit-form.component';
     PropertyListComponent,
     LoginComponent,
     VisitFormComponent,
+    VisitListComponent,
   ],
   imports: [
     CommonModule,
@@ -58,6 +59,7 @@ import { VisitFormComponent } from './visit-form/visit-form.component';
     PropertyListComponent,
     LoginComponent,
     VisitFormComponent,
+    VisitListComponent,
   ]
 })
 export class OrganismsModule { } 

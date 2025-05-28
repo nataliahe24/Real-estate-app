@@ -78,7 +78,7 @@ const routes: Routes = [
       {
         path: 'visit-schedules',
         component: VisitSchedulesComponent,
-        canActivate: []
+        canActivate:[AuthGuard, BuyerGuard]
       }
     ]
   }
