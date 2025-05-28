@@ -1,4 +1,4 @@
-import { validateCategory } from './validateCategory';
+import { validateCategory } from './validate-category';
 import { Category } from '../../../core/models/category.model';
 
 describe('validateCategory', () => {

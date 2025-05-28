@@ -5,10 +5,10 @@ import { CategoryManagerComponent } from './category-manager.component';
 import { CategoryService } from '../../../core/services/categories/category.service';
 import { NotificationService } from '../../../core/services/notifications/notification.service';
 import { of, throwError } from 'rxjs';
-import { validateCategory } from '../../../shared/utils/validators/validateCategory';
+import { validateCategory } from '../../../shared/utils/validators/validate-category';
 
 
-jest.mock('../../../shared/utils/validators/validateCategory', () => ({
+jest.mock('../../../shared/utils/validators/validate-category', () => ({
   validateCategory: jest.fn()
 }));
 
@@ -120,7 +120,6 @@ describe('CategoryManagerComponent', () => {
     categoryServiceMock.getCategories.mockReturnValue(of(mockResponse));
     component.ngOnInit();
 
-    // Mock para crear categoría
     const newCategory = { name: 'New Category', description: 'Description' };
     component.newCategory = { ...newCategory };
     categoryServiceMock.createCategory.mockReturnValue(of({ id: '1', ...newCategory }));

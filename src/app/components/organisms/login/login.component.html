@@ -30,19 +30,19 @@
             </app-password-input>
           </div>
           
+          <div class="form-actions">
           <app-button
             [isSubmit]="true"
             [label]="'Ingresar'"
             type="primary"
             [disabled]="!loginForm.valid"
-            text="Ingresar">
+            text="Ingresar"
+            [ngClass]="{'button-disabled': !loginForm.valid}"
+            >
           </app-button>
+        </div>
         </form>
         
-        <div class="options">
-          <a routerLink="/forgot-password">No recuerdo mi contraseña</a>
-          <a routerLink="/register">Registrarse</a>
-        </div>
         <app-notification-container></app-notification-container>
       </div>
     </main>

@@ -53,7 +53,8 @@ describe('AuthService', () => {
       message: 'Login successful',
       accessToken: 'fake-token',
       role: 3,
-      id: 1
+      id: 1,
+      name: 'Test User'
     };
 
     service.login(credentials).subscribe(response => {
@@ -91,7 +92,8 @@ describe('AuthService', () => {
       message: 'Registration successful',
       accessToken: 'fake-token',
       role: 3,
-      id: 1
+      id: 1,
+      name: 'Test User'
     };
 
     service.register(userData).subscribe(response => {
@@ -126,7 +128,8 @@ describe('AuthService', () => {
       email: 'test@test.com',
       accessToken: 'fake-token',
       role: 3,
-      id: 1
+      id: 1,
+      name: 'Test User'
     };
     jwtServiceMock.getToken.mockReturnValue('fake-token');
 
@@ -178,7 +181,8 @@ describe('AuthService', () => {
       accessToken: 'fake-token',
       role: 3,
       id: 1,
-      message: 'Success'
+      message: 'Success',
+      name: 'Test User'
     };
     service['currentUserSubject'].next(mockUser);
     expect(service.getCurrentUser()).toEqual(mockUser);
@@ -191,7 +195,8 @@ describe('AuthService', () => {
       accessToken: 'fake-token', 
       role: 3, 
       id: 1,
-      message: 'Success'
+      message: 'Success',
+      name: 'Test User'
     });
     expect(service.isAuthenticated()).toBeTruthy();
   });
@@ -202,7 +207,8 @@ describe('AuthService', () => {
       accessToken: 'fake-token',
       role: 3,
       id: 1,
-      message: 'Success'
+      message: 'Success',
+      name: 'Test User'
     };
     service['currentUserSubject'].next(mockUser);
     expect(service.getUserRole()).toBe(3);
@@ -214,7 +220,8 @@ describe('AuthService', () => {
       accessToken: 'fake-token',
       role: 3,
       id: 1,
-      message: 'Success'
+      message: 'Success',
+      name: 'Test User'
     };
     service['currentUserSubject'].next(mockUser);
     expect(service.hasRole(3)).toBeTruthy();
@@ -227,7 +234,8 @@ describe('AuthService', () => {
       accessToken: 'fake-token',
       role: 2,
       id: 1,
-      message: 'Success'
+      message: 'Success',
+      name: 'Test User'
     };
     service['currentUserSubject'].next(mockUser);
     expect(service.isAdmin()).toBeTruthy();
@@ -239,7 +247,8 @@ describe('AuthService', () => {
       accessToken: 'fake-token',
       role: 3,
       id: 1,
-      message: 'Success'
+      message: 'Success',
+      name: 'Test User'
     };
     service['currentUserSubject'].next(mockUser);
     expect(service.isSeller()).toBeTruthy();
@@ -251,7 +260,8 @@ describe('AuthService', () => {
       accessToken: 'fake-token',
       role: 1,
       id: 1,
-      message: 'Success'
+      message: 'Success',
+      name: 'Test User'
     };
     service['currentUserSubject'].next(mockUser);
     expect(service.isBuyer()).toBeTruthy();
@@ -263,7 +273,8 @@ describe('AuthService', () => {
       accessToken: 'fake-token',
       role: 2,
       id: 1,
-      message: 'Success'
+      message: 'Success',
+      name: 'Test User'
     };
     service['currentUserSubject'].next(mockUser);
     expect(service.validateAdminAccess()).toBeTruthy();
@@ -276,7 +287,8 @@ describe('AuthService', () => {
       accessToken: 'fake-token',
       role: 3,
       id: 1,
-      message: 'Success'
+      message: 'Success',
+      name: 'Test User'
     };
     service['currentUserSubject'].next(mockUser);
     expect(service.validateAdminAccess()).toBeFalsy();
@@ -291,7 +303,8 @@ describe('AuthService', () => {
       accessToken: 'fake-token',
       role: 3,
       id: 1,
-      message: 'Success'
+      message: 'Success',
+      name: 'Test User'
     };
     service['currentUserSubject'].next(mockUser);
     expect(service.validateSellerAccess()).toBeTruthy();
@@ -304,7 +317,8 @@ describe('AuthService', () => {
       accessToken: 'fake-token',
       role: 1,
       id: 1,
-      message: 'Success'
+      message: 'Success',
+      name: 'Test User'
     };
     service['currentUserSubject'].next(mockUser);
     expect(service.validateSellerAccess()).toBeFalsy();

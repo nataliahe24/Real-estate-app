@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from '../../../core/models/category.model';
 import { CategoryService } from '../../../core/services/categories/category.service';
 import { NotificationService } from '../../../core/services/notifications/notification.service';
-import { validateCategory } from '../../../shared/utils/validators/validateCategory';
+import { validateCategory } from '../../../shared/utils/validators/validate-category';
 
 @Component({
   selector: 'app-category-manager',
@@ -59,8 +59,6 @@ export class CategoryManagerComponent implements OnInit {
     console.log(`Loading categories: page=${this.currentPage}, size=${this.itemsPerPage}`);
     this.categoryService.getCategories(this.currentPage, this.itemsPerPage, true).subscribe({
       next: (response) => {
-        console.log('Categories response:', response);
-        
        
         if (response && response.content) {
           this.categories = response.content;
@@ -78,7 +76,6 @@ export class CategoryManagerComponent implements OnInit {
           this.totalItems = 0;
         }
         
-        console.log('Categories loaded:', this.categories);
       },
       error: (error) => {
         console.error('Error loading categories:', error);

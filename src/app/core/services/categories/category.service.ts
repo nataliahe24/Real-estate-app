@@ -62,37 +62,76 @@ export class CategoryService {
           
         }
       }),
-      catchError(this.handleError)
+      catchError(error => this.handleError(error))
     );
   }
 
   getCategory(id: number): Observable<Category> {
     return this.http.get<Category>(`${this.apiUrl}${id}`, this.httpOptions).pipe(
-      catchError(this.handleError)
+      catchError(error => this.handleError(error))
     );
   }
   createCategory(category: { name: string; description: string }): Observable<Category> {
     console.log('Creating category:', category);
     return this.http.post<Category>(this.apiUrl, category, this.httpOptions).pipe(
       tap(data => console.log('Category created:', data)),
-      catchError(this.handleError)
+      catchError(error => this.handleError(error))
     );
   }
 
   updateCategory(category: Category): Observable<Category> {
     return this.http.put<Category>(`${this.apiUrl}${category.id}`, category, this.httpOptions).pipe(
-      catchError(this.handleError)
+      catchError(error => this.handleError(error))
     );
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Ha ocurrido un error';
+    
     if (error.status === 0) {
-      console.error('Client-side error occurred:', error.error);
-      console.log('Is this a CORS issue? Check if your server has CORS enabled.');
-      console.log('Network error details:', error);
+      console.error('Error de conexión');
+      
+      if (error.message.includes('CORS')) {
+        errorMessage = 'Error en el servidor';
+      }
     } else {
-      console.error(`Backend returned code ${error.status}, body was:`, error.error);
+      switch (error.status) {
+        case 400:
+          if (error.error?.message?.includes('NAME_MAX_SIZE_EXCEEDED')) {
+            errorMessage = 'El nombre excede el tamaño máximo permitido';
+          } else if (error.error?.message?.includes('DESCRIPTION_MAX_SIZE_EXCEEDED')) {
+            errorMessage = 'La descripción excede el tamaño máximo permitido';
+          } else {
+            errorMessage = error.error?.message || 'Datos inválidos. Por favor, verifique la información.';
+          }
+          break;
+        case 401:
+          errorMessage = error.error?.message || 'No autorizado. Por favor, inicie sesión nuevamente.';
+          break;
+        case 403:
+          errorMessage = error.error?.message || 'No tiene permisos para realizar esta acción.';
+          break;
+        case 404:
+          errorMessage = error.error?.message || 'No se encontró la categoría solicitada';
+          break;
+        case 409:
+          errorMessage = error.error?.message || 'Ya existe una categoría con ese nombre';
+          break;
+        case 500:
+          errorMessage = error.error?.message || 'Error del servidor. Por favor, intente más tarde.';
+          break;
+        default:
+          errorMessage = error.error?.message || `Error ${error.status}: ${error.message}`;
+      }
     }
-    return throwError(() => new Error(`${error.status}: ${error.message}`));
+
+    console.error('Error details:', {
+      status: error.status,
+      message: errorMessage,
+      error: error.error,
+      url: error.url
+    });
+
+    return throwError(() => new Error(errorMessage));
   }
 } 

@@ -22,7 +22,7 @@ jest.mock('./category.service', () => {
 describe('CategoryService', () => {
   let service: CategoryService;
   let httpMock: HttpTestingController;
-  const apiUrl = 'http://localhost:8090/api/v1/category';
+  const apiUrl = 'http://localhost:8090/api/v1/category/';
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,191 +41,204 @@ describe('CategoryService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get categories with pagination', () => {
-    const mockResponse = {
-      content: [{ id: '1', name: 'Test Category', description: 'Test Description' }],
-      totalElements: 1,
-      totalPages: 1,
-      number: 0
-    };
+  describe('getCategories', () => {
+    it('should fetch categories successfully', () => {
+      const mockCategories = {
+        content: [
+          { id: 1, name: 'Category 1', description: 'Description 1' },
+          { id: 2, name: 'Category 2', description: 'Description 2' }
+        ],
+        totalElements: 2,
+        totalPages: 1
+      };
 
-    service.getCategories(0, 10, true).subscribe(data => {
-      expect(data).toEqual(mockResponse);
+      service.getCategories().subscribe(data => {
+        expect(data).toEqual(mockCategories);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mockCategories);
     });
 
-    const req = httpMock.expectOne(
-      req => req.url === `${apiUrl}/` && 
-             req.params.get('page') === '0'
-    );
-    expect(req.request.method).toBe('GET');
-    req.flush(mockResponse);
-  });
+    it('should handle server error', () => {
+      service.getCategories().subscribe({
+        error: (error) => {
+          expect(error.message).toBe('Error del servidor. Por favor, intente más tarde.');
+        }
+      });
 
-  it('should handle array response in getCategories', () => {
-    const mockResponse = [
-      { id: '1', name: 'Category 1', description: 'Description 1' },
-      { id: '2', name: 'Category 2', description: 'Description 2' }
-    ];
-
-    service.getCategories(0, 10, true).subscribe(data => {
-      expect(data).toEqual(mockResponse);
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true`);
+      req.flush('Server Error', { 
+        status: 500, 
+        statusText: 'Internal Server Error' 
+      });
     });
 
-    const req = httpMock.expectOne(
-      req => req.url === `${apiUrl}/`
-    );
-    expect(req.request.method).toBe('GET');
-    req.flush(mockResponse);
+    it('should handle connection error', () => {
+      service.getCategories().subscribe({
+        error: (error) => {
+          expect(error.message).toBe('Error en el servidor');
+        }
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true`);
+      req.error(new ErrorEvent('Network Error', { message: 'CORS' }));
+    });
+
+    it('should handle unauthorized error', () => {
+      service.getCategories().subscribe({
+        error: (error) => {
+          expect(error.message).toBe('No autorizado. Por favor, inicie sesión nuevamente.');
+        }
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true`);
+      req.flush('Unauthorized', { 
+        status: 401, 
+        statusText: 'Unauthorized' 
+      });
+    });
+
+    it('should handle forbidden error', () => {
+      service.getCategories().subscribe({
+        error: (error) => {
+          expect(error.message).toBe('No tiene permisos para realizar esta acción.');
+        }
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true`);
+      req.flush('Forbidden', { 
+        status: 403, 
+        statusText: 'Forbidden' 
+      });
+    });
   });
 
-  it('should create a category', () => {
+  describe('getCategory', () => {
+    const categoryId = 1;
+
+    it('should fetch single category successfully', () => {
+      const mockCategory = { 
+        id: categoryId, 
+        name: 'Category 1', 
+        description: 'Description 1' 
+      };
+
+      service.getCategory(categoryId).subscribe(data => {
+        expect(data).toEqual(mockCategory);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}${categoryId}`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mockCategory);
+    });
+
+    it('should handle not found error', () => {
+      service.getCategory(categoryId).subscribe({
+        error: (error) => {
+          expect(error.message).toBe('No se encontró la categoría solicitada');
+        }
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}${categoryId}`);
+      req.flush('Category not found', { 
+        status: 404, 
+        statusText: 'Not Found' 
+      });
+    });
+  });
+
+  describe('createCategory', () => {
     const newCategory = { name: 'New Category', description: 'New Description' };
-    const mockResponse = { id: '1', ...newCategory };
 
-    service.createCategory(newCategory).subscribe(data => {
-      expect(data).toEqual(mockResponse);
+    it('should create category successfully', () => {
+      const mockResponse = { id: 1, ...newCategory };
+
+      service.createCategory(newCategory).subscribe(data => {
+        expect(data).toEqual(mockResponse);
+      });
+
+      const req = httpMock.expectOne(apiUrl);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(newCategory);
+      req.flush(mockResponse);
     });
 
-    const req = httpMock.expectOne(`${apiUrl}/`);
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(newCategory);
-    req.flush(mockResponse);
+    it('should handle name size exceeded error', () => {
+      service.createCategory(newCategory).subscribe({
+        error: (error) => {
+          expect(error.message).toBe('El nombre excede el tamaño máximo permitido');
+        }
+      });
+
+      const req = httpMock.expectOne(apiUrl);
+      req.flush({ message: 'NAME_MAX_SIZE_EXCEEDED' }, { 
+        status: 400, 
+        statusText: 'Bad Request' 
+      });
+    });
+
+    it('should handle description size exceeded error', () => {
+      service.createCategory(newCategory).subscribe({
+        error: (error) => {
+          expect(error.message).toBe('La descripción excede el tamaño máximo permitido');
+        }
+      });
+
+      const req = httpMock.expectOne(apiUrl);
+      req.flush({ message: 'DESCRIPTION_MAX_SIZE_EXCEEDED' }, { 
+        status: 400, 
+        statusText: 'Bad Request' 
+      });
+    });
+
+    it('should handle duplicate category error', () => {
+      service.createCategory(newCategory).subscribe({
+        error: (error) => {
+          expect(error.message).toBe('Ya existe una categoría con ese nombre');
+        }
+      });
+
+      const req = httpMock.expectOne(apiUrl);
+      req.flush('Category already exists', { 
+        status: 409, 
+        statusText: 'Conflict' 
+      });
+    });
   });
 
-  it('should update a category', () => {
+  describe('updateCategory', () => {
     const category: Category = { 
-      id: '1', 
+      id: 1, 
       name: 'Updated Category', 
       description: 'Updated Description' 
     };
-    
-    service.updateCategory(category).subscribe(data => {
-      expect(data).toEqual(category);
+
+    it('should update category successfully', () => {
+      service.updateCategory(category).subscribe(data => {
+        expect(data).toEqual(category);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}${category.id}`);
+      expect(req.request.method).toBe('PUT');
+      expect(req.request.body).toEqual(category);
+      req.flush(category);
     });
 
-    const req = httpMock.expectOne(`${apiUrl}/${category.id}`);
-    expect(req.request.method).toBe('PUT');
-    expect(req.request.body).toEqual(category);
-    req.flush(category);
-  });
+    it('should handle update error', () => {
+      service.updateCategory(category).subscribe({
+        error: (error) => {
+          expect(error.message).toBe('Datos inválidos. Por favor, verifique la información.');
+        }
+      });
 
-  it('should get a single category by id', () => {
-    const categoryId = 1;
-    const mockCategory: Category = { 
-      id: '1', 
-      name: 'Test Category', 
-      description: 'Test Description' 
-    };
-    
-    service.getCategory(categoryId).subscribe(data => {
-      expect(data).toEqual(mockCategory);
+      const req = httpMock.expectOne(`${apiUrl}${category.id}`);
+      req.flush('Invalid data', { 
+        status: 400, 
+        statusText: 'Bad Request' 
+      });
     });
-
-    const req = httpMock.expectOne(`${apiUrl}/${categoryId}`);
-    expect(req.request.method).toBe('GET');
-    req.flush(mockCategory);
-  });
-
-  it('should handle client-side error', () => {
-    service.getCategories(0, 10, true).subscribe({
-      next: () => fail('Expected an error'),
-      error: (error) => {
-        expect(error.message).toContain('0:');
-      }
-    });
-
-    const req = httpMock.expectOne(
-      req => req.url === `${apiUrl}/`
-    );
-    
-   
-    const mockError = new ErrorEvent('Network error', {
-      message: 'Connection refused'
-    });
-    
-    req.error(mockError);
-  });
-
-  it('should handle server-side error', () => {
-    service.getCategories(0, 10, true).subscribe({
-      next: () => fail('Expected an error'),
-      error: (error) => {
-        expect(error.message).toContain('500:');
-      }
-    });
-
-    const req = httpMock.expectOne(
-      req => req.url === `${apiUrl}/`
-    );
-    req.flush('Server error', { 
-      status: 500, 
-      statusText: 'Internal Server Error' 
-    });
-  });
-
-  it('should handle category update with invalid data', () => {
-    const invalidCategory = { id: '1', name: '', description: '' };
-    
-    service.updateCategory(invalidCategory).subscribe({
-      next: () => fail('Expected an error'),
-      error: (error) => {
-        expect(error).toBeTruthy();
-      }
-    });
-
-    const req = httpMock.expectOne(`${apiUrl}/1`);
-    req.flush('Invalid data', { 
-      status: 400, 
-      statusText: 'Bad Request' 
-    });
-  });
-
-  it('should handle category creation with invalid data', () => {
-    const invalidCategory = { name: '', description: '' };
-    
-    service.createCategory(invalidCategory).subscribe({
-      next: () => fail('Expected an error'),
-      error: (error) => {
-        expect(error).toBeTruthy();
-      }
-    });
-
-    const req = httpMock.expectOne(`${apiUrl}/`);
-    req.flush('Invalid data', { 
-      status: 400, 
-      statusText: 'Bad Request' 
-    });
-  });
-
-  it('should handle non-existent category', () => {
-    const nonExistentId = 999;
-    
-    service.getCategory(nonExistentId).subscribe({
-      next: () => fail('Expected an error'),
-      error: (error) => {
-        expect(error).toBeTruthy();
-      }
-    });
-
-    const req = httpMock.expectOne(`${apiUrl}/${nonExistentId}`);
-    req.flush('Not found', { 
-      status: 404, 
-      statusText: 'Not Found' 
-    });
-  });
-
-  it('should handle network timeout', () => {
-    service.getCategories(0, 10, true).subscribe({
-      next: () => fail('Expected an error'),
-      error: (error) => {
-        expect(error).toBeTruthy();
-      }
-    });
-
-    const req = httpMock.expectOne(
-      req => req.url === `${apiUrl}/`
-    );
-    req.error(new ErrorEvent('timeout'));
   });
 });
 

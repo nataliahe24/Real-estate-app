@@ -4,7 +4,8 @@ import { Observable, catchError, map, pipe, throwError } from 'rxjs';
 import { PropertyResponse, PropertyFilter, PaginatedPropertiesResponse, Property, PropertyFilters } from '../../models/property.model';
 import { environment } from '../../../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
-import { ValidationPropertyFilter} from '@app/shared/utils/validators/validatePropertyFilter';
+import { ValidationPropertyFilter} from '@app/shared/utils/validators/validate-property-filter';
+import { AuthService } from '@core/services/auth/auth.service';
 
 
 @Injectable({
@@ -14,7 +15,10 @@ export class PropertyService {
   private apiUrl: string;
  
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) {
     this.apiUrl = environment.apiUrlProperties;
   }
 
@@ -61,6 +65,9 @@ export class PropertyService {
       .set('size', (filters.size || 10).toString())
       .set('orderAsc', (filters.orderAsc ?? true).toString());
 
+    const currentUserId = this.authService.getCurrentUser()?.id ?? null;
+    
+    if (currentUserId) params = params.set('sellerId', currentUserId.toString());
     if (filters.sortBy) params = params.set('sortBy', filters.sortBy);
     if (filters.location) params = params.set('location', filters.location);
     if (filters.category) params = params.set('category', filters.category);
@@ -71,7 +78,6 @@ export class PropertyService {
 
     const url = `${this.apiUrl}?${params.toString()}`;
     console.log('Request URL:', url);
-    console.log('Request Parameters:', params.toString());
 
     return this.http.get<PaginatedPropertiesResponse>(this.apiUrl, { params }).pipe(
       catchError((error) => {

@@ -24,3 +24,12 @@ export const MOCK_USER_RESPONSE = {
   password: 'password123',
   role: MOCK_ROLE
 };
+export const AUTH_RESPONSE = {
+  id: 1,
+  username: 'test',
+  name: 'Test User',
+  email: 'test@example.com',
+  message: 'Success',
+  accessToken: 'token123',
+  role: 1
+};
