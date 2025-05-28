@@ -54,8 +54,4 @@ export class VisitListComponent implements OnInit {
   onSubmit(): void {
     this.loadVisits();
   }
-
-  locationSelected(event: any): void {
-    this.visitForm.patchValue({ location: event });
-  }
 } 
