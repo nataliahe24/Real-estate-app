@@ -1,6 +1,11 @@
 export interface Visit {
+  id: number;
   sellerId: number;
   propertyId: number;
+  propertyName: string;
+  city: string;
+  neighborhood: string;
+  address: string;
   startDate: string;
   endDate: string;
 } 
