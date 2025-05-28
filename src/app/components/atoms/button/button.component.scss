@@ -23,11 +23,12 @@ button {
   }
   
   &.secondary {
-    background-color: #f5f5f5;
+    font-size: 14px;
+    background-color: #e0e0e0;
     color: #333;
-    
+    display: flex;
     &:hover {
-      background-color: #e0e0e0;
+      background-color: #c5c3c3;
     }
   }
 } 
