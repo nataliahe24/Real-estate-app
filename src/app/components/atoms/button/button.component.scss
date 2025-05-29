@@ -6,7 +6,7 @@
 }
 
 button {
-  padding: 10px 40px;
+  padding: 10px 30px;
   border-radius: 4px;
   font-weight: 500;
   border: none;
@@ -23,6 +23,7 @@ button {
   }
   
   &.secondary {
+    padding: 10px 50px;
     font-size: 14px;
     background-color: #e0e0e0;
     color: #333;
