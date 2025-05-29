@@ -19,6 +19,8 @@ import { PropertyListComponent } from './property-list/property-list.component';
 import { LoginComponent } from './login/login.component';
 import { VisitFormComponent } from './visit-form/visit-form.component';
 import { VisitListComponent } from './visit-list/visit-list.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 @NgModule({
   declarations: [
     CategoryManagerComponent,
@@ -43,8 +45,9 @@ import { VisitListComponent } from './visit-list/visit-list.component';
     RouterModule,
     SharedComponentsModule,
     AtomsModule,
-    MoleculesModule
-],
+    MoleculesModule,
+    MatDialogModule
+  ],
   exports: [
     CategoryManagerComponent,
     NotificationContainerComponent,
