@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth/auth.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class SellerGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router
@@ -14,7 +14,7 @@ export class AdminGuard implements CanActivate {
 
   canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | 
     boolean | UrlTree {
-    if (this.authService.isAdmin()) {
+    if (this.authService.isSeller()) {
       return true;
     }
     
