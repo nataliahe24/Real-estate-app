@@ -72,6 +72,11 @@
               <span>Inicio: {{visit.startDate | date:'h:mm a'}}</span>
               <span style="margin-left: 12px;">Fin: {{visit.endDate | date:'h:mm a'}}</span>
             </p>
+            <button 
+              (click)="openVisitModal(visit)"
+              class="visit-info__button">
+              Programar visita
+            </button>
           </div>
       </div>
     </ng-container>
