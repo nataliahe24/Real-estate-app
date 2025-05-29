@@ -58,8 +58,8 @@ describe('VisitService', () => {
 
   it('should get visits with query parameters', () => {
     const params = {
-      startDate: '2024-03-20',
-      endDate: '2024-03-21',
+      startDate: new Date('2024-03-20').toISOString(),
+      endDate: new Date('2024-03-21').toISOString(),
       location: 'Bogotá',
       page: 0,
       size: 10
