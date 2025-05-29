@@ -6,6 +6,8 @@ import { of, throwError } from 'rxjs';
 import { Visit } from '@core/models/visit.model';
 import { NO_ERRORS_SCHEMA, Component, Input, forwardRef } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { MOCK_VISIT_QUERY_PARAMS } from '@app/shared/utils/mocks/mock-visit';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-input',
@@ -67,8 +69,8 @@ describe('VisitListComponent', () => {
       city: 'Ciudad Test',
       neighborhood: 'Barrio Test',
       address: 'Dirección Test 1',
-      startDate: '2024-03-20T10:00:00',
-      endDate: '2024-03-20T11:00:00',
+      startDate: new Date('2024-03-20T10:00:00'),
+      endDate: new Date('2024-03-20T11:00:00'),
       sellerId: 1,
       propertyId: 1
     },
@@ -78,8 +80,8 @@ describe('VisitListComponent', () => {
       city: 'Ciudad Test',
       neighborhood: 'Barrio Test',
       address: 'Dirección Test 2',
-      startDate: '2024-03-21T10:00:00',
-      endDate: '2024-03-21T11:00:00',
+      startDate: new Date('2024-03-21T10:00:00'),
+      endDate: new Date('2024-03-21T11:00:00'),
       sellerId: 2,
       propertyId: 2
     }
@@ -98,6 +100,12 @@ describe('VisitListComponent', () => {
       getVisits: jest.fn().mockReturnValue(of(mockResponse))
     } as any;
 
+    const dialogMock = {
+      open: jest.fn().mockReturnValue({
+        afterClosed: () => of(null)
+      })
+    };
+
     await TestBed.configureTestingModule({
       declarations: [
         VisitListComponent,
@@ -107,7 +115,8 @@ describe('VisitListComponent', () => {
       imports: [ReactiveFormsModule],
       providers: [
         FormBuilder,
-        { provide: VisitService, useValue: visitServiceMock }
+        { provide: VisitService, useValue: visitServiceMock },
+        { provide: MatDialog, useValue: dialogMock }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -156,29 +165,20 @@ describe('VisitListComponent', () => {
   });
 
   it('should update visits when form values change', async () => {
-    const formValues = {
-      startDate: '2024-03-20',
-      endDate: '2024-03-21',
-      location: 'Test Location'
-    };
 
-    component.visitForm.patchValue(formValues);
+    component.visitForm.patchValue(MOCK_VISIT_QUERY_PARAMS);
     fixture.detectChanges();
     await new Promise(resolve => setTimeout(resolve, 350));
 
     expect(visitServiceMock.getVisits).toHaveBeenCalledWith({
-      ...formValues,
+      ...MOCK_VISIT_QUERY_PARAMS,
       page: 0,
       size: 10
     });
   });
 
   it('should reset filters and reload visits', () => {
-    component.visitForm.patchValue({
-      startDate: '2024-03-20',
-      endDate: '2024-03-21',
-      location: 'Test Location'
-    });
+    component.visitForm.patchValue(MOCK_VISIT_QUERY_PARAMS);
 
     component.resetFilters();
 
