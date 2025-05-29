@@ -16,11 +16,11 @@ import { LoginAuthComponent } from './login-auth/login-auth.component';
 import { WellcomeAdminComponent } from './wellcome-admin/wellcome-admin.component';
 import { WellcomeSellerComponent } from './wellcome-seller/wellcome-seller.component';
 import { VisitComponent } from './visit/visit.component';
-import { AuthGuard } from '../core/guards/auth.guard';
+import { AuthGuard } from '../core/guards/auth/auth.guard';
 import { AdminGuard } from '../core/guards/admin/admin.guard';
 import { SellerGuard } from '../core/guards/seller/seller.guard';
 import { VisitSchedulesComponent } from './visit-schedules/visit-schedules.component';
-import { BuyerGuard } from '../core/guards/buyer.guard';
+import { BuyerGuard } from '../core/guards/buyer/buyer.guard';
 import { WellcomeBuyerComponent } from './wellcome-buyer/wellcome-buyer.component';
 
 const routes: Routes = [
