@@ -79,7 +79,8 @@ describe('LoginComponent', () => {
     authServiceMock = {
       login: jest.fn(),
       isAdmin: jest.fn(),
-      isSeller: jest.fn()
+      isSeller: jest.fn(),
+      isBuyer: jest.fn()
     };
     notificationServiceMock = {
       success: jest.fn(),
@@ -149,16 +150,17 @@ describe('LoginComponent', () => {
     expect(routerMock.navigate).toHaveBeenCalledWith(['/wellcome-seller']);
   });
 
-  it('should call login and navigate to /login if not admin or seller', () => {
+  it('should call login and navigate to /wellcome-buyer if isBuyer is true', () => {
     component.loginForm.setValue({ username: 'user', password: '123456' });
     authServiceMock.login.mockReturnValue(of({ accessToken: 'token' }));
     authServiceMock.isAdmin.mockReturnValue(false);
     authServiceMock.isSeller.mockReturnValue(false);
+    authServiceMock.isBuyer.mockReturnValue(true);
 
     component.onSubmit();
 
     expect(authServiceMock.login).toHaveBeenCalled();
     expect(notificationServiceMock.success).toHaveBeenCalledWith('Inicio de sesión exitoso');
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/wellcome-buyer']);
   });
 });
