@@ -164,8 +164,6 @@ describe('VisitListComponent', () => {
 
     component.visitForm.patchValue(formValues);
     fixture.detectChanges();
-
-    // Wait for debounceTime (300ms)
     await new Promise(resolve => setTimeout(resolve, 350));
 
     expect(visitServiceMock.getVisits).toHaveBeenCalledWith({
