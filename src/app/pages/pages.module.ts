@@ -17,8 +17,8 @@ import { WellcomeAdminComponent } from './wellcome-admin/wellcome-admin.componen
 import { WellcomeSellerComponent } from './wellcome-seller/wellcome-seller.component';
 import { VisitComponent } from './visit/visit.component';
 import { AuthGuard } from '../core/guards/auth.guard';
-import { AdminGuard } from '../core/guards/admin.guard';
-import { SellerGuard } from '../core/guards/seller.guard';
+import { AdminGuard } from '../core/guards/admin/admin.guard';
+import { SellerGuard } from '../core/guards/seller/seller.guard';
 import { VisitSchedulesComponent } from './visit-schedules/visit-schedules.component';
 import { BuyerGuard } from '../core/guards/buyer.guard';
 import { WellcomeBuyerComponent } from './wellcome-buyer/wellcome-buyer.component';
