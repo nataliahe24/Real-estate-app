@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { BuyerGuard } from '../buyer.guard';
+import { BuyerGuard } from './buyer.guard';
 import { AuthService } from '../../services/auth/auth.service';
 
 describe('BuyerGuard', () => {

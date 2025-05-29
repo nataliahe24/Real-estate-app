@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { AdminGuard } from '../admin.guard';
+import { AdminGuard } from './admin.guard';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 
