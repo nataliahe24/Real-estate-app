@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { NotificationService } from '../notifications/notification.service';
 import { Visit, VisitResponse } from '@core/models/visit.model';
 import { environment } from '@env/environment';
-import { MOCK_VISIT, MOCK_VISIT_RESPONSE } from '@shared/utils/mocks/mock-visit';
+import { MOCK_VISIT_RESPONSE_PAGE, MOCK_VISIT_RESPONSE, MOCK_VISIT_RESPONSE_LIST, MOCK_VISIT } from '@shared/utils/mocks/mock-visit';
 
 describe('VisitService', () => {
   let service: VisitService;
@@ -39,20 +39,20 @@ describe('VisitService', () => {
   });
 
   it('should create a visit successfully', () => {
-    service.createVisit(MOCK_VISIT).subscribe(response => {
-      expect(response).toEqual(MOCK_VISIT);
+    service.createVisit(MOCK_VISIT_RESPONSE_LIST).subscribe(response => {
+      expect(response).toEqual(MOCK_VISIT_RESPONSE_LIST);
       expect(notificationService.success).toHaveBeenCalledWith('Horario programado exitosamente');
     });
 
     const req = httpMock.expectOne(environment.apiUrlVisits);
     expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(MOCK_VISIT);
-    req.flush(MOCK_VISIT);
+    expect(req.request.body).toEqual(MOCK_VISIT_RESPONSE_LIST);
+    req.flush(MOCK_VISIT_RESPONSE_LIST);
   });
 
   it('should handle error when creating visit', () => {
     const errorMessage = 'Error al crear la visita';
-    service.createVisit(MOCK_VISIT).subscribe({
+    service.createVisit(MOCK_VISIT_RESPONSE_LIST).subscribe({
       error: (error) => {
         expect(error.message).toBe(errorMessage);
         expect(notificationService.error).toHaveBeenCalledWith(errorMessage);
@@ -73,12 +73,12 @@ describe('VisitService', () => {
     };
 
     service.getVisits(params).subscribe(response => {
-      expect(response).toEqual(MOCK_VISIT_RESPONSE);
+      expect(response).toEqual(MOCK_VISIT_RESPONSE_PAGE);
     });
 
-    const req = httpMock.expectOne(`${environment.apiUrlVisits}?startDate=2024-03-20&endDate=2024-03-21&location=Bogot%C3%A1&page=0&size=10`);
+    const req = httpMock.expectOne(`${environment.apiUrlVisits}?startDate=2024-03-20T00:00:00.000Z&endDate=2024-03-21T00:00:00.000Z&location=Bogot%C3%A1&page=0&size=10`);
     expect(req.request.method).toBe('GET');
-    req.flush(MOCK_VISIT_RESPONSE);
+    req.flush(MOCK_VISIT_RESPONSE_PAGE);
   });
 
   it('should handle error when getting visits', () => {
@@ -90,7 +90,7 @@ describe('VisitService', () => {
       }
     });
 
-    const req = httpMock.expectOne(environment.apiUrlVisits);
+    const req = httpMock.expectOne(`${environment.apiUrlVisits}?page=0&size=10`);
     req.flush({ message: errorMessage }, { status: 500, statusText: 'Internal Server Error' });
   });
 
@@ -102,7 +102,7 @@ describe('VisitService', () => {
       }
     });
 
-    const req = httpMock.expectOne(environment.apiUrlVisits);
+    const req = httpMock.expectOne(`${environment.apiUrlVisits}?page=0&size=10`);
     req.error(new ErrorEvent('Network error'));
   });
 
@@ -114,7 +114,7 @@ describe('VisitService', () => {
       }
     });
 
-    const req = httpMock.expectOne(environment.apiUrlVisits);
+    const req = httpMock.expectOne(`${environment.apiUrlVisits}?page=0&size=10`);
     req.flush({}, { status: 401, statusText: 'Unauthorized' });
   });
 
@@ -127,7 +127,7 @@ describe('VisitService', () => {
       }
     });
 
-    const req = httpMock.expectOne(environment.apiUrlVisits);
+    const req = httpMock.expectOne(`${environment.apiUrlVisits}?page=0&size=10`);
     req.flush({ message: errorMessage }, { status: 403, statusText: 'Forbidden' });
   });
 
@@ -140,7 +140,7 @@ describe('VisitService', () => {
       }
     });
 
-    const req = httpMock.expectOne(environment.apiUrlVisits);
+    const req = httpMock.expectOne(`${environment.apiUrlVisits}?page=0&size=10`);
     req.flush({ message: errorMessage }, { status: 404, statusText: 'Not Found' });
   });
 
@@ -152,7 +152,7 @@ describe('VisitService', () => {
       }
     });
 
-    const req = httpMock.expectOne(environment.apiUrlVisits);
+    const req = httpMock.expectOne(`${environment.apiUrlVisits}?page=0&size=10`);
     req.flush({}, { status: 404, statusText: 'Not Found' });
   });
 
@@ -164,7 +164,7 @@ describe('VisitService', () => {
       }
     });
 
-    const req = httpMock.expectOne(environment.apiUrlVisits);
+    const req = httpMock.expectOne(`${environment.apiUrlVisits}?page=0&size=10`);
     req.flush({}, { status: 500, statusText: 'Internal Server Error' });
   });
 
@@ -177,7 +177,7 @@ describe('VisitService', () => {
       }
     });
 
-    const req = httpMock.expectOne(environment.apiUrlVisits);
+    const req = httpMock.expectOne(`${environment.apiUrlVisits}?page=0&size=10`);
     req.flush({ message: errorMessage }, { status: 418, statusText: 'I\'m a teapot' });
   });
 }); 
