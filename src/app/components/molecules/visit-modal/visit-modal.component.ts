@@ -44,6 +44,7 @@ export class VisitModalComponent {
           this.dialogRef.close(response);
         },
         error: (error) => {
+          this.dialogRef.close(error);
           console.error('Error al crear visita:', error);
         }
       });
