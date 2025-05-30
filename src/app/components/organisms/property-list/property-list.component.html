@@ -4,6 +4,7 @@
         <div class="search-container">
           <app-category-select
           [formControl]="categoryControl"
+          [reset]="isReset"
           class="category-select"
           (categorySelected)="onCategoryChange($event)"
           ></app-category-select>
