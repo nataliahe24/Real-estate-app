@@ -4,7 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { MatDialogModule } from '@angular/material/dialog';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedComponentsModule } from './shared/shared-components.module';
@@ -27,13 +27,14 @@ import { PagesModule } from './pages/pages.module';
     FormsModule,
     CoreModule,
     SharedComponentsModule,
+    PagesModule,
     OrganismsModule,
     AtomsModule,
     TemplatesModule,
     AppRoutingModule,
     MoleculesModule,
     ReactiveFormsModule,
-    PagesModule
+    MatDialogModule
   ],
   providers: [
     {

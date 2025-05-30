@@ -22,8 +22,8 @@ export const MOCK_VISIT = {
     city: 'Test City',
     neighborhood: 'Test Neighborhood',
     address: 'Test Address',
-    startDate: '2024-03-20T10:00:00',
-    endDate: '2024-03-20T11:00:00'
+    startDate: new Date('2024-03-20T10:00:00'),
+    endDate: new Date('2024-03-20T11:00:00')
   };
   export const MOCK_VISIT_RESPONSE_PAGE = {
     content: [MOCK_VISIT_RESPONSE_LIST],
@@ -31,4 +31,9 @@ export const MOCK_VISIT = {
     size: 10,
     totalElements: 1,
     totalPages: 1
+  };
+  export const MOCK_VISIT_QUERY_PARAMS = {
+    startDate: new Date('2024-03-20').toISOString(),
+    endDate: new Date('2024-03-21').toISOString(),
+    location: 'Test Location'
   };

@@ -14,6 +14,9 @@ import { CategorySelectComponent } from './category-select/category-select.compo
 import { LocationSelectComponent } from './location-select/location-select.component';
 import { FiltersModalComponent } from './filters-modal/filters-modal.component';
 import { PropertySelectComponent } from './property-select/property-select.component';
+import { VisitModalComponent } from './visit-modal/visit-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
@@ -26,14 +29,18 @@ import { PropertySelectComponent } from './property-select/property-select.compo
     CategorySelectComponent,
     LocationSelectComponent,
     FiltersModalComponent,
-    PropertySelectComponent
+    PropertySelectComponent,
+    VisitModalComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     AtomsModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    MatDialogModule
+    
+    
   ],
   exports: [
     CategoryFormComponent,
@@ -45,7 +52,8 @@ import { PropertySelectComponent } from './property-select/property-select.compo
     CategorySelectComponent,
     LocationSelectComponent,
     FiltersModalComponent,
-    PropertySelectComponent
+    PropertySelectComponent,
+    VisitModalComponent
   ],
   providers: [
     NotificationService

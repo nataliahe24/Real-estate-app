@@ -9,7 +9,7 @@ import { environment } from '../../../../environments/environment';
   providedIn: 'root'
 })
 export class CategoryService {
-  private apiUrl = `http://localhost:8090/api/v1/category/`;
+  private apiUrl = environment.apiUrlCategories;
   
   private httpOptions = {
     headers: new HttpHeaders({

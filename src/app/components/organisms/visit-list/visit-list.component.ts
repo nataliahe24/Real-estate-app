@@ -6,6 +6,9 @@ import { debounceTime } from 'rxjs/operators';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { VisitModalComponent } from '../../molecules/visit-modal/visit-modal.component';
+import { NotificationService } from '@app/core/services/notifications/notification.service';
 
 @Component({
   selector: 'app-visit-list',
@@ -31,7 +34,9 @@ export class VisitListComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private visitService: VisitService
+    private visitService: VisitService,
+    private dialog: MatDialog,
+    private notificationService: NotificationService
   ) {
     this.visitForm = this.fb.group({
       startDate: [''],
@@ -103,5 +108,22 @@ export class VisitListComponent implements OnInit {
     });
     this.currentPage = 1;
     this.loadVisits();
+  }
+
+  openVisitModal(visit: Visit): void {
+    const dialogRef = this.dialog.open(VisitModalComponent, {
+      data: {
+        scheduleId: visit.id,
+      },
+      width: '500px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+    
+        console.log('Visita confirmada:', result);
+      }
+    });
   }
 } 

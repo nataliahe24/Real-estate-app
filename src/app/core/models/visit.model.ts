@@ -6,8 +6,8 @@ export interface Visit {
   city: string;
   neighborhood: string;
   address: string;
-  startDate: string;
-  endDate: string;
+  startDate: Date;
+  endDate: Date;
 } 
 export interface VisitResponse {
   content: Visit[];
