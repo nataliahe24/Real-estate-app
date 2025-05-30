@@ -4,6 +4,8 @@ import { PropertyService } from '@core/services/properties/property.service';
 import { PropertyResponse, PropertyFilters, Property, PropertyFilter } from '@core/models/property.model';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { FiltersModalComponent } from '../../molecules/filters-modal/filters-modal.component';
 
 @Component({
   selector: 'app-property-list',
@@ -13,6 +15,7 @@ import { Subject } from 'rxjs';
 export class PropertyListComponent implements OnInit, OnDestroy {
   properties: PropertyResponse[] = [];
   loading = false;
+  isReset = false; 
   searchControl = new FormControl('');
   categoryControl = new FormControl('');
   roomsControl = new FormControl('');
@@ -37,7 +40,10 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     { label: 'Ubicación', value: 'location' }
   ];
 
-  constructor(private propertyService: PropertyService) {}
+  constructor(
+    private propertyService: PropertyService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.setupFilters();
@@ -145,6 +151,21 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     this.currentPage = 1;
     this.loadProperties();
   }
+
+  resetFilters(): void {
+    this.searchControl.setValue('');
+    this.categoryControl.setValue('');
+    this.isReset = true;
+    this.roomsControl.setValue('');
+    this.bathroomsControl.setValue('');
+    this.minPriceControl.setValue('');
+    this.maxPriceControl.setValue('');
+    this.sortByControl.setValue('');
+    this.orderAsc = true;
+    this.currentPage = 1;
+    this.loadProperties();
+  }
+
 
   onFiltersApplied(filters: { rooms: number | undefined; bathrooms: number | undefined; minPrice: number | undefined; maxPrice: number | undefined }): void {
     console.log('Filters received:', filters);

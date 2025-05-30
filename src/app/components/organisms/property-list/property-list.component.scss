@@ -77,6 +77,45 @@
       }
     }
   }
+  .filters-modal-footer {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    
+    padding-bottom: 1rem;
+  
+  .reset-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #f5f5f5;
+    color: #666;
+    border: 1px solid #ddd;
+    border-radius: 0.375rem;
+    padding: 0.5rem 1rem;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  
+    &:hover {
+      background: #e0e0e0;
+      color: #333;
+    }
+  
+    &:active {
+      background: #d5d5d5;
+    }
+
+    .material-icons {
+      font-size: 1rem;
+      color: #333;
+    }
+  }
+}
+  
+  
 
   .table-container {
     overflow-x: auto !important;
