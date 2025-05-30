@@ -61,6 +61,16 @@
           (orderChange)="toggleOrder()"
           (filtersChange)="onFiltersApplied($event)"
         ></app-filters-modal>
+
+     
+        <div class="filters-modal-footer">
+          <button type="button" class="reset-btn" (click)="resetFilters()">
+            <span class="material-icons">refresh</span>
+            Limpiar filtros
+          </button>
+        </div>
+      
+
       <div class="table-container" *ngIf="!loading">
         <table>
           <thead>

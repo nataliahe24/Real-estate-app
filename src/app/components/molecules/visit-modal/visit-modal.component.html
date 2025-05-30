@@ -27,7 +27,7 @@
             formControlName="email" 
             placeholder="ejemplo@correo.com"
             [ngClass]="{'input-error': visitForm.get('email')?.invalid && (visitForm.get('email')?.dirty || visitForm.get('email')?.touched)}">
-          <span class="icon">✉️</span>
+          
         </div>
         <div *ngIf="visitForm.get('email')?.invalid && (visitForm.get('email')?.dirty || visitForm.get('email')?.touched)" class="invalid-feedback">
           <span *ngIf="visitForm.get('email')?.errors?.['required']">El correo electrónico es requerido</span>
