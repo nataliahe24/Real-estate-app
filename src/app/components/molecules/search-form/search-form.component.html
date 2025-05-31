@@ -1,8 +1,9 @@
-<div class="search-form">
+<div class="search-form" [formGroup]="searchForm">
   <div class="form-group">
     <app-category-select
-      [selectedCategoryName]="currentFilter.category || ''"
-      (categorySelected)="onCategoryChange($event)">
+      formControlName="category"
+      [selectedCategoryName]="searchForm.get('category')?.value || ''"
+      (categorySelected)="onSearch()">
     </app-category-select>
     <div *ngIf="loading" class="loading">Cargando categorías...</div>
     <div *ngIf="error" class="error">{{error}}</div>
@@ -11,11 +12,29 @@
   <div class="form-group">
     <input 
       type="text" 
-      [(ngModel)]="location"
+      formControlName="location"
       placeholder="Buscar por ubicación" 
       class="form-control">
   </div>
+
+  <button
+          type="button"
+          class="filters-toggle"
+          (click)="showFilters = true"
+          aria-label="Mostrar filtros avanzados"
+        >
+          <img src="assets/images/filtro5.png" alt="Filtros avanzados" width="25" height="25" /> Filtros
+  </button>
+
+  <app-filters-modal
+    [open]="showFilters"
+    [config]="filtersConfig"
+    (close)="showFilters = false"
+    (filtersChange)="onFiltersChange($event)">
+  </app-filters-modal>
   
-  <button (click)="onSearch()" class="search-button">Buscar</button>
+  <button (click)="resetForm()" class="reset-button">
+    Limpiar filtros
+  </button>
 </div>
 

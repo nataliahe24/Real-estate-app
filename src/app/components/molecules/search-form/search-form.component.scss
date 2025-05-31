@@ -7,7 +7,7 @@
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   padding: 1rem 1rem;
-  gap: 1rem;
+  gap: 0.5rem;
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
@@ -45,7 +45,7 @@
     }
 
     input {
-      width: 450px;
+      width: 350px;
       height: 35px;
       border-radius: 0;
       border: 1px solid $color-border;
@@ -57,20 +57,60 @@
     }
   }
 
-  .search-button {
-    border: none;
+  .filters-toggle {
     background: #3366FF;
+    border: none;
+    cursor: pointer;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
+    height: 38px;
+    border-radius: 1rem;
+    color: white;
+    transition: background 0.2s;
+    border: 1px solid;
+    font-size: 14px;
+    width: 90px;
+  
+    &:hover {
+      background: #2357f3;
+    }
+
+    &:focus {
+      background: #265af8;
+    }
+   
+  
+    img {
+      display: block;
+      padding-right: 0.5rem ;
+      width: 25px;
+      height: 25px;
+    }
+
+  }
+
+  .reset-button {
+    border: none;
+    background: #b9bbbd;
     color: #fff;
-    padding: 0.5rem 1.2rem;
+    padding: 0.5rem 0.5rem;
     border-radius: 5px;
-    font-size: 1rem;
+    font-size: 14px;
     cursor: pointer;
     transition: background 0.2s;
-    width: 150px;
+    width: 120px;
 
-    &:hover, &:focus {
-      background: #3366FF;
+    
+    &:hover {
+      background: #e0e0e0;
+      color: #333;
     }
+  
+    &:active {
+      background: #d5d5d5;
+    }
+
   }
 
   .loading, .error {
