@@ -82,11 +82,11 @@
           <button type="button" class="close-tag" (click)="removeFilter('bathrooms')">×</button>
         </span>
         <span class="filter-tag" *ngIf="activeFilters.minPrice">
-          Mín: {{activeFilters.minPrice | currency:'COP':'symbol':'1.0-0'}}
+          Desde {{activeFilters.minPrice | currency:'COP':'symbol':'1.0-0'}}
           <button type="button" class="close-tag" (click)="removeFilter('minPrice')">×</button>
         </span>
         <span class="filter-tag" *ngIf="activeFilters.maxPrice">
-          Máx: {{activeFilters.maxPrice | currency:'COP':'symbol':'1.0-0'}}
+          Hasta {{activeFilters.maxPrice | currency:'COP':'symbol':'1.0-0'}}
           <button type="button" class="close-tag" (click)="removeFilter('maxPrice')">×</button>
         </span>
       </div>
