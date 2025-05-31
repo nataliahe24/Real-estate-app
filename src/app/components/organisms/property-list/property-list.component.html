@@ -44,7 +44,7 @@
           (click)="showFilters = true"
           aria-label="Mostrar filtros avanzados"
         >
-          <img src="assets/images/filter_search_icon_.png" alt="Filtros avanzados" width="25" height="25" />
+          <img src="assets/images/filtrar.png" alt="Filtros avanzados" width="25" height="25" /> Filtros
         </button>
         </div>
   
@@ -71,6 +71,25 @@
           </button>
         </div>
       
+
+      <div class="active-filters" *ngIf="hasActiveFilters()">
+        <span class="filter-tag" *ngIf="activeFilters.rooms">
+          {{activeFilters.rooms}} habitaciones
+          <button type="button" class="close-tag" (click)="removeFilter('rooms')">×</button>
+        </span>
+        <span class="filter-tag" *ngIf="activeFilters.bathrooms">
+          {{activeFilters.bathrooms}} baños
+          <button type="button" class="close-tag" (click)="removeFilter('bathrooms')">×</button>
+        </span>
+        <span class="filter-tag" *ngIf="activeFilters.minPrice">
+          Mín: {{activeFilters.minPrice | currency:'COP':'symbol':'1.0-0'}}
+          <button type="button" class="close-tag" (click)="removeFilter('minPrice')">×</button>
+        </span>
+        <span class="filter-tag" *ngIf="activeFilters.maxPrice">
+          Máx: {{activeFilters.maxPrice | currency:'COP':'symbol':'1.0-0'}}
+          <button type="button" class="close-tag" (click)="removeFilter('maxPrice')">×</button>
+        </span>
+      </div>
 
       <div class="table-container" *ngIf="!loading">
         <table>

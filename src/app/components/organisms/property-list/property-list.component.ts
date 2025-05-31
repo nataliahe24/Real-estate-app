@@ -4,8 +4,6 @@ import { PropertyService } from '@core/services/properties/property.service';
 import { PropertyResponse, PropertyFilters, Property, PropertyFilter } from '@core/models/property.model';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { FiltersModalComponent } from '../../molecules/filters-modal/filters-modal.component';
 
 @Component({
   selector: 'app-property-list',
@@ -30,7 +28,12 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   totalItems = 0;
   private destroy$ = new Subject<void>();
   currentFilter: PropertyFilter = {};
-
+  activeFilters: {
+    rooms?: string;
+    bathrooms?: string;
+    minPrice?: string;
+    maxPrice?: string;
+  } = {};
 
   sortOptions = [
     { label: 'Precio', value: 'price' },
@@ -40,10 +43,7 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     { label: 'Ubicación', value: 'location' }
   ];
 
-  constructor(
-    private propertyService: PropertyService,
-    private dialog: MatDialog
-  ) {}
+  constructor(private propertyService: PropertyService) {}
 
   ngOnInit(): void {
     this.setupFilters();
@@ -73,7 +73,17 @@ export class PropertyListComponent implements OnInit, OnDestroy {
           distinctUntilChanged(),
           takeUntil(this.destroy$)
         )
-        .subscribe(() => {
+        .subscribe((value) => {
+          if (control === this.roomsControl && value) {
+            this.activeFilters.rooms = value.toString();
+          } else if (control === this.bathroomsControl && value) {
+            this.activeFilters.bathrooms = value.toString();
+          } else if (control === this.minPriceControl && value) {
+            this.activeFilters.minPrice = value.toString();
+          } else if (control === this.maxPriceControl && value) {
+            this.activeFilters.maxPrice = value.toString();
+          }
+          
           this.currentPage = 1;
           this.loadProperties();
         });
@@ -163,23 +173,54 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     this.sortByControl.setValue('');
     this.orderAsc = true;
     this.currentPage = 1;
+    this.activeFilters = {};
     this.loadProperties();
   }
 
-
   onFiltersApplied(filters: { rooms: number | undefined; bathrooms: number | undefined; minPrice: number | undefined; maxPrice: number | undefined }): void {
     console.log('Filters received:', filters);
+    this.activeFilters = {};
+    
     if (filters.rooms !== undefined) {
       this.roomsControl.setValue(filters.rooms.toString());
+      this.activeFilters.rooms = filters.rooms.toString();
     }
     if (filters.bathrooms !== undefined) {
       this.bathroomsControl.setValue(filters.bathrooms.toString());
+      this.activeFilters.bathrooms = filters.bathrooms.toString();
     }
     if (filters.minPrice !== undefined) {
       this.minPriceControl.setValue(filters.minPrice.toString());
+      this.activeFilters.minPrice = filters.minPrice.toString();
     }
     if (filters.maxPrice !== undefined) {
       this.maxPriceControl.setValue(filters.maxPrice.toString());
+      this.activeFilters.maxPrice = filters.maxPrice.toString();
     }
+    console.log('Active filters:', this.activeFilters);
+  }
+
+  hasActiveFilters(): boolean {
+    return Object.keys(this.activeFilters).length > 0;
+  }
+
+  removeFilter(filter: 'rooms' | 'bathrooms' | 'minPrice' | 'maxPrice'): void {
+    switch (filter) {
+      case 'rooms':
+        this.roomsControl.setValue('');
+        break;
+      case 'bathrooms':
+        this.bathroomsControl.setValue('');
+        break;
+      case 'minPrice':
+        this.minPriceControl.setValue('');
+        break;
+      case 'maxPrice':
+        this.maxPriceControl.setValue('');
+        break;
+    }
+    delete this.activeFilters[filter];
+    this.currentPage = 1;
+    this.loadProperties();
   }
 }
