@@ -1,0 +1,18 @@
+<div class="active-filters" *ngIf="hasActiveFilters()">
+  <span class="filter-tag" *ngIf="filters.rooms">
+    {{filters.rooms}} habitaciones
+    <button type="button" class="close-tag" (click)="onRemoveFilter('rooms')">×</button>
+  </span>
+  <span class="filter-tag" *ngIf="filters.bathrooms">
+    {{filters.bathrooms}} baños
+    <button type="button" class="close-tag" (click)="onRemoveFilter('bathrooms')">×</button>
+  </span>
+  <span class="filter-tag" *ngIf="filters.minPrice">
+    Desde {{filters.minPrice | currency:'COP':'symbol':'1.0-0'}}
+    <button type="button" class="close-tag" (click)="onRemoveFilter('minPrice')">×</button>
+  </span>
+  <span class="filter-tag" *ngIf="filters.maxPrice">
+    Hasta {{filters.maxPrice | currency:'COP':'symbol':'1.0-0'}}
+    <button type="button" class="close-tag" (click)="onRemoveFilter('maxPrice')">×</button>
+  </span>
+</div> 
