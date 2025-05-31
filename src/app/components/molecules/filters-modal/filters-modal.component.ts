@@ -49,4 +49,8 @@ export class FiltersModalComponent  {
 
     this.filtersChange.emit(filters);
   }
+
+  applyFilters(): void {
+    this.close.emit();
+  }
 } 
