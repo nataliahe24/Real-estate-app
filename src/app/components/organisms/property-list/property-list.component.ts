@@ -107,7 +107,7 @@ export class PropertyListComponent implements OnInit, OnDestroy {
       orderAsc: this.orderAsc
     };
 
-    console.log('Requesting properties with filters:', filters);
+   
 
     this.propertyService.getFilteredProperties(filters).subscribe({
       next: (response: any) => {
