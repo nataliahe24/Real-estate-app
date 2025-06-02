@@ -1,6 +1,24 @@
 <div class="properties-toolbar">
-  <div class="total-count">
-    {{ totalCount }} propiedades encontradas
+  <div class="sort-container">
+    <select
+      [formControl]="sortByControl"
+      class="filter-input">
+      <option value="" disabled selected>Ordenar por</option>
+      <option *ngFor="let option of sortOptions" [value]="option.value">
+        {{ option.label }}
+      </option>
+    </select>
+    <button
+      type="button"
+      class="order-toggle"
+      (click)="toggleOrder()"
+      [attr.aria-label]="orderAsc ? 'Orden ascendente' : 'Orden descendente'">
+      <span 
+        class="material-icons" 
+        [title]="orderAsc ? 'Ascendente' : 'Descendente'">
+        {{ orderAsc ? 'arrow_upward' : 'arrow_downward' }}
+      </span>
+    </button>
   </div>
   
   <div class="view-toggles">

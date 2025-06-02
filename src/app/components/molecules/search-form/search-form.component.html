@@ -1,9 +1,9 @@
 <div class="search-form" [formGroup]="searchForm">
   <div class="form-group">
     <app-category-select
-      formControlName="category"
-      [selectedCategoryName]="searchForm.get('category')?.value || ''"
-      (categorySelected)="onSearch()">
+      [formControl]="categoryControl"
+      [selectedCategoryName]="categoryControl.value || ''"
+      (categorySelected)="onCategoryChange($event)">
     </app-category-select>
     <div *ngIf="loading" class="loading">Cargando categorías...</div>
     <div *ngIf="error" class="error">{{error}}</div>
@@ -18,12 +18,11 @@
   </div>
 
   <button
-          type="button"
-          class="filters-toggle"
-          (click)="showFilters = true"
-          aria-label="Mostrar filtros avanzados"
-        >
-          <img src="assets/images/filtro5.png" alt="Filtros avanzados" width="25" height="25" /> Filtros
+    type="button"
+    class="filters-toggle"
+    (click)="toggleFilters()"
+    aria-label="Mostrar filtros avanzados">
+    <img src="assets/images/filtro5.png" alt="Filtros avanzados" width="25" height="25" /> Filtros
   </button>
 
   <app-filters-modal
