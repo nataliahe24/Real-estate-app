@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Property } from '../../../core/models/property.model';
+import { PaginatedPropertiesResponse, PropertyResponse } from '../../../core/models/property.model';
 import { PropertyService } from '@app/core/services/properties/property.service';
 import { AuthService } from '@app/core/services/auth/auth.service';
 
@@ -12,7 +12,7 @@ export class PropertySelectComponent implements OnInit {
   @Input() selectedPropertyId: number | null = null;
   @Output() propertySelected = new EventEmitter<number>();
   
-  properties: Property[] = [];
+  properties: PropertyResponse[] = [];
   loading = true;
   error: string | null = null;
   currentUserId: number | null = null;
@@ -26,11 +26,14 @@ export class PropertySelectComponent implements OnInit {
 
   loadProperties(): void {
     this.loading = true;
-    this.propertyService.getProperties().subscribe({
-      next: (response: any) => {
-        this.properties = response;
-        console.log(this.properties);
-        this.properties = this.properties.filter((property: Property) => property.sellerId === this.currentUserId);
+    this.propertyService.getFilteredProperties({
+      sellerId: this.currentUserId ?? undefined,
+      size: 100,
+      sortBy: 'id',
+      orderAsc: true
+    }).subscribe({
+      next: (response: PaginatedPropertiesResponse) => {
+        this.properties = response.content;
         this.loading = false;
       },
       error: (error) => {
