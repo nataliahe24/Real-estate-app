@@ -1,34 +1,73 @@
 <app-properties-layout>
-<div class="properties-page">
-  <h1 class="page-title">Encuentra tu casa perfecta</h1>
-  
-  <div class="search-container">
-    <app-search-form (search)="onSearch($event)"></app-search-form>
-  </div>
-  
-  <div class="properties-content">
-    <app-properties-toolbar
-      [totalCount]="properties.length"
-      [viewMode]="viewMode"
-      (viewModeChange)="onViewModeChange($event)">
-    </app-properties-toolbar>
+  <div class="properties-page">
+    <h1 class="page-title">Encuentra tu casa perfecta</h1>
     
-    <div *ngIf="loading" class="loading-state">
-      <div class="spinner"></div>
-      <p>Cargando propiedades...</p>
+    <div class="search-container">
+      <app-search-form 
+        (search)="onSearch($event)"
+        [formGroup]="searchForm">
+      </app-search-form>
+    </div>
+
+    <div class="active-filters" *ngIf="hasActiveFilters()">
+      <span class="filter-tag" *ngIf="activeFilters.location">
+        {{activeFilters.location}}
+        <button type="button" class="close-tag" (click)="removeFilter('location')">×</button>
+      </span>
+      <span class="filter-tag" *ngIf="activeFilters.category">
+        {{activeFilters.category}}
+        <button type="button" class="close-tag" (click)="removeFilter('category')">×</button>
+      </span>
+      <span class="filter-tag" *ngIf="activeFilters.rooms">
+        {{activeFilters.rooms}} habitaciones
+        <button type="button" class="close-tag" (click)="removeFilter('rooms')">×</button>
+      </span>
+      <span class="filter-tag" *ngIf="activeFilters.bathrooms">
+        {{activeFilters.bathrooms}} baños
+        <button type="button" class="close-tag" (click)="removeFilter('bathrooms')">×</button>
+      </span>
+      <span class="filter-tag" *ngIf="activeFilters.minPrice">
+        Desde {{activeFilters.minPrice | currency:'COP':'symbol':'1.0-0'}}
+        <button type="button" class="close-tag" (click)="removeFilter('minPrice')">×</button>
+      </span>
+      <span class="filter-tag" *ngIf="activeFilters.maxPrice">
+        Hasta {{activeFilters.maxPrice | currency:'COP':'symbol':'1.0-0'}}
+        <button type="button" class="close-tag" (click)="removeFilter('maxPrice')">×</button>
+      </span>
     </div>
     
-    <div *ngIf="error" class="error-state">
-      <i class="material-icons">error</i>
-      <p>Error al cargar las propiedades. Intenta de nuevo.</p>
-      <button (click)="loadProperties()">Reintentar</button>
+    <div class="properties-content">
+      <app-properties-toolbar
+        [totalCount]="totalCount"
+        [viewMode]="viewMode"
+        (viewModeChange)="onViewModeChange($event)"
+        (sortChange)="onSortChange($event)"
+        (orderChange)="onOrderChange($event)">
+      </app-properties-toolbar>
+      
+      <div *ngIf="loading" class="loading-state">
+        <div class="spinner"></div>
+        <p>Cargando propiedades...</p>
+      </div>
+      
+      <div *ngIf="error" class="error-state">
+        <i class="material-icons">error</i>
+        <p>Error al cargar las propiedades. Intenta de nuevo.</p>
+        <button (click)="loadProperties()">Reintentar</button>
+      </div>
+      
+      <app-properties-grid
+        [properties]="properties"
+        [viewMode]="viewMode"
+        [loading]="loading"
+        [error]="error">
+      </app-properties-grid>
     </div>
-    
-    <app-properties-grid
-      [properties]="properties"
-      [viewMode]="viewMode"
-      (viewModeChange)="onViewModeChange($event)"
-    ></app-properties-grid>
+
+    <div class="properties-count">
+      <div class="total-count">
+        {{ totalCount }} propiedades encontradas
+      </div>
+    </div>
   </div>
-</div>
 </app-properties-layout>
