@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { PropertyService } from '@core/services/properties/property.service';
-import { PropertyResponse, PropertyFilters, Property, PropertyFilter } from '@core/models/property.model';
+import { PropertyResponse, PropertyFilters, PropertyFilter } from '@core/models/property.model';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { AuthService } from '@core/services/auth/auth.service';
 
 @Component({
   selector: 'app-property-list',
@@ -43,7 +44,10 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     { label: 'Ubicación', value: 'location' }
   ];
 
-  constructor(private propertyService: PropertyService) {}
+  constructor(
+    private propertyService: PropertyService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.setupFilters();
@@ -92,6 +96,8 @@ export class PropertyListComponent implements OnInit, OnDestroy {
 
   loadProperties(): void {
     this.loading = true;
+    const currentUserId = this.authService.getCurrentUser()?.id ?? null;
+    
     const filters: PropertyFilters = {
       page: this.currentPage - 1,
       size: this.pageSize,
@@ -101,13 +107,10 @@ export class PropertyListComponent implements OnInit, OnDestroy {
       bathrooms: this.bathroomsControl.value ? Number(this.bathroomsControl.value) : undefined,
       minPrice: this.minPriceControl.value ? Number(this.minPriceControl.value) : undefined,
       maxPrice: this.maxPriceControl.value ? Number(this.maxPriceControl.value) : undefined,
-      sortBy: this.sortByControl.value === 'location' || this.sortByControl.value === 'category' 
-        ? 'id' 
-        : (this.sortByControl.value || 'price'),
-      orderAsc: this.orderAsc
+      sortBy: this.sortByControl.value || 'price',
+      orderAsc: this.orderAsc,
+      sellerId: currentUserId ?? undefined
     };
-
-   
 
     this.propertyService.getFilteredProperties(filters).subscribe({
       next: (response: any) => {
