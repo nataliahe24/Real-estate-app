@@ -6,7 +6,13 @@
   max-width: 1100px;
   margin: 0 auto;
 }
-
+.visit-list-title {
+  font-size: 30px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  padding-left: 8px;
+  font-family: 'Roboto', sans-serif;
+}
 .filters-form {
 
   display: grid;
@@ -57,10 +63,17 @@
 }
 
 .visit-card {
-  background: white;
+  background: #fff;
   border-radius: 8px;
-  width: 100%;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 
   .property-image {
     width: 100%;
