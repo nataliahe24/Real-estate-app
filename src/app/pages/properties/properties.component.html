@@ -10,14 +10,6 @@
     </div>
 
     <div class="active-filters" *ngIf="hasActiveFilters()">
-      <span class="filter-tag" *ngIf="activeFilters.location">
-        {{activeFilters.location}}
-        <button type="button" class="close-tag" (click)="removeFilter('location')">×</button>
-      </span>
-      <span class="filter-tag" *ngIf="activeFilters.category">
-        {{activeFilters.category}}
-        <button type="button" class="close-tag" (click)="removeFilter('category')">×</button>
-      </span>
       <span class="filter-tag" *ngIf="activeFilters.rooms">
         {{activeFilters.rooms}} habitaciones
         <button type="button" class="close-tag" (click)="removeFilter('rooms')">×</button>
