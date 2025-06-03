@@ -27,13 +27,19 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   totalItems = 0;
   private destroy$ = new Subject<void>();
   
-  // Filtros activos
-  activeFilters: PropertyFilter = {};
+  activeFilters: {
+    location?: string;
+    category?: string;
+    rooms?: string;
+    bathrooms?: string;
+    minPrice?: string;
+    maxPrice?: string;
+  } = {};
   
-  // Formulario principal
+  
   searchForm: FormGroup;
   
-  // Controles de formulario
+
   searchControl = new FormControl('');
   categoryControl = new FormControl('');
   roomsControl = new FormControl('');
@@ -100,16 +106,32 @@ export class PropertiesComponent implements OnInit, OnDestroy {
           distinctUntilChanged(),
           takeUntil(this.destroy$)
         )
-        .subscribe(() => {
-          this.updateActiveFilters();
+        .subscribe((value) => {
+          if (control === this.searchControl && value) {
+            this.activeFilters.location = value;
+          } else if (control === this.categoryControl && value) {
+            this.activeFilters.category = value;
+          } else if (control === this.roomsControl && value) {
+            this.activeFilters.rooms = value.toString();
+          } else if (control === this.bathroomsControl && value) {
+            this.activeFilters.bathrooms = value.toString();
+          } else if (control === this.minPriceControl && value) {
+            this.activeFilters.minPrice = value.toString();
+          } else if (control === this.maxPriceControl && value) {
+            this.activeFilters.maxPrice = value.toString();
+          }
+          
           this.currentPage = 1;
           this.loadProperties();
         });
     });
   }
 
-  updateActiveFilters(): void {
-    this.activeFilters = {
+  loadProperties(): void {
+    this.loading = true;
+    const filters: PropertyFilters = {
+      page: this.currentPage - 1,
+      size: this.pageSize,
       location: this.searchControl.value || undefined,
       category: this.categoryControl.value || undefined,
       rooms: this.roomsControl.value ? Number(this.roomsControl.value) : undefined,
@@ -118,16 +140,6 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       maxPrice: this.maxPriceControl.value ? Number(this.maxPriceControl.value) : undefined,
       sortBy: this.sortByControl.value || 'price',
       orderAsc: this.orderAsc
-    };
-    
-  }
-
-  loadProperties(): void {
-    this.loading = true;
-    const filters: PropertyFilters = {
-      page: this.currentPage - 1,
-      size: this.pageSize,
-      ...this.activeFilters
     };
 
     this.propertyService.getFilteredProperties(filters).subscribe({
@@ -145,7 +157,26 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   onSearch(filters: PropertyFilter): void {
-    this.activeFilters = { ...filters };
+  
+    this.searchControl.setValue(filters.location || null);
+    this.categoryControl.setValue(filters.category || null);
+    if (filters.rooms !== undefined) {
+      this.roomsControl.setValue(filters.rooms.toString());
+      this.activeFilters.rooms = filters.rooms.toString();
+    }
+    if (filters.bathrooms !== undefined) {
+      this.bathroomsControl.setValue(filters.bathrooms.toString());
+      this.activeFilters.bathrooms = filters.bathrooms.toString();
+    }
+    if (filters.minPrice !== undefined) {
+      this.minPriceControl.setValue(filters.minPrice.toString());
+      this.activeFilters.minPrice = filters.minPrice.toString();
+    }
+    if (filters.maxPrice !== undefined) {
+      this.maxPriceControl.setValue(filters.maxPrice.toString());
+      this.activeFilters.maxPrice = filters.maxPrice.toString();
+    }
+    
     this.currentPage = 1;
     this.loadProperties();
   }
@@ -162,16 +193,8 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.orderAsc = orderAsc;
     this.loadProperties();
   }
-  
-  get totalCount(): number {
-    return this.totalItems;
-  }
 
-  hasActiveFilters(): boolean {
-    return Object.keys(this.activeFilters).length > 0;
-  }
-
-  removeFilter(filter: 'rooms' | 'bathrooms' | 'minPrice' | 'maxPrice' | 'location' | 'category'): void {
+  removeFilter(filter: 'rooms' | 'bathrooms' | 'minPrice' | 'maxPrice'): void {
     switch (filter) {
       case 'rooms':
         this.roomsControl.setValue('');
@@ -185,17 +208,17 @@ export class PropertiesComponent implements OnInit, OnDestroy {
       case 'maxPrice':
         this.maxPriceControl.setValue('');
         break;
-      case 'location':
-        this.searchControl.setValue('');
-        break;
-      case 'category':
-        this.categoryControl.setValue('');
-        break;
     }
-    
     delete this.activeFilters[filter];
     this.currentPage = 1;
-    
     this.loadProperties();
+  }
+
+  hasActiveFilters(): boolean {
+    return Object.keys(this.activeFilters).length > 0;
+  }
+
+  get totalCount(): number {
+    return this.totalItems;
   }
 }
