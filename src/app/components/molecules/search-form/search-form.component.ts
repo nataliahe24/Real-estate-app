@@ -72,7 +72,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   }
 
   private setupFormListeners(): void {
-    // Escuchar cambios en el formulario principal
+
     this.searchForm.valueChanges
       .pipe(
         debounceTime(300),
@@ -83,7 +83,7 @@ export class SearchFormComponent implements OnInit, OnDestroy {
         this.onSearch();
       });
 
-    // Escuchar cambios en los controles de filtros avanzados
+ 
     this.roomsControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.onSearch());
