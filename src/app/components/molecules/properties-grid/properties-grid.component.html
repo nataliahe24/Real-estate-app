@@ -1,0 +1,17 @@
+<div *ngIf="properties.length === 0" class="no-results">
+  <i class="material-icons">search_off</i>
+  <p>No se encontraron propiedades con los filtros seleccionados.</p>
+</div>
+
+<div 
+  *ngIf="!loading && !error" 
+  class="properties-grid"
+  [class.properties-list]="viewMode === 'list'"
+>
+  <ng-container>
+    <app-property-card 
+      *ngFor="let property of properties" 
+      [property]="property"
+    ></app-property-card>
+  </ng-container>
+</div> 
