@@ -30,14 +30,17 @@ export interface PropertyResponse {
 }
 
 export interface PropertyFilter {
+  page?: number;
+  size?: number;
   location?: string;
   category?: string;
-  minPrice?: number;
-  maxPrice?: number;
   rooms?: number;
   bathrooms?: number;
+  minPrice?: number;
+  maxPrice?: number;
   sortBy?: string;
   orderAsc?: boolean;
+  sellerId?: number;
 }
 
 export interface PaginatedPropertiesResponse {
@@ -60,4 +63,5 @@ export interface PropertyFilters {
   maxPrice?: number;
   sortBy?: string;
   orderAsc?: boolean;
+  sellerId?: number;
 }
