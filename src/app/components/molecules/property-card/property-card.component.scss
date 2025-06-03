@@ -51,6 +51,12 @@
     .location {
       color: #666;
       margin-bottom: 12px;
+
+      .material-icons {
+        font-size: 20px;
+        margin-right: 4px;
+        vertical-align: middle ;
+      }
     }
     
     .price {

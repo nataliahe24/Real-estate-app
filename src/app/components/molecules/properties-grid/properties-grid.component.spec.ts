@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PropertiesGridComponent } from './properties-grid.component';
-import { PropertyCardComponent } from '../../molecules/property-card/property-card.component';
+import { PropertyCardComponent } from '../property-card/property-card.component';
 import { MOCK_PROPERTIES } from '../../../shared/utils/mocks/mock-categories';
 
 describe('PropertiesGridComponent', () => {

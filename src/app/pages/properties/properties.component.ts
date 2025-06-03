@@ -1,72 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { PropertyService } from '../../core/services/properties/property.service';
-import { PropertyFilter, PropertyResponse } from '../../core/models/property.model';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { PropertyService } from '@app/core/services/properties/property.service';
+import { PropertyFilter, PropertyFilters, PropertyResponse } from '@app/core/models/property.model';
 import { CategoryService } from '../../core/services/categories/category.service';
 import { Category } from '../../core/models/category.model';
 
+interface PaginatedPropertiesResponse {
+  content: PropertyResponse[];
+  totalElements: number;
+}
 
 @Component({
   selector: 'app-properties',
   templateUrl: './properties.component.html',
   styleUrls: ['./properties.component.scss']
 })
-export class PropertiesComponent implements OnInit {
-  properties: PropertyResponse[] = [];
-  loading = true;
-  error = false;
-  currentFilter: PropertyFilter = {};
-  viewMode: 'grid' | 'list' = 'grid';
-  categories: Category[] = [];
-  
-  propertyImages = [
-    'assets/images/casa-1.png',
-    'assets/images/casa-2.png',
-    'assets/images/casa-3.png',
-    'assets/images/casa-4.png',
-    'assets/images/casa-5.png',
-    'assets/images/casa-6.png'
-  ];
-  
-  constructor(private propertyService: PropertyService) {}
-  
-  ngOnInit(): void {
-    this.loadProperties();
-    
+export class PropertiesComponent  {
+
+  constructor(private propertyService: PropertyService) {};
   }
-  
-  loadProperties(): void {
-    this.loading = true;
-    this.error = false;
-    
-    this.propertyService.getProperties(this.currentFilter)
-      .subscribe({
-        next: (data: PropertyResponse[]) => {
-          this.properties = data;
-          this.loading = false;
-        },
-        error: (err) => {
-          console.error('Error al cargar propiedades', err);
-          this.error = true;
-          this.loading = false;
-        }
-      });
-  }
-  
-  onSearch(searchData: {location: string, category: string}): void {
-    this.currentFilter = {
-      location: searchData.location,
-      category: searchData.category
-    };
-    this.loadProperties();
-  }
-  
-  onViewModeChange(event: any): void {
-    this.viewMode = event as 'grid' | 'list';
-  }
-  
-  toggleFavorite(event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
-   
-  }
-}

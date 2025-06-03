@@ -1,57 +1,46 @@
-<div class="modal-overlay">
-  <div class="modal-container">
-    <div class="modal-header">
-      <h2>Programar visita</h2>
-      <button class="close-button" (click)="onCancel()">×</button>
+<div class="visit-modal">
+  <h2>Programar visita - {{data.propertyName}}</h2>
+  
+  <form [formGroup]="visitForm" (ngSubmit)="onSubmit()">
+    <div class="schedule-selection">
+      <h3>Selecciona un horario:</h3>
+      <div class="schedule-options">
+        <div *ngFor="let visit of data.visits" 
+             class="schedule-option"
+             [class.selected]="selectedVisitId === visit.id"
+             (click)="selectVisit(visit.id)">
+          <p>
+            <i class="material-icons">event</i>
+            {{visit.startDate | date:'MMM d, y'}}
+          </p>
+          <p>
+            <i class="material-icons">schedule</i>
+            {{visit.startDate | date:'h:mm a'}} - {{visit.endDate | date:'h:mm a'}}
+          </p>
+        </div>
+      </div>
     </div>
 
-    <form [formGroup]="visitForm" (ngSubmit)="onSubmit()" class="modal-form">
-      <div class="form-group">
-        <label for="scheduleId">ID de Horario</label>
-        <div class="input-group">
-          <input 
-            type="text" 
-            id="scheduleId" 
-            formControlName="scheduleId" 
-            readonly>
-          <span class="icon">📅</span>
-        </div>
-      </div>
+    <div class="form-group">
+      <label for="email">Correo electrónico</label>
+      <input 
+        type="email" 
+        id="email"
+        formControlName="email"
+        placeholder="ejemplo@correo.com"
+        [ngClass]="{'input-error': visitForm.get('email')?.invalid && (visitForm.get('email')?.dirty || visitForm.get('email')?.touched)}">
+    </div>
 
-      <div class="form-group">
-        <label for="email">Correo Electrónico</label>
-        <div class="input-group">
-          <input 
-            type="email" 
-            id="email" 
-            formControlName="email" 
-            placeholder="ejemplo@correo.com"
-            [ngClass]="{'input-error': visitForm.get('email')?.invalid && (visitForm.get('email')?.dirty || visitForm.get('email')?.touched)}">
-          <span class="icon">✉️</span>
-        </div>
-        <div *ngIf="visitForm.get('email')?.invalid && (visitForm.get('email')?.dirty || visitForm.get('email')?.touched)" class="invalid-feedback">
-          <span *ngIf="visitForm.get('email')?.errors?.['required']">El correo electrónico es requerido</span>
-          <span *ngIf="visitForm.get('email')?.errors?.['email']">El correo electrónico no es válido</span>
-        </div>
-      </div>
+    <div *ngIf="visitForm.get('email')?.invalid && (visitForm.get('email')?.dirty || visitForm.get('email')?.touched)" class="invalid-feedback">
+      <span *ngIf="visitForm.get('email')?.errors?.['required']">El correo electrónico es requerido</span>
+      <span *ngIf="visitForm.get('email')?.errors?.['email']">El correo electrónico no es válido</span>
+    </div>
 
-
-      <div class="modal-actions">
-        <app-button
-          [type]="'secondary'"
-          [label]="'Cancelar'" 
-          (click)="onCancel()">
-        </app-button>
-        <app-button
-          [type]="'primary'"
-          [label]="'Confirmar Visita'"
-          [disabled]="!visitForm.valid"
-          [isSubmit]="true"
-          type="primary"
-          [ngClass]="{'button-disabled': !visitForm.valid}"
-          >
-        </app-button>
-      </div>
-    </form>
-  </div>
+    <div class="modal-actions">
+      <button type="button" class="cancel-btn" (click)="onCancel()">Cancelar</button>
+      <button type="submit" class="confirm-btn" [disabled]="!visitForm.valid || !selectedVisitId">
+        Confirmar visita
+      </button>
+    </div>
+  </form>
 </div> 

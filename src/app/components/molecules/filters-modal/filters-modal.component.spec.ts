@@ -53,39 +53,6 @@ describe('FiltersModalComponent', () => {
     });
   });
 
-  describe('resetFilters', () => {
-    it('should reset all form controls to empty string', () => {
-      
-      component.config.roomsControl.setValue('3');
-      component.config.bathroomsControl.setValue('2');
-      component.config.minPriceControl.setValue('100000');
-      component.config.maxPriceControl.setValue('200000');
-
-      component.resetFilters();
-
-    
-      expect(component.config.roomsControl.value).toBe('');
-      expect(component.config.bathroomsControl.value).toBe('');
-      expect(component.config.minPriceControl.value).toBe('');
-      expect(component.config.maxPriceControl.value).toBe('');
-    });
-
-    it('should emit filters with undefined values', () => {
-      const filtersChangeSpy = jest.spyOn(component.filtersChange, 'emit');
-
-     
-      component.resetFilters();
-
-     
-      expect(filtersChangeSpy).toHaveBeenCalledWith({
-        rooms: undefined,
-        bathrooms: undefined,
-        minPrice: undefined,
-        maxPrice: undefined
-      });
-    });
-  });
-
   describe('emitFilters', () => {
     it('should emit filters with numeric values when controls have values', () => {
      

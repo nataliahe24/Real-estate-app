@@ -34,21 +34,6 @@ export class FiltersModalComponent  {
     this.close.emit();
   }
 
-  resetFilters(): void {
-  
-    this.config.roomsControl.setValue('');
-    this.config.bathroomsControl.setValue('');
-    this.config.minPriceControl.setValue('');
-    this.config.maxPriceControl.setValue('');
-    
-    this.filtersChange.emit({
-      rooms: undefined,
-      bathrooms: undefined,
-      minPrice: undefined,
-      maxPrice: undefined
-    });
-  }
-
   private emitFilters(): void {
     const rooms = this.config.roomsControl.value ? Number(this.config.roomsControl.value) : undefined;
     const bathrooms = this.config.bathroomsControl.value ? Number(this.config.bathroomsControl.value) : undefined;
@@ -63,5 +48,9 @@ export class FiltersModalComponent  {
     };
 
     this.filtersChange.emit(filters);
+  }
+
+  applyFilters(): void {
+    this.close.emit();
   }
 } 

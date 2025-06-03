@@ -15,9 +15,5 @@ export class PropertyCardComponent {
     'assets/images/casa-4.png',
     'assets/images/casa-5.png'
   ];
-  
-  toggleFavorite(event: Event): void {
-    event.preventDefault();
-    event.stopPropagation();
-  }
+
 } 

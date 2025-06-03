@@ -15,6 +15,12 @@ export class CategorySelectComponent implements OnInit {
   @Output() categorySelected = new EventEmitter<string>();
   @Output() categoryIdSelected = new EventEmitter<number | null>();
   @Input()  categories: Category[] = [];
+  @Input() set reset(value: boolean) {
+    if (value) {
+      this.selectedCategoryName = '';
+      this.control.setValue('');
+    }
+  }
   control = new FormControl();
 
   

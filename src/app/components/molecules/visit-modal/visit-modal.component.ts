@@ -1,14 +1,14 @@
 import { Component, Inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BuyerVisitService } from '@app/core/services/buyer-visit/buyer-visit.service';
-
-
+import { Visit } from '@core/models/visit.model';
+import { BuyerVisitService } from '@core/services/buyer-visit/buyer-visit.service';
+import { BuyerVisit } from '@core/models/buyer-visit.model';
 
 interface VisitModalData {
-  scheduleId: number;
-  email: string;
+  propertyId: number;
+  propertyName: string;
+  visits: Visit[];
 }
 
 @Component({
@@ -18,34 +18,40 @@ interface VisitModalData {
 })
 export class VisitModalComponent {
   visitForm: FormGroup;
+  selectedVisitId: number | null = null;
+  loading = false;
 
   constructor(
-    private readonly fb: FormBuilder,
-    private readonly dialogRef: MatDialogRef<VisitModalComponent>,
-    private readonly buyerVisitService: BuyerVisitService,
+    private fb: FormBuilder,
+    private buyerVisitService: BuyerVisitService,
+    public dialogRef: MatDialogRef<VisitModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: VisitModalData
   ) {
-    
     this.visitForm = this.fb.group({
-      scheduleId: [data.scheduleId, [Validators.required]],
-      email: [data.email, [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]]
     });
   }
 
+  selectVisit(visitId: number): void {
+    this.selectedVisitId = visitId;
+  }
+
   onSubmit(): void {
-    if (this.visitForm.valid) {
-      const visitData = {
-        scheduleId: this.visitForm.value.scheduleId,
-        buyerEmail: this.visitForm.value.email
+    if (this.visitForm.valid && this.selectedVisitId) {
+      this.loading = true;
+      const buyerVisit: BuyerVisit = {
+        scheduleId: this.selectedVisitId,
+        buyerEmail: this.visitForm.get('email')?.value,
       };
-      
-      this.buyerVisitService.createBuyerVisit(visitData).subscribe({
+
+      this.buyerVisitService.createBuyerVisit(buyerVisit).subscribe({
         next: (response) => {
+          this.loading = false;
           this.dialogRef.close(response);
         },
         error: (error) => {
-          this.dialogRef.close(error);
-          console.error('Error al crear visita:', error);
+          this.loading = false;
+          this.onCancel();
         }
       });
     }

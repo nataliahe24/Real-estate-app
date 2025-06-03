@@ -4,6 +4,7 @@
         <div class="search-container">
           <app-category-select
           [formControl]="categoryControl"
+          [reset]="isReset"
           class="category-select"
           (categorySelected)="onCategoryChange($event)"
           ></app-category-select>
@@ -43,7 +44,7 @@
           (click)="showFilters = true"
           aria-label="Mostrar filtros avanzados"
         >
-          <img src="assets/images/filter_search_icon_.png" alt="Filtros avanzados" width="25" height="25" />
+          <img src="assets/images/filtrar.png" alt="Filtros avanzados" width="25" height="25" /> Filtros
         </button>
         </div>
   
@@ -61,6 +62,35 @@
           (orderChange)="toggleOrder()"
           (filtersChange)="onFiltersApplied($event)"
         ></app-filters-modal>
+
+     
+        <div class="filters-modal-footer">
+          <button type="button" class="reset-btn" (click)="resetFilters()">
+            <span class="material-icons">refresh</span>
+            Limpiar filtros
+          </button>
+        </div>
+      
+
+      <div class="active-filters" *ngIf="hasActiveFilters()">
+        <span class="filter-tag" *ngIf="activeFilters.rooms">
+          {{activeFilters.rooms}} habitaciones
+          <button type="button" class="close-tag" (click)="removeFilter('rooms')">×</button>
+        </span>
+        <span class="filter-tag" *ngIf="activeFilters.bathrooms">
+          {{activeFilters.bathrooms}} baños
+          <button type="button" class="close-tag" (click)="removeFilter('bathrooms')">×</button>
+        </span>
+        <span class="filter-tag" *ngIf="activeFilters.minPrice">
+          Desde {{activeFilters.minPrice | currency:'COP':'symbol':'1.0-0'}}
+          <button type="button" class="close-tag" (click)="removeFilter('minPrice')">×</button>
+        </span>
+        <span class="filter-tag" *ngIf="activeFilters.maxPrice">
+          Hasta {{activeFilters.maxPrice | currency:'COP':'symbol':'1.0-0'}}
+          <button type="button" class="close-tag" (click)="removeFilter('maxPrice')">×</button>
+        </span>
+      </div>
+
       <div class="table-container" *ngIf="!loading">
         <table>
           <thead>
