@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { NotificationService } from '../notifications/notification.service';
-import { BuyerVisit } from '@app/core/models/buyer-visit.model';
+import { BuyerVisit, BuyerVisitResponse } from '@app/core/models/buyer-visit.model';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,18 +17,44 @@ export class BuyerVisitService {
 
   constructor(
     private readonly http: HttpClient,
-    private readonly notificationService: NotificationService
+    private readonly notificationService: NotificationService,
+    private readonly authService: AuthService
   ) {}
 
-  createBuyerVisit(buyerVisit: BuyerVisit): Observable<any> {
-    
+  getBuyerVisits(): Observable<BuyerVisitResponse[]> {
+    const buyerEmail = this.authService.getCurrentUser()?.email;
+    if (!buyerEmail) {
+      return throwError(() => new Error('Usuario no autenticado'));
+    }
 
+    return this.http.get<BuyerVisitResponse[]>(`${this.apiUrl}?buyerEmail=${encodeURIComponent(buyerEmail)}`).pipe(
+      catchError(this.handleError.bind(this))
+    );
+  }
+
+  createBuyerVisit(buyerVisit: BuyerVisit): Observable<any> {
     return this.http.post(this.apiUrl, buyerVisit).pipe(
       map(response => {
         this.notificationService.success('Visita programada exitosamente');
         return response;
       }),
       catchError(this.handleError.bind(this))
+    );
+  }
+
+  cancelVisit(visitId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}cancel?visitId=${visitId}`).pipe(
+      map(() => {
+        this.notificationService.success('Visita cancelada exitosamente');
+        return { success: true };
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 200) {
+
+          return of({ success: true });
+        }
+        return this.handleError(error);
+      })
     );
   }
 
