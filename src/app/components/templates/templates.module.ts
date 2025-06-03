@@ -8,7 +8,7 @@ import { PropertiesLayoutComponent } from './properties-layout/properties-layout
 import { SellerUserLayoutComponent } from './seller-user-layout/seller-user-layout.component';
 import { OrganismsModule } from '../organisms/organisms.module';
 import { BuyerUserLayoutComponent } from './buyer-user-layout/buyer-user-layout.component';
-
+import { MoleculesModule } from '../molecules/molecules.module';
 @NgModule({
   declarations: [
     AdminLayoutComponent,
@@ -21,7 +21,8 @@ import { BuyerUserLayoutComponent } from './buyer-user-layout/buyer-user-layout.
     RouterModule,
     SharedComponentsModule,
     AtomsModule,
-    OrganismsModule
+    OrganismsModule,
+    MoleculesModule
   ],
   exports: [
     AdminLayoutComponent,
