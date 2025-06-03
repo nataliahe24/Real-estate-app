@@ -1,0 +1,45 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.buyer-visit-list-page {
+  padding: 2rem 0;
+  
+  .page-header {
+    margin-bottom: 2rem;
+    text-align: center;
+    
+    h1 {
+      font-size: 2rem;
+      color: #333;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+    
+    p {
+      color: #6c757d;
+      font-size: 1.1rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .buyer-visit-list-page {
+    padding: 1rem 0;
+    
+    .page-header {
+      h1 {
+        font-size: 1.75rem;
+      }
+      
+      p {
+        font-size: 1rem;
+        padding: 0 1rem;
+      }
+    }
+  }
+} 
