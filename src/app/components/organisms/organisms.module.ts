@@ -19,6 +19,7 @@ import { VisitFormComponent } from './visit-form/visit-form.component';
 import { VisitListComponent } from './visit-list/visit-list.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SearchFormComponent } from '../organisms/search-form/search-form.component';
+import { BuyerVisitsListComponent } from './buyer-visits-list/buyer-visits-list.component';
 @NgModule({
   declarations: [
     CategoryManagerComponent,
@@ -33,7 +34,8 @@ import { SearchFormComponent } from '../organisms/search-form/search-form.compon
     LoginComponent,
     VisitFormComponent,
     VisitListComponent,
-    SearchFormComponent
+    SearchFormComponent,
+    BuyerVisitsListComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +60,8 @@ import { SearchFormComponent } from '../organisms/search-form/search-form.compon
     LoginComponent,
     VisitFormComponent,
     VisitListComponent,
-    SearchFormComponent
+    SearchFormComponent,
+    BuyerVisitsListComponent
   ]
 })
 export class OrganismsModule { } 
