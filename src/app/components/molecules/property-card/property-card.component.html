@@ -1,18 +1,16 @@
 <div class="property-card">
-  <div class="property-status">
-    <app-property-status-label [type]="type"></app-property-status-label>
-  </div>
-  
   <div class="property-image">
     <img [src]="propertyImages[property.id % propertyImages.length]" alt="Imagen de propiedad">
   </div>
   
   <div class="property-content">
     <h3 class="property-title">{{ property.name }}</h3>
-    <p class="location">{{property.neighborhood}}, {{ property.city }}, {{ property.department }}</p>
+    <p class="location">
+      <span class="material-icons">location_on</span>
+      {{property.neighborhood}}, {{ property.city }}, {{ property.department }}</p>
     
     <p class="price">
-      {{ property.publicationStatus === 'FOR_RENT' ? property.price + '/mo' : property.price | currency:'USD' }}
+      {{property.price | currency:'USD' }}
     </p>
     
     <div class="property-features">
@@ -25,15 +23,6 @@
         <i class="material-icons">bathtub</i>
         <span>{{ property.bathrooms }}</span>
       </div>
-      
-      <div class="feature">
-        <i class="material-icons">square_foot</i>
-        <span>800 sq ft</span>
-      </div>
     </div>
   </div>
-  
-  <button class="favorite-btn" (click)="toggleFavorite($event)">
-    <i class="material-icons">favorite_border</i>
-  </button>
 </div>
