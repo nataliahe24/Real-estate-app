@@ -18,6 +18,7 @@ export class BuyerUserLayoutComponent {
     avatar: '/assets/images/usuario.jpeg'
   };
   menuItems = [
-    { icon: 'home', label: 'Agendar Visita', route: '/visit-schedules'}
+    { icon: 'home', label: 'Agendar Visita', route: '/visit-schedules'},
+    { icon: 'list', label: 'Mis Visitas', route: '/buyer-visit-list'}
   ];
 }
