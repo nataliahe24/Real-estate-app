@@ -53,35 +53,41 @@
 
   <div *ngIf="!loading && !error" class="visits-container">
     <ng-container>
-      <div *ngFor="let visit of visits" class="visit-card">
-         <div class="property-image">
-    <img [src]="propertyImages[visit.id % propertyImages.length]" alt="Imagen de propiedad">
-  </div>
+      <div *ngFor="let group of groupedVisits" class="visit-card">
+        <div class="property-image">
+          <img [src]="propertyImages[group.propertyId % propertyImages.length]" alt="Imagen de propiedad">
+        </div>
         <div class="visit-info">
-            <h3>{{visit.propertyName}}</h3>
-            <p>
-              <i class="material-icons">location_on</i>
-              {{visit.city}}, {{visit.neighborhood}}
-            </p>
-            <p>
-              <i class="material-icons">home</i>
-              {{visit.address}}
-            </p>
-            <p>
-              <i class="material-icons">event</i>
-              {{visit.startDate | date:'MMM d, y'}}
-            </p>
-            <p>
-              <i class="material-icons">schedule</i>
-              <span>Inicio: {{visit.startDate | date:'h:mm a'}}</span>
-              <span style="margin-left: 12px;">Fin: {{visit.endDate | date:'h:mm a'}}</span>
-            </p>
+          <h3>{{group.propertyName}}</h3>
+          <p>
+            <i class="material-icons">location_on</i>
+            {{group.city}}, {{group.neighborhood}}
+          </p>
+          <p>
+            <i class="material-icons">home</i>
+            {{group.address}}
+          </p>
+          
+          <div class="visit-schedules">
+            <h4>Horarios disponibles:</h4>
+            <div *ngFor="let visit of group.visits" class="schedule-item">
+              <p>
+                <i class="material-icons">event</i>
+                {{visit.startDate | date:'MMM d, y'}}
+              </p>
+              <p>
+                <i class="material-icons">schedule</i>
+                <span>Inicio: {{visit.startDate | date:'h:mm a'}}</span>
+                <span style="margin-left: 12px;">Fin: {{visit.endDate | date:'h:mm a'}}</span>
+              </p>
+            </div>
             <button 
-              (click)="openVisitModal(visit)"
+              (click)="openVisitModal(group)"
               class="visit-info__button">
               Programar visita
             </button>
           </div>
+        </div>
       </div>
     </ng-container>
   </div>

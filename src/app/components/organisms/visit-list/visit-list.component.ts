@@ -10,6 +10,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { VisitModalComponent } from '../../molecules/visit-modal/visit-modal.component';
 import { NotificationService } from '@app/core/services/notifications/notification.service';
 
+interface GroupedVisit {
+  propertyId: number;
+  propertyName: string;
+  city: string;
+  neighborhood: string;
+  address: string;
+  visits: Visit[];
+}
+
 @Component({
   selector: 'app-visit-list',
   templateUrl: './visit-list.component.html',
@@ -24,6 +33,7 @@ export class VisitListComponent implements OnInit {
   pageSize = 10;
   totalPages = 0;
   private destroy$ = new Subject<void>();
+  groupedVisits: GroupedVisit[] = [];
 
   propertyImages = [
     'assets/images/casa-2.png',
@@ -80,6 +90,7 @@ export class VisitListComponent implements OnInit {
     this.visitService.getVisits(formValues).subscribe({
       next: (response) => {
         this.visits = response.content;
+        this.groupVisitsByProperty();
         this.totalPages = response.totalPages;
         this.loading = false;
       },
@@ -88,6 +99,28 @@ export class VisitListComponent implements OnInit {
         this.error = true;
       }
     });
+  }
+
+  private groupVisitsByProperty(): void {
+    const grouped = this.visits.reduce((acc, visit) => {
+      const existingGroup = acc.find(g => g.propertyId === visit.propertyId);
+      
+      if (existingGroup) {
+        existingGroup.visits.push(visit);
+      } else {
+        acc.push({
+          propertyId: visit.propertyId,
+          propertyName: visit.propertyName,
+          city: visit.city,
+          neighborhood: visit.neighborhood,
+          address: visit.address,
+          visits: [visit]
+        });
+      }
+      return acc;
+    }, [] as GroupedVisit[]);
+
+    this.groupedVisits = grouped;
   }
 
   onSubmit(): void {
@@ -110,10 +143,12 @@ export class VisitListComponent implements OnInit {
     this.loadVisits();
   }
 
-  openVisitModal(visit: Visit): void {
+  openVisitModal(group: GroupedVisit): void {
     const dialogRef = this.dialog.open(VisitModalComponent, {
       data: {
-        scheduleId: visit.id,
+        propertyId: group.propertyId,
+        propertyName: group.propertyName,
+        visits: group.visits
       },
       width: '500px',
       disableClose: true
@@ -121,7 +156,6 @@ export class VisitListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-    
         console.log('Visita confirmada:', result);
       }
     });
