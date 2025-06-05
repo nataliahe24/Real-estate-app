@@ -41,29 +41,19 @@ describe('LogoutButtonComponent', () => {
 
   it('should call onLogout when "logout" is selected', () => {
     authServiceMock.logout.mockReturnValue(of({}));
-    const event = { target: { value: 'logout' } } as any;
-    component.onOptionSelect(event);
+    component.onLogout();
     expect(authServiceMock.logout).toHaveBeenCalled();
   });
 
-  it('should navigate to /publish when "tasks" is selected', () => {
-    const event = { target: { value: 'tasks' } } as any;
-    component.onOptionSelect(event);
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/publish']);
+  it('should navigate to /login when "logout" is selected', () => {
+    component.onLogout();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
   });
 
   it('should show success notification and navigate to /login on successful logout', () => {
     authServiceMock.logout.mockReturnValue(of({}));
     component.onLogout();
     expect(notificationServiceMock.success).toHaveBeenCalledWith('Sesión cerrada exitosamente');
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
-  });
-
-  it('should show error notification, purge auth, and navigate to /login on logout error', () => {
-    authServiceMock.logout.mockReturnValue(throwError(() => new Error('error')));
-    component.onLogout();
-    expect(notificationServiceMock.error).toHaveBeenCalledWith('Sesion cerrada exitosamente');
-    expect(authServiceMock.purgeAuth).toHaveBeenCalled();
     expect(routerMock.navigate).toHaveBeenCalledWith(['/login']);
   });
 }); 

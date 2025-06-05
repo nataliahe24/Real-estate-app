@@ -19,7 +19,7 @@ export class LogoutButtonComponent {
 
   onLogout(): void {
     this.authService.logout();
-    this.notificationService.success('Sesión cerrada correctamente');
+    this.notificationService.success('Sesión cerrada exitosamente');
     this.router.navigate(['/login']);
     this.logout.emit();
   }
