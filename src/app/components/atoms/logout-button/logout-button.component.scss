@@ -1,20 +1,24 @@
-.logout-select {
-  padding: 8px 8px;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  background-color: white;
-  font-size: 15px;
-  justify-content: left;
-  width: 20px;
+.logout-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 35px;
+  padding: 6px 5px;
+  background-color: transparent; 
+  color: #7c7979;
+  border: none;
+  border-radius:8px 8px;
+  cursor: pointer;
+  transition: background 0.2s;
 
-&:focus {
-  border: 1px solid transparent;
-}
-  option {
-    width: 400px;
-    padding: 30px 30px;
-    font-size: 15px;
-    font-family: 'Poppins', sans-serif;
-
+  &:hover,
+  &:focus {
+    background-color: #c9cdd1;
+    outline: none;
   }
+}
+
+.material-icons {
+  font-size: 30px ;
+  color: #7c7979;
 }
