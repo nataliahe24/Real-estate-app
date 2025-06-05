@@ -120,12 +120,6 @@ export class UsersFormComponent implements OnInit {
         next: () => {
           this.notificationService.success('Usuario creado correctamente');
           this.userForm.reset();
-        },
-        error: (error) => {
-          console.error('Error creating user:', error);
-          this.notificationService.error('Usuario ya existe');
-          ;
-          
         }
       });
     }
