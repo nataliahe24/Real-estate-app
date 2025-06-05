@@ -47,13 +47,15 @@
         type="primary"
         [isSubmit]="true"
         [disabled]="locationForm.invalid || !locationForm.dirty"
-        label="Crear">
+        label="Crear"
+        [ngClass]="{'button-disabled': locationForm.invalid || !locationForm.dirty}">
       </app-button>
 
       <app-button 
         type="secondary"
         (click)="resetForm()"
-        label="Cancelar">
+        label="Cancelar"
+        >
       </app-button>
     </div>
   </section>
