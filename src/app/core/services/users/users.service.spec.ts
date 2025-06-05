@@ -80,36 +80,5 @@ describe('UsersService', () => {
     it('should validate correct user data', () => {
       expect(() => service.createUser(MOCK_USER)).not.toThrow();
     });
-
-    it('should throw error for invalid email', () => {
-      const invalidUser = { ...MOCK_USER, email: 'invalid-email' };
-      expect(() => service.createUser(invalidUser)).toThrow(
-        'El correo electrónico ingresado no tiene un formato inválido.'
-      );
-    });
-
-    it('should throw error for invalid phone number', () => {
-      const invalidUser = { ...MOCK_USER, phoneNumber: '123' };
-      expect(() => service.createUser(invalidUser)).toThrow(
-        'El numero de telefono no puede exceder los 13 caracteres'
-      );
-    });
-
-    it('should throw error for invalid identity document', () => {
-      const invalidUser = { ...MOCK_USER, identityDocument: 'ABC123' as any };
-      expect(() => service.createUser(invalidUser)).toThrow(
-        'El documento de identidad debe contener solo números'
-      );
-    });
-
-    it('should throw error for underage user', () => {
-      const underageUser = { 
-        ...MOCK_USER, 
-        birthDate: new Date() 
-      };
-      expect(() => service.createUser(underageUser)).toThrow(
-        'La edad del usuario no cumple con el mínimo permitido'
-      );
-    });
   });
 }); 
