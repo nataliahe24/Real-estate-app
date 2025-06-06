@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, map, pipe, throwError } from 'rxjs';
 import { PropertyResponse, PropertyFilter, PaginatedPropertiesResponse, Property, PropertyFilters } from '../../models/property.model';
 import { environment } from '../../../../environments/environment';
@@ -25,10 +25,7 @@ export class PropertyService {
 
   createProperty(property: Property): Observable<Property> {
     return this.http.post<Property>(this.apiUrl, property).pipe(
-      catchError(error => {
-        console.error('Error creating property:', error);
-        return throwError(() => error);
-      })
+      catchError((error: HttpErrorResponse) => this.handleError(error))
     );
   }
 
@@ -56,5 +53,35 @@ export class PropertyService {
         return throwError(() => error);
       })
     );
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Ha ocurrido un error';
+    
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = 'Error de conexión. Por favor, intente nuevamente.';
+    } else {
+      switch (error.status) {
+        case 400:
+          errorMessage = error.error?.message || 'Datos inválidos. Por favor, verifique la información.';
+          break;
+        case 401:
+          errorMessage = 'No autorizado. Por favor, inicie sesión nuevamente.';
+          break;
+        case 403:
+          errorMessage = error.error?.message || 'No tiene permisos para realizar esta acción.';
+          break;
+        case 404:
+          errorMessage = error.error?.message || 'No se encontró la información solicitada';
+          break;
+        case 500:
+          errorMessage = 'Error del servidor. Por favor, intente más tarde.';
+          break;
+        default:
+          errorMessage = error.error?.message || error.message;
+      }
+    }
+
+    return throwError(() => new Error(errorMessage));
   }
 }
