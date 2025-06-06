@@ -28,3 +28,19 @@ export const endDateValidator = (startDate: string): (control: AbstractControl) 
     return endDate <= start ? { endDateBeforeStart: true } : null;
   };
 }; 
+
+export function sameDayValidator(startDate: string) {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const endDate = control.value;
+    if (!startDate || !endDate) return null;
+
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const isSameDay = start.getFullYear() === end.getFullYear() &&
+                      start.getMonth() === end.getMonth() &&
+                      start.getDate() === end.getDate();
+
+    return isSameDay ? null : { notSameDay: true };
+  };
+}

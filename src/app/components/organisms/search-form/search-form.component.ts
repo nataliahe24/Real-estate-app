@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { PropertyService } from '@app/core/services/properties/property.service';
@@ -24,10 +24,10 @@ export class SearchFormComponent implements OnInit, OnDestroy {
   
   searchForm!: FormGroup;
   categoryControl = new FormControl<string>('');
-  roomsControl = new FormControl<number | null>(null);
-  bathroomsControl = new FormControl<number | null>(null);
-  minPriceControl = new FormControl<number | null>(null);
-  maxPriceControl = new FormControl<number | null>(null);
+  roomsControl = new FormControl<number | null>(null, [Validators.min(1)]);
+  bathroomsControl = new FormControl<number | null>(null, [Validators.min(0)]);
+  minPriceControl = new FormControl<number | null>(null, [Validators.min(0)]);
+  maxPriceControl = new FormControl<number | null>(null, [Validators.min(0)]);
   sortByControl = new FormControl<string | null>('price');
   private destroy$ = new Subject<void>();
 

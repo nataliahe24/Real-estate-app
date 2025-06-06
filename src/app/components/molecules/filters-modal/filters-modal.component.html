@@ -6,36 +6,56 @@
   </div>
   <div class="filters-modal-body">
     <app-input
+      [label]="'Habitaciones'"
       type="number"
       [formControl]="config.roomsControl"
       placeholder="Habitaciones"
       class="filter-input"
       min="0"
       step="1"
+      [ngClass]="config.roomsControl.touched && config.roomsControl.invalid ? 'input-error' : ''"
     ></app-input>
+    <div class="error-message" *ngIf="config.roomsControl.touched && config.roomsControl.invalid">
+      El número de habitaciones debe ser positivo
+    </div>
     <app-input
+      [label]="'Baños'"
       type="number"
       [formControl]="config.bathroomsControl"
       placeholder="Baños"
       class="filter-input"
       min="0"
       step="1"
+      [ngClass]="config.bathroomsControl.touched && config.bathroomsControl.invalid ? 'input-error' : ''"
     ></app-input>
+    <div class="error-message" *ngIf="config.bathroomsControl.touched && config.bathroomsControl.invalid">
+      El número de baños debe ser positivo
+    </div>
     <app-input
+      [label]="'Precio mínimo'"
       type="number"
       [formControl]="config.minPriceControl"
       placeholder="Precio mínimo"
       class="filter-input"
       min="0"
       step="100000"
+      [ngClass]="config.minPriceControl.touched && config.minPriceControl.invalid ? 'input-error' : ''"
     ></app-input>
+    <div class="error-message" *ngIf="config.minPriceControl.touched && config.minPriceControl.invalid">
+      El precio mínimo debe ser positivo
+    </div>
     <app-input
+      [label]="'Precio máximo'"
       type="number"
       [formControl]="config.maxPriceControl"
       placeholder="Precio máximo"
       class="filter-input"
       min="0"
       step="100000"
+      [ngClass]="config.maxPriceControl.touched && config.maxPriceControl.invalid ? 'input-error' : ''"
     ></app-input>
+    <div class="error-message" *ngIf="config.maxPriceControl.touched && config.maxPriceControl.invalid">
+      El precio máximo debe ser positivo
+    </div>
   </div>
 </div> 
