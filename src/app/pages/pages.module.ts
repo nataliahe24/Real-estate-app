@@ -22,6 +22,7 @@ import { SellerGuard } from '../core/guards/seller/seller.guard';
 import { VisitSchedulesComponent } from './visit-schedules/visit-schedules.component';
 import { BuyerGuard } from '../core/guards/buyer/buyer.guard';
 import { WellcomeBuyerComponent } from './wellcome-buyer/wellcome-buyer.component';
+import { BuyerVisitListComponent } from './buyer-visit-list/buyer-visit-list.component';
 
 const routes: Routes = [
   {
@@ -78,7 +79,11 @@ const routes: Routes = [
       {
         path: 'visit-schedules',
         component: VisitSchedulesComponent,
-        canActivate:[AuthGuard, BuyerGuard]
+      },
+      {
+        path: 'buyer-visit-list',
+        component: BuyerVisitListComponent,
+        canActivate: [AuthGuard, BuyerGuard]
       }
     ]
   }
@@ -96,7 +101,8 @@ const routes: Routes = [
     WellcomeSellerComponent,
     VisitComponent,
     VisitSchedulesComponent,
-    WellcomeBuyerComponent
+    WellcomeBuyerComponent,
+    BuyerVisitListComponent
   ],
   imports: [
     CommonModule,
@@ -120,7 +126,8 @@ const routes: Routes = [
     WellcomeSellerComponent,
     VisitComponent,
     VisitSchedulesComponent,
-    WellcomeBuyerComponent
+    WellcomeBuyerComponent,
+    BuyerVisitListComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
