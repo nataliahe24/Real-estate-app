@@ -12,6 +12,8 @@ import { MoleculesModule } from '@app/components/molecules/molecules.module';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { MOCK_PROPERTIES } from '@app/shared/utils/mocks/mock-properties';
 import { PaginatedPropertiesResponse, PropertyFilters } from '@core/models/property.model';
+import { AuthService } from '@core/services/auth/auth.service';
+import { AUTH_RESPONSE } from '@app/shared/utils/mocks/mock-user';
 
 
 @Component({
@@ -55,6 +57,7 @@ describe('PropertyListComponent', () => {
   let fixture: ComponentFixture<PropertyListComponent>;
   let propertyService: jest.Mocked<PropertyService>;
   let categoryService: jest.Mocked<CategoryService>;
+  let authService: jest.Mocked<AuthService>;
 
   
 
@@ -72,6 +75,10 @@ describe('PropertyListComponent', () => {
     getCategories: jest.fn().mockReturnValue(of([]))
   };
 
+  const mockAuthService = {
+    getCurrentUser: jest.fn().mockReturnValue(AUTH_RESPONSE)
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
@@ -87,7 +94,8 @@ describe('PropertyListComponent', () => {
       ],
       providers: [
         { provide: PropertyService, useValue: mockPropertyService },
-        { provide: CategoryService, useValue: mockCategoryService }
+        { provide: CategoryService, useValue: mockCategoryService },
+        { provide: AuthService, useValue: mockAuthService }
       ],
       schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
@@ -96,6 +104,7 @@ describe('PropertyListComponent', () => {
     component = fixture.componentInstance;
     propertyService = TestBed.inject(PropertyService) as jest.Mocked<PropertyService>;
     categoryService = TestBed.inject(CategoryService) as jest.Mocked<CategoryService>;
+    authService = TestBed.inject(AuthService) as jest.Mocked<AuthService>;
     
     component.searchControl = new FormControl('');
     component.categoryControl = new FormControl('');
@@ -127,7 +136,14 @@ describe('PropertyListComponent', () => {
         page: 0,
         size: 10,
         sortBy: 'price',
-        orderAsc: true
+        orderAsc: true,
+        sellerId: AUTH_RESPONSE.id,
+        location: undefined,
+        category: undefined,
+        rooms: undefined,
+        bathrooms: undefined,
+        minPrice: undefined,
+        maxPrice: undefined
       });
       expect(component.properties).toEqual(MOCK_PROPERTIES);
     }));
@@ -246,6 +262,126 @@ describe('PropertyListComponent', () => {
       
       expect(nextSpy).toHaveBeenCalled();
       expect(completeSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('filter management', () => {
+    it('should update active filters when control values change', fakeAsync(() => {
+      component.roomsControl.setValue('3');
+      tick(300);
+      expect(component.activeFilters.rooms).toBe('3');
+
+      component.bathroomsControl.setValue('2');
+      tick(300);
+      expect(component.activeFilters.bathrooms).toBe('2');
+
+      component.minPriceControl.setValue('100000');
+      tick(300);
+      expect(component.activeFilters.minPrice).toBe('100000');
+
+      component.maxPriceControl.setValue('300000');
+      tick(300);
+      expect(component.activeFilters.maxPrice).toBe('300000');
+    }));
+
+    it('should reset current page when filters change', fakeAsync(() => {
+      component.currentPage = 2;
+      component.roomsControl.setValue('3');
+      tick(300);
+      expect(component.currentPage).toBe(1);
+    }));
+
+    it('should handle empty filter values', fakeAsync(() => {
+      component.roomsControl.setValue('');
+      tick(300);
+      expect(component.activeFilters.rooms).toBeUndefined();
+    }));
+  });
+
+  describe('filter removal', () => {
+    beforeEach(() => {
+      component.activeFilters = {
+        rooms: '3',
+        bathrooms: '2',
+        minPrice: '100000',
+        maxPrice: '300000'
+      };
+    });
+
+    it('should remove rooms filter', () => {
+      component.removeFilter('rooms');
+      expect(component.roomsControl.value).toBe('');
+      expect(component.activeFilters.rooms).toBeUndefined();
+      expect(component.currentPage).toBe(1);
+    });
+
+    it('should remove bathrooms filter', () => {
+      component.removeFilter('bathrooms');
+      expect(component.bathroomsControl.value).toBe('');
+      expect(component.activeFilters.bathrooms).toBeUndefined();
+      expect(component.currentPage).toBe(1);
+    });
+
+    it('should remove minPrice filter', () => {
+      component.removeFilter('minPrice');
+      expect(component.minPriceControl.value).toBe('');
+      expect(component.activeFilters.minPrice).toBeUndefined();
+      expect(component.currentPage).toBe(1);
+    });
+
+    it('should remove maxPrice filter', () => {
+      component.removeFilter('maxPrice');
+      expect(component.maxPriceControl.value).toBe('');
+      expect(component.activeFilters.maxPrice).toBeUndefined();
+      expect(component.currentPage).toBe(1);
+    });
+  });
+
+  describe('filter status', () => {
+    it('should return true when filters are active', () => {
+      component.activeFilters = { rooms: '3' };
+      expect(component.hasActiveFilters()).toBeTruthy();
+    });
+
+    it('should return false when no filters are active', () => {
+      component.activeFilters = {};
+      expect(component.hasActiveFilters()).toBeFalsy();
+    });
+  });
+
+  describe('filter application', () => {
+    it('should apply all filters correctly', () => {
+      const filters = {
+        rooms: 3,
+        bathrooms: 2,
+        minPrice: 100000,
+        maxPrice: 300000
+      };
+
+      component.onFiltersApplied(filters);
+
+      expect(component.activeFilters).toEqual({
+        rooms: '3',
+        bathrooms: '2',
+        minPrice: '100000',
+        maxPrice: '300000'
+      });
+    });
+
+    it('should handle partial filters', () => {
+      const filters = {
+        rooms: 3,
+        bathrooms: undefined,
+        minPrice: undefined,
+        maxPrice: 300000
+      };
+
+      component.onFiltersApplied(filters);
+
+      expect(component.activeFilters).toEqual({
+        rooms: '3',
+        maxPrice: '300000'
+      });
     });
   });
 }); 
