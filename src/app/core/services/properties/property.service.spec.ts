@@ -5,6 +5,7 @@ import { PropertyResponse, Property, PaginatedPropertiesResponse } from '../../m
 import { environment } from '../../../../environments/environment';
 import { PropertyFilters } from '@core/models/property.model';
 import { MOCK_PAGINATED_PROPERTIES, MOCK_PROPERTIES } from '@app/shared/utils/mocks/mock-properties';
+import { HttpErrorResponse } from '@angular/common/http';
 
 describe('PropertyService', () => {
   let service: PropertyService;
@@ -322,6 +323,90 @@ describe('PropertyService', () => {
 
       const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
       req.flush(mockResponse);
+    });
+  });
+
+  describe('handleError', () => {
+    it('should handle client-side errors', () => {
+      const errorEvent = new ErrorEvent('Network error');
+      service.getFilteredProperties({}).subscribe({
+        error: (err: Error) => {
+          expect(err.message).toBe('Error de conexión. Por favor, intente nuevamente.');
+        }
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.error(errorEvent);
+    });
+
+    it('should handle 400 error with custom message', () => {
+      const customMessage = 'Datos inválidos específicos';
+      service.getFilteredProperties({}).subscribe({
+        error: (err: Error) => {
+          expect(err.message).toBe(customMessage);
+        }
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ message: customMessage }, { status: 400, statusText: 'Bad Request' });
+    });
+
+    it('should handle 401 error', () => {
+      service.getFilteredProperties({}).subscribe({
+        error: (err: Error) => {
+          expect(err.message).toBe('No autorizado. Por favor, inicie sesión nuevamente.');
+        }
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({}, { status: 401, statusText: 'Unauthorized' });
+    });
+
+    it('should handle 403 error with custom message', () => {
+      const customMessage = 'Acceso denegado específico';
+      service.getFilteredProperties({}).subscribe({
+        error: (err: Error) => {
+          expect(err.message).toBe(customMessage);
+        }
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ message: customMessage }, { status: 403, statusText: 'Forbidden' });
+    });
+
+    it('should handle 404 error with custom message', () => {
+      const customMessage = 'Recurso no encontrado específico';
+      service.getFilteredProperties({}).subscribe({
+        error: (err: Error) => {
+          expect(err.message).toBe(customMessage);
+        }
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ message: customMessage }, { status: 404, statusText: 'Not Found' });
+    });
+
+    it('should handle 500 error', () => {
+      service.getFilteredProperties({}).subscribe({
+        error: (err: Error) => {
+          expect(err.message).toBe('Error del servidor. Por favor, intente más tarde.');
+        }
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({}, { status: 500, statusText: 'Internal Server Error' });
+    });
+
+    it('should handle unknown error with error message', () => {
+      const customMessage = 'Error desconocido';
+      service.getFilteredProperties({}).subscribe({
+        error: (err: Error) => {
+          expect(err.message).toBe(customMessage);
+        }
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ message: customMessage }, { status: 418, statusText: 'I\'m a teapot' });
     });
   });
 });
