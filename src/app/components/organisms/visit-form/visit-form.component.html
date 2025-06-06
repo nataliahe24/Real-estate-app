@@ -38,13 +38,16 @@
           type="datetime-local"
           formControlName="endDate"
           [required]="true"
-          [ngClass]="visitForm.get('endDate')?.touched && (visitForm.get('endDate')?.errors?.['endDateBeforeStart'] || visitForm.get('endDate')?.errors?.['maxDate']) ? 'input-error' : ''"
+          [ngClass]="visitForm.get('endDate')?.touched && (visitForm.get('endDate')?.errors?.['endDateBeforeStart'] || visitForm.get('endDate')?.errors?.['maxDate'] || visitForm.get('endDate')?.errors?.['notSameDay']) ? 'input-error' : ''"
         ></app-input>
         <span *ngIf="visitForm.get('endDate')?.touched && visitForm.get('endDate')?.errors?.['endDateBeforeStart']" class="error-message">
           La fecha de fin debe ser posterior a la fecha de inicio
         </span>
         <span *ngIf="visitForm.get('endDate')?.touched && visitForm.get('endDate')?.errors?.['maxDate']" class="error-message">
           La fecha no puede ser posterior a 3 semanas
+        </span>
+        <span *ngIf="visitForm.get('endDate')?.touched && visitForm.get('endDate')?.errors?.['notSameDay']" class="error-message" >
+          La fecha de fin debe ser el mismo día que la fecha de inicio
         </span>
       </div>
     </div>

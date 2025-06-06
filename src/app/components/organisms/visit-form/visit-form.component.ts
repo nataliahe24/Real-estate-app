@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Visit } from '@core/models/visit.model';
 import { AuthService } from '@core/services/auth/auth.service';
-import { dateInPastValidator, maxDateValidator, endDateValidator } from '@app/shared/utils/validators/validators-visit';
+import { dateInPastValidator, maxDateValidator, endDateValidator, sameDayValidator } from '@app/shared/utils/validators/validators-visit';
 
 @Component({
   selector: 'app-visit-form',
@@ -31,7 +31,8 @@ export class VisitFormComponent {
         endDateControl?.setValidators([
           Validators.required,
           maxDateValidator(21),
-          endDateValidator(startDate)
+          endDateValidator(startDate),
+          sameDayValidator(startDate)
         ]);
         endDateControl?.updateValueAndValidity();
         if (endDateControl?.value && new Date(endDateControl.value) <= new Date(startDate)) {

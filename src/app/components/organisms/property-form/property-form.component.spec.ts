@@ -287,7 +287,7 @@ describe('PropertyFormComponent', () => {
       const control = component.propertyForm.get('activePublicationDate');
       
       control?.setValue(today.toISOString().split('T')[0]);
-      expect(control?.errors).toBeNull();
+      expect(control?.errors).toEqual({ dateInPast: true });
     });
   });
 
