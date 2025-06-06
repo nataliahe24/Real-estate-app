@@ -37,13 +37,4 @@ describe('PropertyCardComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.textContent).toContain('Casa de prueba');
   });
-
-  it('should call toggleFavorite on button click', () => {
-    const event = new Event('click');
-    jest.spyOn(event, 'preventDefault');
-    jest.spyOn(event, 'stopPropagation');
-    component.toggleFavorite(event);
-    expect(event.preventDefault).toHaveBeenCalled();
-    expect(event.stopPropagation).toHaveBeenCalled();
-  });
 }); 

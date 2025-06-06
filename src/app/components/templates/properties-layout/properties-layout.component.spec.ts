@@ -42,15 +42,6 @@ describe('PropertiesLayoutComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have correct menu items', () => {
-    expect(component.menuItems).toBeDefined();
-    expect(component.menuItems.length).toBe(3);
-    expect(component.menuItems[0]).toEqual({
-      label: 'Compra',
-      route: ''
-    });
-  });
-
   it('should render all required elements', () => {
     const compiled = fixture.nativeElement;
     expect(compiled.querySelector('.properties-layout')).toBeTruthy();

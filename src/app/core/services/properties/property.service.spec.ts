@@ -121,7 +121,18 @@ describe('PropertyService', () => {
       req.flush(MOCK_PAGINATED_PROPERTIES);
     });
 
-    it('should handle specific error responses', () => {
+    it('should handle network errors', () => {
+      service.getFilteredProperties({}).subscribe({
+        error: (error: Error) => {
+          expect(error.message).toBe('Error de conexión. Por favor, intente nuevamente.');
+        }
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrlProperties}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.error(new ErrorEvent('Network error'));
+    });
+
+    it('should handle specific HTTP errors', () => {
       const errorCases = [
         { status: 400, message: 'Datos inválidos. Por favor, verifique la información.' },
         { status: 401, message: 'No autorizado. Por favor, inicie sesión nuevamente.' },
@@ -145,15 +156,20 @@ describe('PropertyService', () => {
       });
     });
 
-    it('should handle network errors', () => {
+    it('should handle custom error messages from server', () => {
+      const customMessage = 'Mensaje de error personalizado';
+      
       service.getFilteredProperties({}).subscribe({
         error: (error: Error) => {
-          expect(error.message).toBe('Error de conexión. Por favor, intente nuevamente.');
+          expect(error.message).toBe(customMessage);
         }
       });
 
       const req = httpMock.expectOne(`${environment.apiUrlProperties}?page=0&size=10&orderAsc=true&sortBy=price`);
-      req.error(new ErrorEvent('Network error'));
+      req.flush({ message: customMessage }, { 
+        status: 400, 
+        statusText: 'Bad Request' 
+      });
     });
 
     it('should handle empty filters correctly', () => {
@@ -193,6 +209,119 @@ describe('PropertyService', () => {
       const req = httpMock.expectOne(`${environment.apiUrlProperties}?page=0&size=20&orderAsc=true&sortBy=price`);
       expect(req.request.method).toBe('GET');
       req.flush(MOCK_PAGINATED_PROPERTIES);
+    });
+
+    it('should handle empty response', () => {
+      service.getFilteredProperties({}).subscribe(response => {
+        expect(response).toEqual({ content: [], totalElements: 0 });
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ content: [], totalElements: 0 });
+    });
+
+    it('should handle response with null values', () => {
+      service.getFilteredProperties({}).subscribe(response => {
+        expect(response.content).toEqual([]);
+        expect(response.totalElements).toBe(0);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ content: null, totalElements: null });
+    });
+
+    it('should handle response with undefined values', () => {
+      service.getFilteredProperties({}).subscribe(response => {
+        expect(response.content).toEqual([]);
+        expect(response.totalElements).toBe(0);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ content: undefined, totalElements: undefined });
+    });
+
+    it('should handle response with missing properties', () => {
+      service.getFilteredProperties({}).subscribe(response => {
+        expect(response.content).toEqual([]);
+        expect(response.totalElements).toBe(0);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({});
+    });
+
+    it('should handle response with invalid data types', () => {
+      service.getFilteredProperties({}).subscribe(response => {
+        expect(response.content).toEqual([]);
+        expect(response.totalElements).toBe(0);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ content: 'invalid', totalElements: 'invalid' });
+    });
+
+    it('should handle response with partial data', () => {
+      service.getFilteredProperties({}).subscribe(response => {
+        expect(response.content).toEqual([]);
+        expect(response.totalElements).toBe(0);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ content: [] });
+    });
+
+    it('should handle response with extra properties', () => {
+      service.getFilteredProperties({}).subscribe(response => {
+        expect(response.content).toEqual([]);
+        expect(response.totalElements).toBe(0);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ 
+        content: [], 
+        totalElements: 0,
+        extraProperty: 'extra'
+      });
+    });
+
+    it('should handle response with malformed data', () => {
+      service.getFilteredProperties({}).subscribe(response => {
+        expect(response.content).toEqual([]);
+        expect(response.totalElements).toBe(0);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ 
+        content: [{ invalid: 'data' }], 
+        totalElements: 'invalid'
+      });
+    });
+
+    it('should handle response with empty array', () => {
+      service.getFilteredProperties({}).subscribe(response => {
+        expect(response.content).toEqual([]);
+        expect(response.totalElements).toBe(0);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush({ 
+        content: [], 
+        totalElements: 0
+      });
+    });
+
+    it('should handle response with single item', () => {
+      const mockResponse = {
+        content: [MOCK_PROPERTIES[0]],
+        totalElements: 1
+      };
+
+      service.getFilteredProperties({}).subscribe(response => {
+        expect(response).toEqual(mockResponse);
+      });
+
+      const req = httpMock.expectOne(`${apiUrl}?page=0&size=10&orderAsc=true&sortBy=price`);
+      req.flush(mockResponse);
     });
   });
 });
