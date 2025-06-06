@@ -31,31 +31,34 @@ export class PropertyFormComponent {
     this.propertyForm = this.fb.group({
       name: ['', [
         Validators.required,
-        Validators.maxLength(this.NAME_MAX_LENGTH)
+        Validators.maxLength(this.NAME_MAX_LENGTH),
+        Validators.minLength(this.NAME_MIN_LENGTH)
       ]],
       address: ['', [
         Validators.required,
-        Validators.maxLength(this.ADDRESS_MAX_LENGTH)
+        Validators.maxLength(this.ADDRESS_MAX_LENGTH),
+        Validators.minLength(this.ADDRESS_MIN_LENGTH)
       ]],
       description: ['', [
         Validators.required,
-        Validators.maxLength(this.DESCRIPTION_MAX_LENGTH)
+        Validators.maxLength(this.DESCRIPTION_MAX_LENGTH),
+        Validators.minLength(this.DESCRIPTION_MIN_LENGTH)
       ]],
       category: ['', [Validators.required]],
       rooms: [0, [
         Validators.required,
-        Validators.min(this.ROOMS_MIN)
+        Validators.min(1)
       ]],
       bathrooms: [0, [
         Validators.required,
-        Validators.min(this.BATHROOMS_MIN)
+        Validators.min(1)
       ]],
       price: [0, [
         Validators.required,
-        Validators.min(this.PRICE_MIN)
+        Validators.min(1)
       ]],
       location: ['', [Validators.required]],
-      activePublicationDate: [new Date().toISOString().split('T')[0], [
+      activePublicationDate: ['', [
         Validators.required,
         this.dateNotInPastValidator()
       ]],
@@ -77,6 +80,14 @@ export class PropertyFormComponent {
         return { dateInPast: true };
       }
 
+      const oneMonthFromToday = new Date();
+      oneMonthFromToday.setMonth(oneMonthFromToday.getMonth() + 1);
+      oneMonthFromToday.setHours(0, 0, 0, 0);
+
+      if (selectedDate > oneMonthFromToday) {
+        return { dateExceedsMonth: true };
+      }
+
       return null;
     };
   }
@@ -86,37 +97,8 @@ export class PropertyFormComponent {
     return {
       isValid: control?.valid,
       isDirty: control?.dirty,
-      hasError: control?.errors?.['dateInPast']
-    };
-  }
-
-  get nameInfo() {
-    const control = this.propertyForm.get('name');
-    return {
-      currentLength: control?.value?.length || 0,
-      remainingChars: this.NAME_MAX_LENGTH - (control?.value?.length || 0),
-      isValid: control?.valid,
-      isDirty: control?.dirty
-    };
-  }
-
-  get addressInfo() {
-    const control = this.propertyForm.get('address');
-    return {
-      currentLength: control?.value?.length || 0,
-      remainingChars: this.ADDRESS_MAX_LENGTH - (control?.value?.length || 0),
-      isValid: control?.valid,
-      isDirty: control?.dirty
-    };
-  }
-
-  get descriptionInfo() {
-    const control = this.propertyForm.get('description');
-    return {
-      currentLength: control?.value?.length || 0,
-      remainingChars: this.DESCRIPTION_MAX_LENGTH - (control?.value?.length || 0),
-      isValid: control?.valid,
-      isDirty: control?.dirty
+      hasError: control?.errors?.['dateInPast'],
+      hasDateExceedsMonth: control?.errors?.['dateExceedsMonth']
     };
   }
 

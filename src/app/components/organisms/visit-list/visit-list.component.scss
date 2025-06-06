@@ -63,17 +63,10 @@
 }
 
 .visit-card {
-  background: #fff;
+  background: white;
   border-radius: 8px;
-  padding: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e0e0e0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 
   .property-image {
     width: 100%;

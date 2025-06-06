@@ -8,14 +8,17 @@
         type="text" 
         id="name" 
         formControlName="name" 
-        [class.invalid]="nameInfo.isDirty && !nameInfo.isValid"
+        [class.invalid]="propertyForm.get('name')?.touched && propertyForm.get('name')?.invalid"
         placeholder="Ej: Casa en el centro"
         [ngClass]="propertyForm.get('name')?.touched && propertyForm.get('name')?.invalid ? 'input-error' : ''"
       ></app-input>
-      <div class="character-count" [class.invalid]="!nameInfo.isValid && nameInfo.isDirty">
-        <span>{{ nameInfo.currentLength }}</span>/{{ NAME_MAX_LENGTH }} caracteres
-        <span *ngIf="!nameInfo.isValid && nameInfo.isDirty" class="error-message">
+      <div class="character-count" [class.invalid]="propertyForm.get('name')?.touched && propertyForm.get('name')?.invalid">
+        <span>{{ propertyForm.get('name')?.value?.length }}</span>/{{ NAME_MAX_LENGTH }} caracteres
+        <span *ngIf="propertyForm.get('name')?.errors?.['minlength']" class="error-message">
           (Mínimo {{ NAME_MIN_LENGTH }} caracteres)
+        </span>
+        <span *ngIf="propertyForm.get('name')?.errors?.['maxlength']" class="error-message">
+          (Máximo {{ NAME_MAX_LENGTH }} caracteres)
         </span>
       </div>
     </div>
@@ -25,13 +28,16 @@
       <app-input 
         id="address" 
         formControlName="address"
-        [class.invalid]="addressInfo.isDirty && !addressInfo.isValid"
+        [class.invalid]="propertyForm.get('address')?.touched && propertyForm.get('address')?.invalid"
         placeholder="Ej: Calle 123, Ciudad"
         [ngClass]="propertyForm.get('address')?.touched && propertyForm.get('address')?.invalid ? 'input-error' : ''"
       ></app-input>
-      <div class="character-count" [class.invalid]="!addressInfo.isValid && addressInfo.isDirty">
-        <span>{{ addressInfo.currentLength }}</span>/{{ ADDRESS_MAX_LENGTH }} caracteres
-        <span *ngIf="!addressInfo.isValid && addressInfo.isDirty" class="error-message">
+      <div class="character-count" [class.invalid]="propertyForm.get('address')?.touched && propertyForm.get('address')?.invalid">
+        <span>{{ propertyForm.get('address')?.value?.length }}</span>/{{ ADDRESS_MAX_LENGTH }} caracteres
+        <span *ngIf="propertyForm.get('address')?.errors?.['maxlength']" class="error-message">
+          (Máximo {{ ADDRESS_MAX_LENGTH }} caracteres)
+        </span>
+        <span *ngIf="propertyForm.get('address')?.errors?.['minlength']" class="error-message">
           (Mínimo {{ ADDRESS_MIN_LENGTH }} caracteres)
         </span>
       </div>
@@ -42,14 +48,17 @@
       <app-textarea 
         id="description" 
         formControlName="description"
-        [class.invalid]="descriptionInfo.isDirty && !descriptionInfo.isValid"
+        [class.invalid]="propertyForm.get('description')?.touched && propertyForm.get('description')?.invalid"
         placeholder="Describe tu propiedad..."
         rows="4"
         [ngClass]="propertyForm.get('description')?.touched && propertyForm.get('description')?.invalid ? 'input-error' : ''"
       ></app-textarea>
-      <div class="character-count" [class.invalid]="!descriptionInfo.isValid && descriptionInfo.isDirty">
-        <span>{{ descriptionInfo.currentLength }}</span>/{{ DESCRIPTION_MAX_LENGTH }} caracteres
-        <span *ngIf="!descriptionInfo.isValid && descriptionInfo.isDirty" class="error-message">
+      <div class="character-count" [class.invalid]="propertyForm.get('description')?.touched && propertyForm.get('description')?.invalid">
+          <span>{{ propertyForm.get('description')?.value?.length }}</span>/{{ DESCRIPTION_MAX_LENGTH }} caracteres
+        <span *ngIf="propertyForm.get('description')?.errors?.['maxlength']" class="error-message">
+          (Máximo {{ DESCRIPTION_MAX_LENGTH }} caracteres)
+        </span>
+        <span *ngIf="propertyForm.get('description')?.errors?.['minlength']" class="error-message">
           (Mínimo {{ DESCRIPTION_MIN_LENGTH }} caracteres)
         </span>
       </div>
@@ -87,7 +96,11 @@
           id="rooms" 
           formControlName="rooms"
           min="0"
+          [ngClass]="propertyForm.get('rooms')?.touched && propertyForm.get('rooms')?.invalid ? 'input-error' : ''"
         ></app-input>
+        <span *ngIf="propertyForm.get('rooms')?.touched && propertyForm.get('rooms')?.invalid" class="error-message">
+          (Mínimo 1)
+        </span>
       </div>
 
       <div class="form-group">
@@ -97,7 +110,11 @@
           id="bathrooms" 
           formControlName="bathrooms"
           min="0"
+          [ngClass]="propertyForm.get('bathrooms')?.touched && propertyForm.get('bathrooms')?.invalid ? 'input-error' : ''"
         ></app-input>
+        <span *ngIf="propertyForm.get('bathrooms')?.touched && propertyForm.get('bathrooms')?.invalid" class="error-message">
+          (Mínimo 0)
+        </span>
       </div>
 
       <div class="form-group">
@@ -107,7 +124,11 @@
           id="price" 
           formControlName="price"
           min="0"
+          [ngClass]="propertyForm.get('price')?.touched && propertyForm.get('price')?.invalid ? 'input-error' : ''"
         ></app-input>
+        <span *ngIf="propertyForm.get('price')?.touched && propertyForm.get('price')?.invalid" class="error-message">
+          (Mínimo 0)
+        </span>
       </div>
     </div>
 
@@ -121,6 +142,9 @@
       ></app-input>
       <span *ngIf="!activePublicationDateInfo.isValid && activePublicationDateInfo.isDirty" class="error-message">
         {{ activePublicationDateInfo.hasError ? 'La fecha no puede ser anterior a hoy' : ''}}
+      </span>
+      <span *ngIf="propertyForm.get('activePublicationDate')?.errors?.['dateExceedsMonth']" class="error-message">
+        La fecha no puede exceder un mes desde hoy
       </span>
     </div>
   </div>
