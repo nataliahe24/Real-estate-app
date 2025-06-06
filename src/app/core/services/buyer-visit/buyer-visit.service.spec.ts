@@ -4,22 +4,35 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { NotificationService } from '../notifications/notification.service';
 import { environment } from '@env/environment';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MOCK_BUYER_VISIT, MOCK_RESPONSE } from '@app/shared/utils/mocks/mock-buyer-visit';
+import { MOCK_BUYER_VISIT, MOCK_RESPONSE, MOCK_BUYER_VISIT_LIST } from '@app/shared/utils/mocks/mock-buyer-visit';
+import { AuthService } from '../auth/auth.service';
+import { AUTH_RESPONSE } from '@app/shared/utils/mocks/mock-user';
 
 describe('BuyerVisitService', () => {
   let service: BuyerVisitService;
   let httpMock: HttpTestingController;
   let notificationService: NotificationService;
+  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [BuyerVisitService, NotificationService]
+      providers: [
+        BuyerVisitService, 
+        NotificationService,
+        {
+          provide: AuthService,
+          useValue: {
+            getCurrentUser: jest.fn().mockReturnValue(AUTH_RESPONSE)
+          }
+        }
+      ]
     });
 
     service = TestBed.inject(BuyerVisitService);
     httpMock = TestBed.inject(HttpTestingController);
     notificationService = TestBed.inject(NotificationService);
+    authService = TestBed.inject(AuthService);
   });
 
   afterEach(() => {
@@ -30,18 +43,106 @@ describe('BuyerVisitService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should create a buyer visit successfully', () => {
-    service.createBuyerVisit(MOCK_BUYER_VISIT).subscribe(response => {
-      expect(response).toEqual(MOCK_RESPONSE);
-      expect(notificationService.success).toHaveBeenCalledWith(
-        'Visita programada exitosamente'
+  describe('getBuyerVisits', () => {
+    it('should get buyer visits successfully', () => {
+      service.getBuyerVisits().subscribe(response => {
+        expect(response).toEqual([MOCK_BUYER_VISIT_LIST]);
+      });
+
+      const req = httpMock.expectOne(
+        `${environment.apiUrlBuyerVisit}?buyerEmail=${encodeURIComponent(AUTH_RESPONSE.email)}`
       );
+      expect(req.request.method).toBe('GET');
+      req.flush([MOCK_BUYER_VISIT_LIST]);
     });
 
-    const req = httpMock.expectOne(environment.apiUrlBuyerVisit);
-    expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual(MOCK_BUYER_VISIT);
-    req.flush(MOCK_RESPONSE);
+    it('should handle error when user is not authenticated', () => {
+      jest.spyOn(authService, 'getCurrentUser').mockReturnValue(null);
+
+      service.getBuyerVisits().subscribe({
+        error: (error) => {
+          expect(error.message).toBe('Usuario no autenticado');
+        }
+      });
+    });
+
+    it('should handle HTTP error when getting visits', () => {
+      service.getBuyerVisits().subscribe({
+        error: (error) => {
+          expect(error).toBeTruthy();
+        }
+      });
+
+      const req = httpMock.expectOne(
+        `${environment.apiUrlBuyerVisit}?buyerEmail=${encodeURIComponent(AUTH_RESPONSE.email)}`
+      );
+      req.error(new ErrorEvent('Network error'));
+    });
+  });
+
+  describe('createBuyerVisit', () => {
+    it('should create a buyer visit successfully', () => {
+      service.createBuyerVisit(MOCK_BUYER_VISIT).subscribe(response => {
+        expect(response).toEqual(MOCK_RESPONSE);
+        expect(notificationService.success).toHaveBeenCalledWith(
+          'Visita programada exitosamente'
+        );
+      });
+
+      const req = httpMock.expectOne(environment.apiUrlBuyerVisit);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(MOCK_BUYER_VISIT);
+      req.flush(MOCK_RESPONSE);
+    });
+
+    it('should handle error when creating visit', () => {
+      service.createBuyerVisit(MOCK_BUYER_VISIT).subscribe({
+        error: (error) => {
+          expect(error).toBeTruthy();
+        }
+      });
+
+      const req = httpMock.expectOne(environment.apiUrlBuyerVisit);
+      req.error(new ErrorEvent('Network error'));
+    });
+  });
+
+  describe('cancelVisit', () => {
+    it('should cancel visit successfully', () => {
+      const visitId = 1;
+      service.cancelVisit(visitId).subscribe(response => {
+        expect(response).toEqual({ success: true });
+        expect(notificationService.success).toHaveBeenCalledWith(
+          'Visita cancelada exitosamente'
+        );
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrlBuyerVisit}cancel?visitId=${visitId}`);
+      expect(req.request.method).toBe('DELETE');
+      req.flush({ success: true });
+    });
+
+    it('should handle 200 status code as success', () => {
+      const visitId = 1;
+      service.cancelVisit(visitId).subscribe(response => {
+        expect(response).toEqual({ success: true });
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrlBuyerVisit}cancel?visitId=${visitId}`);
+      req.flush({ success: true }, { status: 200, statusText: 'OK' });
+    });
+
+    it('should handle error when canceling visit', () => {
+      const visitId = 1;
+      service.cancelVisit(visitId).subscribe({
+        error: (error) => {
+          expect(error).toBeTruthy();
+        }
+      });
+
+      const req = httpMock.expectOne(`${environment.apiUrlBuyerVisit}cancel?visitId=${visitId}`);
+      req.error(new ErrorEvent('Network error'));
+    });
   });
 
   it('should handle network error', () => {

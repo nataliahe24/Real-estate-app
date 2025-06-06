@@ -6,12 +6,15 @@
 }
 
 button {
+  width: 100%;
   padding: 10px 30px;
   border-radius: 4px;
   font-weight: 500;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
+  border-radius: 8px;
+  font-size: 14px;
   
   &.primary {
     background-color: #3366FF;
@@ -28,6 +31,7 @@ button {
     background-color: #e0e0e0;
     color: #333;
     display: flex;
+    justify-content: center;
     &:hover {
       background-color: #c5c3c3;
     }

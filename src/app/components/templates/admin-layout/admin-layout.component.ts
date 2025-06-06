@@ -15,7 +15,6 @@ export class AdminLayoutComponent {
     avatar: '/assets/images/usuario.jpeg'
   };
   menuItems = [
-    { icon: 'dashboard', label: 'Dashboard', route: '/dashboard'},
     { icon: 'category', label: 'Categorías', route: '/categories'},
     { icon: 'location_on', label: 'Ubicaciones', route: '/locations'},
     { icon: 'person', label: 'Usuarios', route: '/users'}

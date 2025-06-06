@@ -7,7 +7,6 @@ import { SelectComponent } from './select/select.component';
 import { TextareaComponent } from './textarea/textarea.component';
 import { NotificationComponent } from './notification/notification.component';
 import { LogoComponent } from './logo/logo.component';
-import { PropertyStatusLabelComponent } from './property-status-label/property-status-label.component';
 import { PasswordInputComponent } from './password-input/password-input.component';
 import { LogoutButtonComponent } from './logout-button/logout-button.component';
 
@@ -19,7 +18,6 @@ import { LogoutButtonComponent } from './logout-button/logout-button.component';
     TextareaComponent,
     NotificationComponent,
     LogoComponent,
-    PropertyStatusLabelComponent,
     PasswordInputComponent,
     LogoutButtonComponent
   ],
@@ -35,7 +33,6 @@ import { LogoutButtonComponent } from './logout-button/logout-button.component';
     TextareaComponent,
     NotificationComponent,
     LogoComponent,
-    PropertyStatusLabelComponent,
     PasswordInputComponent,
     LogoutButtonComponent
   ]

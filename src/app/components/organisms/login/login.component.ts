@@ -11,11 +11,6 @@ import { NotificationService } from '@core/services/notifications/notification.s
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  menuItems = [
-    { label: 'Inicio', route: '' },
-    { label: 'Nosotros', route: '' },
-    { label: 'Contacto', route: '' }
-  ];
 
   constructor(
     private fb: FormBuilder,

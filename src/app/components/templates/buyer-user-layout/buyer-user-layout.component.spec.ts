@@ -52,7 +52,7 @@ describe('BuyerUserLayoutComponent', () => {
 
   it('should have correct menu items', () => {
     expect(component.menuItems).toBeDefined();
-    expect(component.menuItems.length).toBe(1);
+    expect(component.menuItems.length).toBe(2);
     expect(component.menuItems[0]).toEqual({
       icon: 'home',
       label: 'Agendar Visita',

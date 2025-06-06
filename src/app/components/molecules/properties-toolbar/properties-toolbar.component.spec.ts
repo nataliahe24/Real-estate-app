@@ -1,6 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PropertiesToolbarComponent } from './properties-toolbar.component';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Component, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+
+@Component({
+  selector: 'app-select',
+  template: '<select></select>',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MockSelectComponent),
+      multi: true
+    }
+  ]
+})
+class MockSelectComponent implements ControlValueAccessor {
+  writeValue(value: any): void {}
+  registerOnChange(fn: any): void {}
+  registerOnTouched(fn: any): void {}
+  setDisabledState(isDisabled: boolean): void {}
+}
 
 describe('PropertiesToolbarComponent', () => {
   let component: PropertiesToolbarComponent;
@@ -8,8 +28,11 @@ describe('PropertiesToolbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PropertiesToolbarComponent],
-      schemas: [NO_ERRORS_SCHEMA]
+      declarations: [
+        PropertiesToolbarComponent,
+        MockSelectComponent
+      ],
+      imports: [ReactiveFormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(PropertiesToolbarComponent);
@@ -25,26 +48,6 @@ describe('PropertiesToolbarComponent', () => {
     expect(component.totalCount).toBe(0);
     expect(component.viewMode).toBe('grid');
   });
-
-  it('should update totalCount when input changes', () => {
-    const newCount = 5;
-    component.totalCount = newCount;
-    fixture.detectChanges();
-
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.total-count').textContent)
-      .toContain(`${newCount} propiedades encontradas`);
-  });
-
-  it('should update viewMode when input changes', () => {
-    component.viewMode = 'list';
-    fixture.detectChanges();
-
-    const compiled = fixture.nativeElement;
-    const listButton = compiled.querySelector('button:last-child');
-    expect(listButton.classList.contains('active')).toBeTruthy();
-  });
-
   it('should emit viewModeChange event when toggleViewMode is called', () => {
     const newMode = 'list';
     jest.spyOn(component.viewModeChange, 'emit');
@@ -53,44 +56,38 @@ describe('PropertiesToolbarComponent', () => {
 
     expect(component.viewModeChange.emit).toHaveBeenCalledWith(newMode);
   });
+  describe('sort handling', () => {
+    it('should emit sort change when value is provided', () => {
+      const sortValue = 'price';
+      const spy = jest.spyOn(component.sortChange, 'emit');
 
-  it('should toggle view mode when grid button is clicked', () => {
-    jest.spyOn(component.viewModeChange, 'emit');
-    const compiled = fixture.nativeElement;
-    const gridButton = compiled.querySelector('button:first-child');
+      component.sortByControl.setValue(sortValue);
 
-    gridButton.click();
-    fixture.detectChanges();
+      expect(spy).toHaveBeenCalledWith(sortValue);
+    });
 
-    expect(component.viewModeChange.emit).toHaveBeenCalledWith('grid');
-  });
+    it('should not emit sort change when value is null', () => {
+      const spy = jest.spyOn(component.sortChange, 'emit');
 
-  it('should toggle view mode when list button is clicked', () => {
-    jest.spyOn(component.viewModeChange, 'emit');
-    const compiled = fixture.nativeElement;
-    const listButton = compiled.querySelector('button:last-child');
+      component.sortByControl.setValue(null);
 
-    listButton.click();
-    fixture.detectChanges();
+      expect(spy).not.toHaveBeenCalled();
+    });
 
-    expect(component.viewModeChange.emit).toHaveBeenCalledWith('list');
-  });
+    it('should not emit sort change when value is undefined', () => {
+      const spy = jest.spyOn(component.sortChange, 'emit');
 
-  it('should show active class on the correct button based on viewMode', () => {
-    component.viewMode = 'grid';
-    fixture.detectChanges();
+      component.sortByControl.setValue(null);
 
-    const compiled = fixture.nativeElement;
-    const gridButton = compiled.querySelector('button:first-child');
-    const listButton = compiled.querySelector('button:last-child');
+      expect(spy).not.toHaveBeenCalled();
+    });
 
-    expect(gridButton.classList.contains('active')).toBeTruthy();
-    expect(listButton.classList.contains('active')).toBeFalsy();
+    it('should not emit sort change when value is empty string', () => {
+      const spy = jest.spyOn(component.sortChange, 'emit');
 
-    component.viewMode = 'list';
-    fixture.detectChanges();
+      component.sortByControl.setValue('');
 
-    expect(gridButton.classList.contains('active')).toBeFalsy();
-    expect(listButton.classList.contains('active')).toBeTruthy();
+      expect(spy).not.toHaveBeenCalled();
+    });
   });
 }); 

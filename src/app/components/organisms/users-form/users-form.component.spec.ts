@@ -165,16 +165,6 @@ describe('UsersFormComponent', () => {
       expect(notificationService.success).toHaveBeenCalledWith('Usuario creado correctamente');
       expect(component.userForm.pristine).toBeTruthy();
     });
-
-    it('should handle existing user error', () => {
-      mockUsersService.createUser.mockReturnValue(
-        throwError(() => ({ message: 'El usuario ya existe' }))
-      );
-      
-      component.onSubmit();
-      
-      expect(notificationService.error).toHaveBeenCalledWith('Usuario ya existe');
-    });
   });
 
   describe('Template Integration', () => {

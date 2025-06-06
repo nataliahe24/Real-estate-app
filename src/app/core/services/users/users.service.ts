@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User, CreateUserDto } from '@core/models/user.model';
 import { environment } from '@env/environment';
+import { NotificationService } from '@core/services/notifications/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,12 @@ export class UsersService {
   private readonly API_URL = `${environment.apiUrlUsers}`;
   private readonly SELLER_ROLE_ID = 3;
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly notificationService: NotificationService
+  ) {}
 
   createUser(userData: CreateUserDto): Observable<User> {
-    this.validateUserData(userData);
-    
     const userWithRole = {
       ...userData,
       role: this.SELLER_ROLE_ID
@@ -32,44 +34,41 @@ export class UsersService {
     };
 
     return this.http.post<User>(this.API_URL, userWithRole, httpOptions).pipe(
-      catchError((error) => {
-        console.error('Error in createUser:', error);
-        if (error.error?.message?.includes('El usuario ya existe')) {
-          return throwError(() => new Error('Ya existe un usuario registrado con este correo electrónico'));
-        }
-        return throwError(() => error);
-      })
+      catchError((error: HttpErrorResponse) => this.handleError(error))
     );
   }
 
-  private validateUserData(userData: CreateUserDto): void {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const phoneRegex = /^\+?[0-9]{10,13}$/;
-    const identityDocumentRegex = /^[0-9]+$/;
-
-    if (!emailRegex.test(userData.email)) {
-      throw new Error('El correo electrónico ingresado no tiene un formato inválido.');
-    }
-
-    if (!phoneRegex.test(userData.phoneNumber)) {
-      throw new Error("El numero de telefono no puede exceder los 13 caracteres");
-    }
-
-    if (!identityDocumentRegex.test(userData.identityDocument.toString())) {
-      throw new Error('El documento de identidad debe contener solo números');
-    }
-
-    const birthDate = new Date(userData.birthDate);
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Ha ocurrido un error';
     
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = 'Error de conexión. Por favor, intente nuevamente.';
+    } else {
+      switch (error.status) {
+        case 400:
+          errorMessage = error.error?.message || 'Datos inválidos. Por favor, verifique la información.';
+          break;
+        case 401:
+          errorMessage = 'No autorizado. Por favor, inicie sesión nuevamente.';
+          break;
+        case 403:
+          errorMessage = error.error?.message || 'No tiene permisos para realizar esta acción.';
+          break;
+        case 404:
+          errorMessage = error.error?.message || 'No se encontró la información solicitada';
+          break;
+        case 409:
+          errorMessage = 'Ya existe un usuario registrado con este correo electrónico';
+          break;
+        case 500:
+          errorMessage = 'Error del servidor. Por favor, intente más tarde.';
+          break;
+        default:
+          errorMessage = error.error?.message || error.message;
+      }
     }
 
-    if (age < 18) {
-      throw new Error('La edad del usuario no cumple con el mínimo permitido');
-    }
+    this.notificationService.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 } 

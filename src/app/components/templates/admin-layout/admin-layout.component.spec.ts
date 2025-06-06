@@ -52,11 +52,31 @@ describe('AdminLayoutComponent', () => {
 
   it('should have correct menu items', () => {
     expect(component.menuItems).toBeDefined();
-    expect(component.menuItems.length).toBe(4);
+    expect(component.menuItems.length).toBe(3);
     expect(component.menuItems[0]).toEqual({
-      icon: 'dashboard',
-      label: 'Dashboard',
-      route: '/dashboard'
+      icon: 'category',
+      label: 'Categorías',
+      route: '/categories'
+    });
+  });
+
+  it('should have correct menu items', () => {
+    expect(component.menuItems).toBeDefined();
+    expect(component.menuItems.length).toBe(3);
+    expect(component.menuItems[1]).toEqual({
+      icon: 'location_on',
+      label: 'Ubicaciones',
+      route: '/locations'
+    });
+  });
+
+  it('should have correct menu items', () => {
+    expect(component.menuItems).toBeDefined();
+    expect(component.menuItems.length).toBe(3);
+    expect(component.menuItems[2]).toEqual({
+      icon: 'person',
+      label: 'Usuarios',
+      route: '/users'
     });
   });
 

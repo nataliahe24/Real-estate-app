@@ -6,7 +6,9 @@
     { "id": 5, "name": "Barranquilla", "departmentId": 4 },
     { "id": 6, "name": "Cartagena", "departmentId": 5 },
     { "id": 7, "name": "Bucaramanga", "departmentId": 6 },
-    { "id": 8, "name": "Pereira", "departmentId": 7 },
+    { "id": 8, "name": "Floridablanca", "departmentId": 6 },
+    { "id": 9, "name": "Girón", "departmentId": 6 },
+    { "id": 10, "name": "Ibagué", "departmentId": 7 },
     { "id": 9, "name": "Manizales", "departmentId": 8 },
     { "id": 10, "name": "Santa Marta", "departmentId": 9 },
     { "id": 11, "name": "Villavicencio", "departmentId": 10 },
@@ -15,9 +17,12 @@
     { "id": 14, "name": "Riohacha", "departmentId": 13 },
     { "id": 15, "name": "Santa Cruz de la Sierra", "departmentId": 14 },
     { "id": 16, "name": "Cúcuta", "departmentId": 17 },
+    { "id": 16, "name": "Ocaña", "departmentId": 17 },
     { "id": 17, "name": "Pasto", "departmentId": 16 },
     { "id": 18, "name": "Tunja", "departmentId": 20 },
     { "id": 19, "name": "Mocoa", "departmentId": 18 },
     { "id": 20, "name": "Armenia", "departmentId": 19 },
-    { "id": 21, "name": "Aguachica", "departmentId": 15 }
+    { "id": 21, "name": "Aguachica", "departmentId": 15 },
+    { "id": 22, "name": "Valledupar", "departmentId": 15 }
+    
   ]

@@ -1,9 +1,8 @@
-<select class="logout-select" (change)="onOptionSelect($event)" *ngIf="showLoginButton" >
-  <div class="logout-select-option">
-    
-    <option value="tasks" >Cuenta</option>
-    <option value="tasks" >Ayuda y soporte</option>
-    <option value="logout">Cerrar sesión</option>
-  </div>
-</select>
+<button
+  class="logout-button"
+  (click)="onLogout()"
+  type="button"
+>
+  <i class="material-icons" title="Cerrar sesión">exit_to_app</i>
+</button>
   

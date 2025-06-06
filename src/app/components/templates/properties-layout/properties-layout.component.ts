@@ -6,9 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./properties-layout.component.scss']
 })
 export class PropertiesLayoutComponent {
-  menuItems = [
-    { label: 'Compra', route: '' },
-    { label: 'Renta', route: '' },
-    { label: 'Vende', route: '' }
-  ];
 } 

@@ -5,8 +5,10 @@ export interface BuyerVisit {
 
 export interface BuyerVisitResponse {
     id: number;
-    scheduleId: number;
     buyerEmail: string;
+    scheduleId: number;
+    startDate: Date;
+    endDate: Date;
     timestamp: Date;
 }
 

@@ -1,4 +1,7 @@
 <div class="visit-list-container">
+
+  <h3 class="visit-list-title">Horarios disponibles</h3>
+
   <form [formGroup]="visitForm" (ngSubmit)="onSubmit()" class="filters-form">
     <div class="form-group">
       <label for="startDate">Fecha y hora de inicio</label>
@@ -61,7 +64,7 @@
           <h3>{{group.propertyName}}</h3>
           <p>
             <i class="material-icons">location_on</i>
-            {{group.city}}, {{group.neighborhood}}
+            {{group.neighborhood}}, {{group.city}}
           </p>
           <p>
             <i class="material-icons">home</i>

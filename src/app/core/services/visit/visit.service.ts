@@ -83,7 +83,7 @@ export class VisitService {
           errorMessage = 'Error del servidor. Por favor, intente más tarde.';
           break;
         default:
-          errorMessage = error.error?.message || `Error ${error.status}: ${error.message}`;
+          errorMessage = error.error?.message || error.message;
       }
     }
 

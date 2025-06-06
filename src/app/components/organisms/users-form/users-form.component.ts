@@ -73,13 +73,13 @@ export class UsersFormComponent implements OnInit {
 
       identityDocument: ['', [
         Validators.required, 
-        Validators.pattern('^\\d+$'), 
+        Validators.pattern(/^(\d+)$/), 
         Validators.minLength(this.IDENTITY_DOCUMENT_MIN_LENGTH), 
         Validators.maxLength(this.IDENTITY_DOCUMENT_MAX_LENGTH)]],
 
       phoneNumber: ['', [
         Validators.required, 
-        Validators.pattern('^\\+?[0-9]{10,13}$'),
+        Validators.pattern('^\\+?[0-9]+$'),
         Validators.minLength(this.PHONE_NUMBER_MIN_LENGTH),
         Validators.maxLength(this.PHONE_NUMBER_MAX_LENGTH)
       ]],
@@ -120,12 +120,6 @@ export class UsersFormComponent implements OnInit {
         next: () => {
           this.notificationService.success('Usuario creado correctamente');
           this.userForm.reset();
-        },
-        error: (error) => {
-          console.error('Error creating user:', error);
-          this.notificationService.error('Usuario ya existe');
-          ;
-          
         }
       });
     }
