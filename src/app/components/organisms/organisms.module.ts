@@ -16,9 +16,8 @@ import { UsersFormComponent } from './users-form/users-form.component';
 import { PropertyListComponent } from './property-list/property-list.component';
 import { LoginComponent } from './login/login.component';
 import { VisitFormComponent } from './visit-form/visit-form.component';
-import { VisitListComponent } from './visit-list/visit-list.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { SearchFormComponent } from '../organisms/search-form/search-form.component';
+import { SearchFormComponent } from './search-form/search-form.component';
 import { BuyerVisitsListComponent } from './buyer-visits-list/buyer-visits-list.component';
 @NgModule({
   declarations: [
@@ -33,7 +32,6 @@ import { BuyerVisitsListComponent } from './buyer-visits-list/buyer-visits-list.
     PropertyListComponent,
     LoginComponent,
     VisitFormComponent,
-    VisitListComponent,
     SearchFormComponent,
     BuyerVisitsListComponent
   ],
@@ -59,7 +57,6 @@ import { BuyerVisitsListComponent } from './buyer-visits-list/buyer-visits-list.
     PropertyListComponent,
     LoginComponent,
     VisitFormComponent,
-    VisitListComponent,
     SearchFormComponent,
     BuyerVisitsListComponent
   ]

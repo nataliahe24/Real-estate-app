@@ -1,10 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { Subject, forkJoin, of, catchError } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { PropertyService } from '@app/core/services/properties/property.service';
+import { VisitService } from '@app/core/services/visit/visit.service';
 import { PropertyFilter, PropertyFilters, PropertyResponse } from '@app/core/models/property.model';
+import { Visit } from '@app/core/models/visit.model';
 import { FiltersModalConfig, RangeConfig } from '@app/core/models/filters-modal.model';
+import { MatDialog } from '@angular/material/dialog';
+import { VisitModalComponent } from '../../molecules/visit-modal/visit-modal.component';
 
 @Component({
   selector: 'app-search-form',
@@ -13,6 +17,7 @@ import { FiltersModalConfig, RangeConfig } from '@app/core/models/filters-modal.
 })
 export class SearchFormComponent implements OnInit, OnDestroy {
   properties: PropertyResponse[] = [];
+  propertyVisits: Map<number, Visit[]> = new Map();
   loading = false;
   error = false;
   viewMode: 'grid' | 'list' = 'grid';
@@ -63,6 +68,8 @@ export class SearchFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private propertyService: PropertyService,
+    private visitService: VisitService,
+    private dialog: MatDialog,
     private fb: FormBuilder
   ) {
     this.initForm();
@@ -135,6 +142,10 @@ export class SearchFormComponent implements OnInit, OnDestroy {
         next: (response) => {
           this.properties = response.content || [];
           this.totalItems = response.totalElements || 0;
+          
+          // Cargar visitas para cada propiedad
+          this.loadVisitsForProperties();
+          
           this.loading = false;
         },
         error: (error) => {
@@ -143,6 +154,76 @@ export class SearchFormComponent implements OnInit, OnDestroy {
           this.loading = false;
         }
       });
+  }
+
+  private loadVisitsForProperties(): void {
+    if (this.properties.length === 0) {
+      return;
+    }
+    
+    console.log(`Loading visits for ${this.properties.length} properties`);
+    
+    // Usar el servicio real para obtener visitas por propiedad
+    const visitRequests = this.properties.map(property => 
+      this.visitService.getVisitsByProperty(property.id).pipe(
+        catchError((error) => {
+          console.error(`Error loading visits for property ${property.id}:`, error);
+          return of([]); // Retornar array vacío en caso de error
+        })
+      )
+    );
+
+    forkJoin(visitRequests).subscribe({
+      next: (visitsArrays: Visit[][]) => {
+        this.propertyVisits.clear();
+        let totalVisits = 0;
+        
+        visitsArrays.forEach((visits: Visit[], index: number) => {
+          if (visits.length > 0) {
+            console.log(`Property ${this.properties[index].id} has ${visits.length} visits`);
+            this.propertyVisits.set(this.properties[index].id, visits);
+            totalVisits += visits.length;
+          } else {
+            console.log(`Property ${this.properties[index].id} has no visits`);
+          }
+        });
+        
+        console.log(`Total visits loaded: ${totalVisits} across ${this.properties.length} properties`);
+        console.log('Property visits map:', this.propertyVisits);
+      },
+      error: (error: any) => {
+        console.error('Error loading visits for properties:', error);
+        // No mostrar error al usuario, simplemente no mostrar botones de visita
+      }
+    });
+  }
+
+  getVisitsForProperty(propertyId: number): Visit[] {
+    return this.propertyVisits.get(propertyId) || [];
+  }
+
+  openVisitModal(property: PropertyResponse): void {
+    const visits = this.getVisitsForProperty(property.id);
+    
+    if (visits.length === 0) {
+      return;
+    }
+
+    const dialogRef = this.dialog.open(VisitModalComponent, {
+      data: {
+        propertyId: property.id,
+        propertyName: property.name,
+        visits: visits
+      },
+      width: '500px',
+      disableClose: true
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        console.log('Visita confirmada:', result);
+      }
+    });
   }
 
   toggleFilters(): void {

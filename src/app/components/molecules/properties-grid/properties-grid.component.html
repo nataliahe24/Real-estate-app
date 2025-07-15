@@ -12,6 +12,7 @@
     <app-property-card 
       *ngFor="let property of properties" 
       [property]="property"
+      [visits]="getVisitsForProperty(property.id)"
     ></app-property-card>
   </ng-container>
 </div> 
