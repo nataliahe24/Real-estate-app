@@ -145,10 +145,6 @@ export class AuthService {
     return this.hasRole('SELLER');
   }
 
-  isBuyer(): boolean {
-    return this.hasRole('BUYER');
-  }
-
   validateAdminAccess(): boolean {
     if (!this.isAdmin()) {
       this.notificationService.warning('Acceso denegado: Se requieren permisos de administrador');

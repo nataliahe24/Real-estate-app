@@ -40,8 +40,6 @@ export class LoginComponent {
               this.router.navigate(['/wellcome-admin']);
             } else if (this.authService.isSeller()) {
               this.router.navigate(['/wellcome-seller']);
-            } else if (this.authService.isBuyer()) {
-              this.router.navigate(['/wellcome-buyer']);
             } else {
               this.router.navigate(['/login']);
             }
