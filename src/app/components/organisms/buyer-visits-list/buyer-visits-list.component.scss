@@ -97,6 +97,21 @@
       }
     }
 
+    .visit-summary {
+      margin-bottom: 1rem;
+      padding: 0.75rem;
+      background: #f8f9fa;
+      border-radius: 4px;
+      border-left: 4px solid #007bff;
+
+      .summary-text {
+        margin: 0;
+        color: #495057;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+    }
+
     .visit-details {
       margin-bottom: 1.5rem;
 
@@ -134,6 +149,28 @@
           background: #c82333;
         }
       }
+
+      .confirm-button {
+        width: 100%;
+        padding: 0.75rem;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        margin-top: 0.5rem;
+
+        &:hover {
+          background: #218838;
+        }
+      }
+
+      // Para vendedores, mostrar botones en línea
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
   }
 

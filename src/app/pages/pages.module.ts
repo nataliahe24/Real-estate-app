@@ -71,6 +71,7 @@ const routes: Routes = [
       {
         path: 'schedule-visit-list',
         component: ScheduleVisitListComponent,
+        canActivate: [AuthGuard, SellerGuard]
       }
     ]
   }

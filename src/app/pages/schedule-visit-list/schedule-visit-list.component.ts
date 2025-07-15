@@ -10,6 +10,6 @@ export class ScheduleVisitListComponent implements OnInit {
   constructor(private titleService: Title) {}
 
   ngOnInit(): void {
-    this.titleService.setTitle('Mis Visitas Programadas | Real Estate App');
+    this.titleService.setTitle('Mis Visitas Agendadas | Real Estate App');
   }
 } 

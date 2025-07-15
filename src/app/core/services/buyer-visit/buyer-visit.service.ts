@@ -32,6 +32,18 @@ export class BuyerVisitService {
     );
   }
 
+  getSellerPropertyVisits(): Observable<BuyerVisitResponse[]> {
+    const sellerEmail = this.authService.getCurrentUser()?.email;
+    if (!sellerEmail) {
+      return throwError(() => new Error('Usuario no autenticado'));
+    }
+
+    // Usar el mismo endpoint pero con parámetro sellerEmail
+    return this.http.get<BuyerVisitResponse[]>(`${this.apiUrl}?sellerEmail=${encodeURIComponent(sellerEmail)}`).pipe(
+      catchError(this.handleError.bind(this))
+    );
+  }
+
   createBuyerVisit(buyerVisit: BuyerVisit): Observable<any> {
     return this.http.post(this.apiUrl, buyerVisit).pipe(
       map(response => {
