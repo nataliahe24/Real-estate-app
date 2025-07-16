@@ -15,23 +15,19 @@
 
   <div *ngIf="!loading && !error && visits.length === 0" class="empty-state">
     <i class="material-icons">event_busy</i>
-    <p *ngIf="userType === 'buyer'">No tienes visitas programadas</p>
-    <p *ngIf="userType === 'seller'">No tienes visitas agendadas para tus propiedades</p>
+    <p>No tienes visitas agendadas para tus propiedades</p>
   </div>
 
   <div *ngIf="!loading && !error && visits.length > 0" class="visits-container">
     <div *ngFor="let visit of visits" class="visit-card">
       <div class="visit-header">
-        <h3 class="property-name">
-          <span *ngIf="userType === 'buyer'">Visita Programada</span>
-          <span *ngIf="userType === 'seller'">Visita Agendada - Propiedad #{{visit.scheduleId}}</span>
-        </h3>
-        <div *ngIf="userType === 'seller'" class="visit-status">
+        <h3 class="property-name">Visita Agendada - {{visit.propertyName}}</h3>
+        <div class="visit-status">
           <span class="status-badge status-pending">Pendiente de Confirmación</span>
         </div>
       </div>
 
-      <div *ngIf="userType === 'seller'" class="visit-summary">
+      <div class="visit-summary">
         <p class="summary-text">Un comprador ha solicitado visitar tu propiedad</p>
       </div>
 
@@ -46,25 +42,27 @@
         </div>
         <div class="detail-item">
           <i class="material-icons">email</i>
-          <span *ngIf="userType === 'buyer'">{{visit.buyerEmail}}</span>
-          <span *ngIf="userType === 'seller'">Comprador: {{visit.buyerEmail}}</span>
+          <span>Comprador: {{visit.buyerEmail}}</span>
         </div>
-        <div *ngIf="userType === 'seller'" class="detail-item">
+        <div class="detail-item">
+          <i class="material-icons">location_on</i>
+          <span>{{visit.propertyAddress}}, {{visit.neighborhood}}, {{visit.city}}</span>
+        </div>
+        <div class="detail-item">
           <i class="material-icons">access_time</i>
           <span>Solicitada: {{visit.timestamp | date:'dd/MM/yyyy h:mm a'}}</span>
         </div>
-        <div *ngIf="userType === 'seller'" class="detail-item">
+        <div class="detail-item">
           <i class="material-icons">info</i>
-          <span>ID de Visita: #{{visit.id}}</span>
+          <span>ID de Visita: #{{visit.id}} | Propiedad: #{{visit.propertyId}}</span>
         </div>
       </div>
 
       <div class="visit-actions">
         <button class="cancel-button" (click)="cancelVisit(visit.id)">
-          <span *ngIf="userType === 'buyer'">Cancelar visita</span>
-          <span *ngIf="userType === 'seller'">Rechazar visita</span>
+          Rechazar visita
         </button>
-        <button *ngIf="userType === 'seller'" class="confirm-button" (click)="confirmVisit(visit.id)">
+        <button class="confirm-button" (click)="confirmVisit(visit.id)">
           Confirmar visita
         </button>
       </div>

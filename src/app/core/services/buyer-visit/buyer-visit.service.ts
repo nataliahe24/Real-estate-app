@@ -21,25 +21,25 @@ export class BuyerVisitService {
     private readonly authService: AuthService
   ) {}
 
-  getBuyerVisits(): Observable<BuyerVisitResponse[]> {
-    const buyerEmail = this.authService.getCurrentUser()?.email;
-    if (!buyerEmail) {
-      return throwError(() => new Error('Usuario no autenticado'));
-    }
-
-    return this.http.get<BuyerVisitResponse[]>(`${this.apiUrl}?buyerEmail=${encodeURIComponent(buyerEmail)}`).pipe(
-      catchError(this.handleError.bind(this))
-    );
-  }
 
   getSellerPropertyVisits(): Observable<BuyerVisitResponse[]> {
-    const sellerEmail = this.authService.getCurrentUser()?.email;
-    if (!sellerEmail) {
+    const currentUser = this.authService.getCurrentUser();
+    if (!currentUser || !currentUser.id) {
       return throwError(() => new Error('Usuario no autenticado'));
     }
 
-    // Usar el mismo endpoint pero con parámetro sellerEmail
-    return this.http.get<BuyerVisitResponse[]>(`${this.apiUrl}?sellerEmail=${encodeURIComponent(sellerEmail)}`).pipe(
+    // Usar GET con el ID en la URL como especificaste
+    const url = `${this.apiUrl}seller/${currentUser.id}`;
+    
+    console.log('Calling seller visits endpoint:', url);
+    console.log('Current user ID:', currentUser.id);
+
+    // Usar GET para obtener visitas por sellerId
+    return this.http.get<BuyerVisitResponse[]>(url).pipe(
+      map(response => {
+        console.log('Seller visits response:', response);
+        return response;
+      }),
       catchError(this.handleError.bind(this))
     );
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { BuyerVisitService } from '@app/core/services/buyer-visit/buyer-visit.service';
@@ -12,8 +12,6 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./buyer-visits-list.component.scss']
 })
 export class BuyerVisitsListComponent implements OnInit, OnDestroy {
-  @Input() userType: 'buyer' | 'seller' = 'buyer';
-  
   visits: BuyerVisitResponse[] = [];
   loading = false;
   error = false;
@@ -37,14 +35,11 @@ export class BuyerVisitsListComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.error = false;
 
-    const visitObservable = this.userType === 'seller' 
-      ? this.buyerVisitService.getSellerPropertyVisits()
-      : this.buyerVisitService.getBuyerVisits();
-
-    visitObservable
+    // Usar el método GET que funciona correctamente
+    this.buyerVisitService.getSellerPropertyVisits()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (visits) => {
+        next: (visits: BuyerVisitResponse[]) => {
           this.visits = visits;
           this.loading = false;
         },
