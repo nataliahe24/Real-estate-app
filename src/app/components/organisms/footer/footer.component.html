@@ -1,0 +1,41 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer-sections">
+      <div class="footer-brand">
+        <app-logo></app-logo>
+        <p>Tu partner en la búsqueda del espacio perfecto.</p>
+      </div>
+      
+      <div class="footer-links">
+        <h4>Acceso rápido</h4>
+        <ul>
+          <li *ngFor="let link of quickLinks">
+            <a [routerLink]="link.route">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="footer-contact">
+        <h4>Contáctanos</h4>
+        <ul>
+          <li><i class="material-icons">phone</i> {{ contactInfo.phone }}</li>
+          <li><i class="material-icons">email</i> {{ contactInfo.email }}</li>
+          <li><i class="material-icons">location_on</i> {{ contactInfo.address }}</li>
+        </ul>
+      </div>
+      
+      <div class="footer-social">
+        <h4>Síguenos</h4>
+        <div class="social-icons">
+          <a *ngFor="let social of socialLinks" [href]="social.url">
+            <img [src]="social.iconClass" alt="icono red social" width="24" height="24" />
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>© {{ currentYear }} Hogar360. All rights reserved.</p>
+    </div>
+  </div>
+</footer> 

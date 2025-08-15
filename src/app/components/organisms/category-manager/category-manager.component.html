@@ -1,0 +1,63 @@
+<div class="category-manager">
+  <h2>Crear categoría</h2>
+  
+  <div class="category-form">
+    <app-category-form></app-category-form>
+  </div>
+  
+  <div class="category-list">
+    <h3>Categorías existentes</h3>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let category of paginatedCategories">
+          <td>{{ category.id }}</td>
+          <td>{{ category.name }}</td>
+          <td>{{ category.description }}</td>
+          <td>
+            <button class="delete-btn" >
+              <i class="material-icons">delete</i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <div class="pagination-controls">
+      <div class="page-size-selector">
+        <label for="pageSize">Mostrar:</label>
+        <select id="pageSize" (change)="onPageSizeChange(+$any($event.target).value)">
+          <option *ngFor="let size of pageSizeOptions" [value]="size" [selected]="size === itemsPerPage">
+            {{ size }}
+          </option>
+        </select>
+      </div>
+      
+      <div class="pagination">
+        <button [disabled]="currentPage === 0" (click)="onPageChange(currentPage)">
+          &laquo;
+        </button>
+        <button *ngFor="let page of pageNumbers" 
+                [class.active]="page - 1 === currentPage"
+                (click)="onPageChange(page)">
+          {{ page }}
+        </button>
+        <button [disabled]="currentPage === totalPages - 1" (click)="onPageChange(currentPage + 2)">
+          &raquo;
+        </button>
+      </div>
+      
+      <div class="pagination-info">
+        Mostrando {{ categories.length }} de {{ totalItems }} categorías
+      </div>
+    </div>
+  </div>
+</div> 

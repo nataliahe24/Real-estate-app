@@ -1,0 +1,78 @@
+<div class="location-list">
+  <section class="white-section">
+  <div class="search-container">
+    <app-input
+      type="text"
+      [formControl]="searchControl"
+      placeholder="Buscar por barrio, ciudad o departamento..."
+      class="search-input"
+    />
+    <button
+    type="button"
+    class="order-toggle"
+    (click)="toggleOrder()"
+    [attr.aria-label]="orderAsc ? 'Orden ascendente' : 'Orden descendente'"
+  >
+    <span class="material-icons" [title]="orderAsc ? 'Ascendente' : 'Descendente'">
+      {{ orderAsc ? 'arrow_upward' : 'arrow_downward' }}
+    </span>
+  </button>
+  </div>
+
+  <div class="table-container" *ngIf="!loading">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Ciudad</th>
+          <th>Barrio</th>
+          <th>Departamento</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let location of locations">
+          <td>{{ location.id }}</td>
+          <td>{{ location.cityName }}</td>
+          <td>{{ location.neighborhood }}</td>
+          <td>{{ location.department }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="loading-spinner" *ngIf="loading">
+    <span>Cargando...</span>
+  </div>
+
+  <div class="pagination" *ngIf="totalItems > 0">
+    
+    <button 
+      [disabled]="currentPage === 1"
+      (click)="onPageChange(currentPage - 1)"
+      class="pagination-btn"
+    >
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    
+    <button 
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      [class.active]="currentPage === i + 1"
+      (click)="onPageChange(i + 1)"
+      class="pagination-btn"
+    >
+      {{ i + 1 }}
+    </button>
+    
+    <button 
+      [disabled]="currentPage === totalPages"
+      (click)="onPageChange(currentPage + 1)"
+      class="pagination-btn"
+    >
+      <i class="fas fa-chevron-right"></i>
+    </button>
+  </div>
+  <div class="pagination-info">
+    Mostrando {{ locations.length }} de {{ totalItems }} ubicaciones
+  </div>
+</section>
+</div> 

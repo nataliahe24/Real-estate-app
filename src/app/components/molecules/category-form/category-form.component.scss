@@ -1,0 +1,41 @@
+
+form {
+  background-color: white;
+  
+  
+  .form-group {
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    justify-content: flex-end;
+  }
+}
+
+::placeholder {
+  font-family: 'Poppins', sans-serif;
+  color: #aaa;
+  font-weight: 300;
+}
+
+.character-count {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-top: 0.25rem;
+  text-align: right;
+  
+
+  &.invalid {
+    color: #dc3545;
+  }
+
+  .error-message {
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
+    color: #dc3545;
+  }
+} 

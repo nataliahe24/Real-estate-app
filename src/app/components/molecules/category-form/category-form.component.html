@@ -1,0 +1,56 @@
+<form [formGroup]="categoryForm" (ngSubmit)="createCategory()">
+  <div class="form-group">
+    <app-input 
+      id="name"
+      label="Nombre"
+      [required]="true"
+      formControlName="name"
+      placeholder="Ingrese el nombre de la categoría"
+      [ngClass]="categoryForm.get('name')?.touched && categoryForm.get('name')?.invalid ? 'input-error' : ''"
+      >
+    </app-input>
+    <div class="character-count" [class.invalid]="!nameInfo.isValid && nameInfo.isDirty">
+      <span>{{ nameInfo.currentLength }}</span>/{{ nameInfo.maxLength }} caracteres
+      <span *ngIf="nameInfo.isDirty">
+        <span *ngIf="nameInfo.currentLength < nameInfo.minLength" class="error-message">
+          (Mínimo {{ nameInfo.minLength }} caracteres)
+        </span>
+        <span *ngIf="nameInfo.currentLength > nameInfo.maxLength && nameInfo.currentLength >= nameInfo.minLength" class="error-message">
+          (Máximo {{ nameInfo.maxLength }} caracteres)
+        </span>
+      </span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <app-textarea 
+      id="description"
+      label="Descripción"
+      [required]="true"
+      formControlName="description"
+      placeholder="Ingrese la descripción de la categoría"
+      [ngClass]="categoryForm.get('description')?.touched && categoryForm.get('description')?.invalid ? 'input-error' : ''"
+      >
+    </app-textarea>
+    <div class="character-count" [class.invalid]="!descriptionInfo.isValid && descriptionInfo.isDirty">
+      <span>{{ descriptionInfo.currentLength }}</span>/{{ descriptionInfo.maxLength }} caracteres
+      <span *ngIf="descriptionInfo.isDirty">
+        <span *ngIf="descriptionInfo.currentLength < descriptionInfo.minLength" class="error-message">
+          (Mínimo {{ descriptionInfo.minLength }} caracteres)
+        </span>
+        <span *ngIf="descriptionInfo.currentLength > descriptionInfo.maxLength && descriptionInfo.currentLength >= descriptionInfo.minLength" class="error-message">
+          (Máximo {{ descriptionInfo.maxLength }} caracteres)
+        </span>
+      </span>
+    </div>
+  </div> 
+
+  <div class="form-actions">
+    <app-button 
+      type="primary"
+      [disabled]="categoryForm.invalid"
+      label="Crear"
+      [isSubmit]="true">
+    </app-button>
+  </div>
+</form>

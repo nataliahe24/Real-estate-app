@@ -1,0 +1,60 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, tap, throwError } from 'rxjs';
+import { LocationModel, LocationResponse } from '../../models/location.model';
+import { environment } from '../../../../environments/environment';
+
+export interface CreateLocationDto {
+  city: string;
+  neighborhood: string;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LocationService {
+  private apiUrl = `${environment.apiUrl}location/`;
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
+  constructor(private http: HttpClient) {}
+
+  private handleError(error: any) {
+    return throwError(() => error);
+  }
+
+  getLocations(): Observable<LocationModel[]> {
+    return this.http.get<LocationModel[]>(this.apiUrl);
+  }
+
+  createLocation(location: { cityName: string; neighborhood: string }): Observable<Location> {
+    console.log('[LocationService] Creando ubicación:', location);
+    console.log('POST body:', {
+      cityName: location.cityName,
+      neighborhood: location.neighborhood,
+    });
+    return this.http.post<Location>(this.apiUrl, location, this.httpOptions).pipe(
+      tap((data) => console.log('[LocationService] Ubicación creada:', data)));
+      catchError(this.handleError)
+  }
+  findByCityOrDepartment(
+    searchText: string,
+    page: number,
+    size: number,
+    orderAsc: boolean
+  ): Observable<{ content: LocationResponse[]; totalElements: number }> {
+    const params = new HttpParams()
+      .set('searchText', searchText)
+      .set('page', page.toString())
+      .set('size', size.toString())
+      .set('orderAsc', orderAsc.toString());
+
+    return this.http.get<{ content: LocationResponse[]; totalElements: number }>(
+      `${this.apiUrl}`,
+      { params }
+    );
+  }
+}

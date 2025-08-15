@@ -1,6 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { CategoryService } from './services/categories/category.service';
+import { NotificationService } from './services/notifications/notification.service';
 
 @NgModule({
   declarations: [],
@@ -8,7 +10,10 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    CategoryService,
+    NotificationService
+  ],
   exports: []
 })
 export class CoreModule {

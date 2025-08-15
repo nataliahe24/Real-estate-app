@@ -1,0 +1,26 @@
+@use '../../shared/styles/_colors' as *;
+@use '../../shared/styles/_variables' as *;
+
+.users-page {
+    padding: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    
+    .page-title {
+      color: $color-dark;
+      margin-bottom: 8px;
+      margin-top: 2px;
+      font-size: 20px;
+      font-weight: 600;
+      padding: 0.1rem 0.8rem;
+    }
+    
+    .form-container {
+      background-color: transparent;
+      border-radius: 8px;
+      padding: 0;
+      width: 100%;
+      min-height: 500px;
+      max-width: 100%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  } 

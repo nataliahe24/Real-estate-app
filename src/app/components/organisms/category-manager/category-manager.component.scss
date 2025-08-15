@@ -1,0 +1,222 @@
+.category-manager {
+  padding: 0;
+  background-color: #f5f7fa;
+  width: 100%;
+  
+  h2 {
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #333;
+    font-size: 20px;
+  }
+  
+  .category-form {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    
+    .form-group {
+      margin-bottom: 20px;
+      
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        font-size: 14px;
+        
+        
+        &::after {
+          content: " *";
+          color: red;
+        }
+      }
+      
+      input, textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+        
+        &:focus {
+          outline: none;
+          border-color: #3366FF;
+        }
+      }
+      
+      textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+    }
+    
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      
+      button {
+        padding: 10px 16px;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        
+        &.skip-btn {
+          background-color: #f5f5f5;
+          border: 1px solid #ddd;
+          color: #333;
+        }
+        
+        &.create-btn {
+          background-color: #3366FF;
+          border: none;
+          color: white;
+        }
+      }
+    }
+  }
+  
+  .category-list {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    
+    h3 {
+      margin-bottom: 20px;
+      font-weight: 500;
+      color: #333;
+      font-size: 16px;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+
+      th, td {
+        padding: 0.75rem;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      th {
+        background-color: #f5f5f5;
+        font-weight: 500;
+      }
+
+      tr:hover {
+        background-color: #f9f9f9;
+      }
+    
+      
+      .delete-btn {
+        background: none;
+        border: none;
+        color: #ff4d4f;
+        cursor: pointer;
+        
+        &:hover {
+          color: #ff1f1f;
+        }
+        
+        i {
+          font-size: 18px;
+        }
+      }
+    }
+    
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      
+      button {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #ddd;
+        background-color: white;
+        border-radius: 4px;
+        cursor: pointer;
+        
+        &.active {
+          background-color: #3366FF;
+          color: white;
+          border-color: #3366FF;
+        }
+        
+        &:disabled {
+          color: #ddd;
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  
+  .page-size-selector {
+    display: flex;
+    align-items: center;
+    
+    label {
+      margin-right: 8px;
+      font-size: 14px;
+    }
+    
+    select {
+      padding: 5px 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: white;
+    }
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    
+    button {
+      min-width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      
+      &.active {
+        background-color: #3366FF;
+        color: white;
+        border-color: #3366FF;
+      }
+      
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      
+      &:hover:not(:disabled) {
+        background-color: #f5f5f5;
+      }
+    }
+  }
+  
+  .pagination-info {
+    font-size: 14px;
+    color: #666;
+  }
+} 

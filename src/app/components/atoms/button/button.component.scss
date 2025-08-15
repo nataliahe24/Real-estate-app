@@ -1,0 +1,39 @@
+@use '../../../shared/styles/_variables' as *;
+@use '../../../shared/styles/_colors' as *;
+
+:host {
+  display: inline-block;
+}
+
+button {
+  width: 100%;
+  padding: 10px 30px;
+  border-radius: 4px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  font-size: 14px;
+  
+  &.primary {
+    background-color: #3366FF;
+    color: white;
+    
+    &:hover {
+      background-color: #2952cc;
+    }
+  }
+  
+  &.secondary {
+    padding: 10px 50px;
+    font-size: 14px;
+    background-color: #e0e0e0;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    &:hover {
+      background-color: #c5c3c3;
+    }
+  }
+} 

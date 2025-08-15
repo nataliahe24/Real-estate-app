@@ -1,0 +1,15 @@
+<div class="textarea-container">
+  <label *ngIf="label">
+    {{ label }}
+    <span *ngIf="required" class="required" aria-hidden="true">*</span>
+    <span *ngIf="required" class="visually-hidden"></span>
+  </label>
+  <textarea
+    [placeholder]="placeholder"
+    [value]="value"
+    [disabled]="disabled"
+    [attr.aria-required]="required"
+    (input)="updateValue($any($event.target).value)"
+    [ngClass]="ngClass"
+  ></textarea>
+</div> 

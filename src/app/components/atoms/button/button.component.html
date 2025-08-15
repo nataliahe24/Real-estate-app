@@ -1,0 +1,7 @@
+<button 
+  [type]="isSubmit ? 'submit' : 'button'" 
+  [disabled]="disabled"
+  [ngClass]="['button', type]" 
+  (click)="handleClick()">
+  {{ label }}
+</button> 

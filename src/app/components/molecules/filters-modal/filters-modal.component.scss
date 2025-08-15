@@ -1,0 +1,140 @@
+.filters-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1000;
+}
+
+.filters-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1001;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  min-width: 320px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.filters-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s;
+  &:hover {
+    color: #e53935;
+  }
+}
+
+.filters-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.filters-modal-footer {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1.5rem 1rem 1rem;
+  background: transparent;
+}
+
+.apply-btn,
+.atom-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.5rem;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+}
+
+.apply-btn:hover,
+.atom-btn--primary:hover {
+  background: #1565c0;
+}
+
+.apply-btn:active,
+.atom-btn--primary:active {
+  background: #0d47a1;
+}
+
+.apply-btn:focus,
+.atom-btn--primary:focus {
+  outline: 2px solid #1976d2;
+  outline-offset: 2px;
+}
+
+.reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+
+  &:hover {
+    background: #e0e0e0;
+    color: #333;
+  }
+
+  &:active {
+    background: #d5d5d5;
+  }
+
+  &:focus {
+    outline: 2px solid #1976d2;
+    outline-offset: 2px;
+  }
+
+  .material-icons {
+    font-size: 1rem;
+  }
+}
+
+.material-icons {
+  font-size: 1rem;
+  vertical-align: middle;
+}
+
+.input-error {
+  border-color: #ff4d4f;
+}
+
+.error-message {
+  color: #ff4d4f;
+  font-size: 13px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+} 

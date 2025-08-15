@@ -1,0 +1,23 @@
+<div class="input-container">
+  <label *ngIf="label">
+    {{ label }}
+    <span *ngIf="required" class="required" aria-hidden="true">*</span>
+    <span *ngIf="required" class="visually-hidden"> (requerido)</span>
+  </label>
+  <input
+    [type]="type"
+    [placeholder]="placeholder"
+    [value]="value"
+    [disabled]="disabled"
+    [attr.maxlength]="maxLength"
+    [attr.aria-required]="required"
+    (input)="updateValue($any($event.target).value)"
+    [ngClass]="ngClass"
+    [autocomplete]="autocomplete"
+    [(ngModel)]="ngModel"
+    (ngModelChange)="ngModelChange.emit($event)"
+    (input)="input.emit($event)"
+    (focus)="focus.emit($event)"
+    (blur)="blur.emit($event)"
+  />
+</div> 

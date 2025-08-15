@@ -1,0 +1,97 @@
+ <div class="search-form" [formGroup]="searchForm">
+      <h1 class="page-title">Encuentra tu casa perfecta</h1>
+
+   <div class="search-form-container">
+  <div class="form-group">
+    <app-category-select
+      [formControl]="categoryControl"
+      [selectedCategoryName]="categoryControl.value || ''"
+      (categorySelected)="onCategoryChange($event)">
+    </app-category-select>
+    <div *ngIf="loading" class="loading">Cargando categorías...</div>
+    <div *ngIf="error" class="error">{{error}}</div>
+  </div>
+  
+  <div class="form-group">
+    <input 
+      type="text" 
+      formControlName="location"
+      placeholder="Buscar por ubicación" 
+      class="form-control">
+  </div>
+
+  <button
+    type="button"
+    class="filters-toggle"
+    (click)="toggleFilters()"
+    aria-label="Mostrar filtros avanzados">
+    <img src="assets/images/filtro5.png" alt="Filtros avanzados" width="25" height="25" /> Filtros
+  </button>
+
+  <app-filters-modal
+    [open]="showFilters"
+    [config]="filtersConfig"
+    (close)="showFilters = false"
+    (filtersChange)="onFiltersChange($event)">
+  </app-filters-modal>
+  
+  <button (click)="resetForm()" class="reset-button">
+    Limpiar filtros
+  </button>
+  </div>
+  
+  <div class="active-filters" *ngIf="hasActiveFilters()">
+    <span class="filter-tag" *ngIf="activeFilters.rooms">
+      {{activeFilters.rooms}} habitaciones
+      <button type="button" class="close-tag" (click)="removeFilter('rooms')">×</button>
+    </span>
+    <span class="filter-tag" *ngIf="activeFilters.bathrooms">
+      {{activeFilters.bathrooms}} baños
+      <button type="button" class="close-tag" (click)="removeFilter('bathrooms')">×</button>
+    </span>
+    <span class="filter-tag" *ngIf="activeFilters.minPrice">
+      Desde {{activeFilters.minPrice | currency:'COP':'symbol':'1.0-0'}}
+      <button type="button" class="close-tag" (click)="removeFilter('minPrice')">×</button>
+    </span>
+    <span class="filter-tag" *ngIf="activeFilters.maxPrice">
+      Hasta {{activeFilters.maxPrice | currency:'COP':'symbol':'1.0-0'}}
+      <button type="button" class="close-tag" (click)="removeFilter('maxPrice')">×</button>
+    </span>
+  </div>
+  
+  <div class="properties-content">
+    <app-properties-toolbar
+      [totalCount]="totalCount"
+      [viewMode]="viewMode"
+      (viewModeChange)="onViewModeChange($event)"
+      (sortChange)="onSortChange($event)"
+      (orderChange)="onOrderChange($event)">
+    </app-properties-toolbar>
+    
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Cargando propiedades...</p>
+    </div>
+    
+    <div *ngIf="error" class="error-state">
+      <i class="material-icons">error</i>
+      <p>Error al cargar las propiedades. Intenta de nuevo.</p>
+      <button (click)="loadProperties()">Reintentar</button>
+    </div>
+    
+    <app-properties-grid
+      [properties]="properties"
+      [viewMode]="viewMode"
+      [loading]="loading"
+      [error]="error"
+      [propertyVisits]="propertyVisits">
+    </app-properties-grid>
+  </div>
+
+  <div class="properties-count">
+    <div class="total-count">
+      {{ totalCount }} propiedades encontradas
+    </div>
+  </div>
+</div>
+

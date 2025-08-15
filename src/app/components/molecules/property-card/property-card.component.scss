@@ -1,0 +1,173 @@
+.property-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  app-property-status-label {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+  }
+  
+  .property-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+  }
+  
+  &:hover .property-image img {
+    transform: scale(1.05);
+  }
+  
+  .property-content {
+    padding: 16px;
+    
+    h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 18px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .location {
+      color: #666;
+      margin-bottom: 12px;
+
+      .material-icons {
+        font-size: 20px;
+        margin-right: 4px;
+        vertical-align: middle ;
+      }
+    }
+    
+    .price {
+      font-size: 20px;
+      font-weight: 600;
+      color: #3366FF;
+      margin-bottom: 16px;
+    }
+    
+    .property-features {
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      
+    }
+
+    .property-actions {
+      margin-top: 16px;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      
+      .visit-info {
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        padding: 12px;
+        margin-bottom: 12px;
+        border: 1px solid #e9ecef;
+        
+        .visit-schedules-preview {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 4px;
+          
+          .material-icons {
+            font-size: 16px;
+            color: #3366FF;
+          }
+          
+          span {
+            font-size: 14px;
+            font-weight: 500;
+            color: #495057;
+          }
+        }
+        
+        .visit-count {
+          font-size: 12px;
+          color: #6c757d;
+          font-weight: 400;
+        }
+      }
+      
+      .visit-button {
+        width: 100% !important;
+        background-color: #3366FF !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 6px !important;
+        padding: 10px 16px !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        transition: background-color 0.2s ease !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        position: relative !important;
+        z-index: 10 !important;
+        
+        &:hover {
+          background-color: #2952cc !important;
+        }
+        
+        &:active {
+          background-color: #1f3d99 !important;
+        }
+        
+        .material-icons {
+          font-size: 18px !important;
+        }
+      }
+    }
+  }
+  
+  
+  .favorite-btn {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    i {
+      color: #ff4081;
+    }
+    
+    &:hover {
+      background-color: #f5f5f5;
+    }
+  }
+} 

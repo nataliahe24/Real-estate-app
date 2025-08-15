@@ -1,0 +1,154 @@
+<div class="property-list">
+    <section class="white-section">
+        <h2>Listado de propiedades</h2>
+        <div class="search-container">
+          <app-category-select
+          [formControl]="categoryControl"
+          [reset]="isReset"
+          class="category-select"
+          (categorySelected)="onCategoryChange($event)"
+          ></app-category-select>
+          <app-input
+            type="text"
+            [formControl]="searchControl"
+            placeholder="Buscar por barrio, ciudad o departamento..."
+            class="search-input"
+          ></app-input>
+          
+            <select
+          [formControl]="sortByControl"
+          class="filter-input"
+          >
+          <option value="" disabled selected>Ordenar por</option>
+          <option *ngFor="let option of sortOptions" [value]="option.value">
+           {{ option.label }}
+          </option>
+         </select>
+         
+          <button
+          type="button"
+          class="order-toggle"
+          (click)="toggleOrder()"
+          [attr.aria-label]="orderAsc ? 'Orden ascendente' : 'Orden descendente'"
+        >
+          <span 
+            class="material-icons" 
+            [title]="orderAsc ? 'Ascendente' : 'Descendente'"
+          >
+            {{ orderAsc ? 'arrow_upward' : 'arrow_downward' }}
+          </span>
+        </button>
+        <button
+          type="button"
+          class="filters-toggle"
+          (click)="showFilters = true"
+          aria-label="Mostrar filtros avanzados"
+        >
+          <img src="assets/images/filtrar.png" alt="Filtros avanzados" width="25" height="25" /> Filtros
+        </button>
+        </div>
+  
+        <app-filters-modal
+          [open]="showFilters"
+          [config]="{
+            roomsControl: roomsControl,
+            bathroomsControl: bathroomsControl,
+            minPriceControl: minPriceControl,
+            maxPriceControl: maxPriceControl,
+            sortByControl: sortByControl,
+            sortOptions: sortOptions,
+          }"
+          (close)="showFilters = false"
+          (orderChange)="toggleOrder()"
+          (filtersChange)="onFiltersApplied($event)"
+        ></app-filters-modal>
+
+     
+        <div class="filters-modal-footer">
+          <button type="button" class="reset-btn" (click)="resetFilters()">
+            <span class="material-icons">refresh</span>
+            Limpiar filtros
+          </button>
+        </div>
+      
+
+      <div class="active-filters" *ngIf="hasActiveFilters()">
+        <span class="filter-tag" *ngIf="activeFilters.rooms">
+          {{activeFilters.rooms}} habitaciones
+          <button type="button" class="close-tag" (click)="removeFilter('rooms')">×</button>
+        </span>
+        <span class="filter-tag" *ngIf="activeFilters.bathrooms">
+          {{activeFilters.bathrooms}} baños
+          <button type="button" class="close-tag" (click)="removeFilter('bathrooms')">×</button>
+        </span>
+        <span class="filter-tag" *ngIf="activeFilters.minPrice">
+          Desde {{activeFilters.minPrice | currency:'COP':'symbol':'1.0-0'}}
+          <button type="button" class="close-tag" (click)="removeFilter('minPrice')">×</button>
+        </span>
+        <span class="filter-tag" *ngIf="activeFilters.maxPrice">
+          Hasta {{activeFilters.maxPrice | currency:'COP':'symbol':'1.0-0'}}
+          <button type="button" class="close-tag" (click)="removeFilter('maxPrice')">×</button>
+        </span>
+      </div>
+
+      <div class="table-container" *ngIf="!loading">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Dirección</th>
+              <th>Habitaciones</th>
+              <th>Baños</th>
+              <th>Precio</th>
+              <th>Ubicación</th>
+              <th>Fecha de publicacion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let property of properties">
+              <td>{{ property.id }}</td>
+              <td>{{ property.name }}</td>
+              <td>{{ property.category }}</td>
+              <td>{{ property.address }}</td>
+              <td>{{ property.rooms }}</td>
+              <td>{{ property.bathrooms }}</td>
+              <td>{{ property.price | currency:'COP':'symbol':'1.0-0' }}</td>
+              <td>{{ property.city }}</td>
+              <td class="date-cell">{{ property.activePublicationDate}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="loading-spinner" *ngIf="loading">
+        <span>Cargando...</span>
+      </div>
+      <div class="pagination" *ngIf="totalPages > 0">
+        <button 
+          [disabled]="currentPage === 1"
+          (click)="onPageChange(currentPage - 1)"
+          class="pagination-btn"
+        >
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        
+        <button 
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          [class.active]="currentPage === i + 1"
+          (click)="onPageChange(i + 1)"
+          class="pagination-btn"
+        >
+          {{ i + 1 }}
+        </button>
+        
+        <button 
+          [disabled]="currentPage === totalPages"
+          (click)="onPageChange(currentPage + 1)"
+          class="pagination-btn"
+        >
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+    </section>
+  </div>

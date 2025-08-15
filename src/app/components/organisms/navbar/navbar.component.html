@@ -1,0 +1,26 @@
+<nav class="navbar">
+  <div class="container">
+    <div class="navbar-brand">
+      <a>
+        <app-logo></app-logo>
+      </a>
+    </div>
+    
+    <div class="navbar-menu">
+      <div class="navbar-start">
+        <a *ngFor="let item of menuItems" 
+           [routerLink]="item.route" 
+           routerLinkActive="active" 
+           class="navbar-item">
+          {{ item.label }}
+        </a>
+      </div>
+      
+      <div class="navbar-end">
+        <a *ngIf="showLoginButton" routerLink="/login" class="login-button">
+          Ingresar
+        </a>
+      </div>
+    </div>
+  </div>
+</nav> 

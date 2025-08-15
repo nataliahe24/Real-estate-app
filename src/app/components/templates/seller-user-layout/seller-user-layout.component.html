@@ -1,0 +1,26 @@
+<div class="app-container">
+  <header class="main-header">    
+    <div class="header-container">
+      <div class="brand">
+        <app-logo></app-logo>
+      </div>
+      <div class="user-info">
+        <span>Bienvenido, {{ user.name }}</span>
+        <div class="user-avatar">
+          <img [src]="user.avatar" alt="User Avatar">
+        </div>
+        <app-logout-button></app-logout-button>
+      </div>
+    </div>
+  </header>
+
+  <div class="content-wrapper">
+    <app-sidebar *ngIf="showSidebar" [menuItems]="menuItems"></app-sidebar>
+    
+    <main class="main-content">
+      <ng-content></ng-content>
+    </main>
+  </div>
+  
+  <app-footer></app-footer>
+</div> 

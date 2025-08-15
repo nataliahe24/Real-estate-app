@@ -1,0 +1,65 @@
+<div class="visit-form-container">
+  <div class="visit-form-header">
+    <h2>Disponibilice un horario de visita a su propiedad</h2>
+    <p>Rellene los detalles para programar su visita a la propiedad</p>
+  </div>
+
+  <form [formGroup]="visitForm" (ngSubmit)="onSubmit()" class="visit-form">
+    <div class="form-row">
+      <div class="form-group">
+        <app-property-select
+        [selectedPropertyId]="visitForm.get('propertyId')?.value"
+        (propertySelected)="onPropertySelected($event)"
+        [formControlName]="'propertyId'"
+        ></app-property-select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <app-input
+          label="Fecha y hora de inicio"
+          type="datetime-local"
+          formControlName="startDate"
+          [required]="true"
+          [ngClass]="visitForm.get('startDate')?.touched && (visitForm.get('startDate')?.errors?.['dateInPast'] || visitForm.get('startDate')?.errors?.['maxDate']) ? 'input-error' : ''"
+        ></app-input>
+        <span *ngIf="visitForm.get('startDate')?.touched && visitForm.get('startDate')?.errors?.['dateInPast']" class="error-message">
+          La fecha no puede ser anterior a hoy
+        </span>
+        <span *ngIf="visitForm.get('startDate')?.touched && visitForm.get('startDate')?.errors?.['maxDate']" class="error-message">
+          La fecha no puede ser posterior a 3 semanas
+        </span>
+      </div>
+
+      <div class="form-group">
+        <app-input
+          label="Fecha y hora de fin"
+          type="datetime-local"
+          formControlName="endDate"
+          [required]="true"
+          [ngClass]="visitForm.get('endDate')?.touched && (visitForm.get('endDate')?.errors?.['endDateBeforeStart'] || visitForm.get('endDate')?.errors?.['maxDate'] || visitForm.get('endDate')?.errors?.['notSameDay']) ? 'input-error' : ''"
+        ></app-input>
+        <span *ngIf="visitForm.get('endDate')?.touched && visitForm.get('endDate')?.errors?.['endDateBeforeStart']" class="error-message">
+          La fecha de fin debe ser posterior a la fecha de inicio
+        </span>
+        <span *ngIf="visitForm.get('endDate')?.touched && visitForm.get('endDate')?.errors?.['maxDate']" class="error-message">
+          La fecha no puede ser posterior a 3 semanas
+        </span>
+        <span *ngIf="visitForm.get('endDate')?.touched && visitForm.get('endDate')?.errors?.['notSameDay']" class="error-message" >
+          La fecha de fin debe ser el mismo día que la fecha de inicio
+        </span>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <app-button
+        [label]="'Disponibilizar horario'"
+        [isSubmit]="true"
+        [disabled]="visitForm.invalid"
+        type="primary"
+        [ngClass]="{'button-disabled': visitForm.invalid}"
+      ></app-button>
+    </div>
+  </form>
+</div>

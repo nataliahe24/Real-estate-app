@@ -1,0 +1,28 @@
+@use '../../../shared/styles/_variables' as *;
+@use '../../../shared/styles/_colors' as *;
+
+.select-message {
+  font-size: 0.875rem;
+  color: $color-secondary;
+  margin-top: 0.5rem;
+  font-style: $font-family-poppins;
+}
+
+::ng-deep {
+  .select-container {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+
+    &.disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  .select-input {
+    &:disabled {
+      background-color: $color-light;
+      cursor: not-allowed;
+    }
+  }
+} 

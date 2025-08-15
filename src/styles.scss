@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 * {
@@ -8,17 +8,23 @@
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto';
   line-height: 1.6;
   color: #333;
   background-color: #f8f9fa;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 /* Utility classes */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
 }
 
 .text-center {

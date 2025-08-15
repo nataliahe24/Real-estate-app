@@ -1,0 +1,34 @@
+@use '../../../shared/styles/_colors' as *;
+
+.category-select-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  
+}
+
+.category-select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid $color-border;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: left;
+  
+  &:disabled {
+    background-color: $color-light;
+    cursor: not-allowed;
+  }
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.loading, .error {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.error {
+  color: $color-error;
+} 
