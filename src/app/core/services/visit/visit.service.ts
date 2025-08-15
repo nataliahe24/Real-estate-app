@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { Visit, VisitResponse, VisitQueryParams } from '@core/models/visit.model';
@@ -52,6 +52,23 @@ export class VisitService {
     return this.http.get<VisitResponse>(this.apiUrl, { params: httpParams });
   }
 
+  getVisitsByProperty(propertyId: number): Observable<Visit[]> {
+    console.log(`Fetching visits for property ${propertyId}`);
+    
+    // Obtener todas las visitas y filtrar por propertyId
+    return this.getVisits({}).pipe(
+      map(response => {
+        // Filtrar las visitas por propertyId
+        const filteredVisits = response.content?.filter(visit => visit.propertyId === propertyId) || [];
+        console.log(`Filtered visits for property ${propertyId}:`, filteredVisits);
+        return filteredVisits;
+      }),
+      catchError(error => {
+        console.error(`Error fetching visits for property ${propertyId}:`, error);
+        return of([]); // Si falla, retornar array vacío
+      })
+    );
+  }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Ha ocurrido un error';

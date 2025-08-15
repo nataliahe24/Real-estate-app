@@ -7,14 +7,12 @@ import { AtomsModule } from '../atoms/atoms.module';
 import { PropertiesLayoutComponent } from './properties-layout/properties-layout.component';
 import { SellerUserLayoutComponent } from './seller-user-layout/seller-user-layout.component';
 import { OrganismsModule } from '../organisms/organisms.module';
-import { BuyerUserLayoutComponent } from './buyer-user-layout/buyer-user-layout.component';
 import { MoleculesModule } from '../molecules/molecules.module';
 @NgModule({
   declarations: [
     AdminLayoutComponent,
     PropertiesLayoutComponent,
-    SellerUserLayoutComponent,
-    BuyerUserLayoutComponent
+    SellerUserLayoutComponent
   ],
   imports: [
     CommonModule,
@@ -27,8 +25,7 @@ import { MoleculesModule } from '../molecules/molecules.module';
   exports: [
     AdminLayoutComponent,
     PropertiesLayoutComponent,
-    SellerUserLayoutComponent,
-    BuyerUserLayoutComponent
+    SellerUserLayoutComponent
   ]
 })
 export class TemplatesModule { } 

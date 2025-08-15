@@ -18,11 +18,8 @@ import { WellcomeSellerComponent } from './wellcome-seller/wellcome-seller.compo
 import { VisitComponent } from './visit/visit.component';
 import { AuthGuard } from '../core/guards/auth/auth.guard';
 import { AdminGuard } from '../core/guards/admin/admin.guard';
-import { SellerGuard } from '../core/guards/seller/seller.guard';
-import { VisitSchedulesComponent } from './visit-schedules/visit-schedules.component';
-import { BuyerGuard } from '../core/guards/buyer/buyer.guard';
-import { WellcomeBuyerComponent } from './wellcome-buyer/wellcome-buyer.component';
-import { BuyerVisitListComponent } from './buyer-visit-list/buyer-visit-list.component';
+import { SellerGuard } from '../core/guards/seller/seller.guard'
+import { ScheduleVisitListComponent } from './schedule-visit-list/schedule-visit-list.component';
 
 const routes: Routes = [
   {
@@ -67,23 +64,14 @@ const routes: Routes = [
         canActivate: [AuthGuard, SellerGuard]
       },
       {
-        path: 'wellcome-buyer',
-        component: WellcomeBuyerComponent,
-        canActivate: [AuthGuard, BuyerGuard]
-      },
-      {
         path: 'visit',
         component: VisitComponent,
         canActivate: [AuthGuard, SellerGuard]
       },
       {
-        path: 'visit-schedules',
-        component: VisitSchedulesComponent,
-      },
-      {
-        path: 'buyer-visit-list',
-        component: BuyerVisitListComponent,
-        canActivate: [AuthGuard, BuyerGuard]
+        path: 'schedule-visit-list',
+        component: ScheduleVisitListComponent,
+        canActivate: [AuthGuard, SellerGuard]
       }
     ]
   }
@@ -100,9 +88,7 @@ const routes: Routes = [
     WellcomeAdminComponent,
     WellcomeSellerComponent,
     VisitComponent,
-    VisitSchedulesComponent,
-    WellcomeBuyerComponent,
-    BuyerVisitListComponent
+    ScheduleVisitListComponent
   ],
   imports: [
     CommonModule,
@@ -125,9 +111,7 @@ const routes: Routes = [
     WellcomeAdminComponent,
     WellcomeSellerComponent,
     VisitComponent,
-    VisitSchedulesComponent,
-    WellcomeBuyerComponent,
-    BuyerVisitListComponent
+    ScheduleVisitListComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

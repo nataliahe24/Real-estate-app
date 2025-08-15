@@ -24,5 +24,15 @@
         <span>{{ property.bathrooms }}</span>
       </div>
     </div>
+
+    <div class="property-actions" *ngIf="hasAvailableVisits()">
+    
+      <button 
+        (click)="openVisitModal()"
+        class="visit-button">
+        <i class="material-icons">event</i>
+        Programar visita
+      </button>
+    </div>
   </div>
 </div>

@@ -7,6 +7,11 @@ export interface BuyerVisitResponse {
     id: number;
     buyerEmail: string;
     scheduleId: number;
+    propertyId: number;
+    propertyName: string;
+    propertyAddress: string;
+    neighborhood: string;
+    city: string;
     startDate: Date;
     endDate: Date;
     timestamp: Date;

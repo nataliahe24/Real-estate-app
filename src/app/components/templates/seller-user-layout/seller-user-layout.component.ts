@@ -19,6 +19,7 @@ export class SellerUserLayoutComponent {
   };
   menuItems = [
     { icon: 'home', label: 'Publicaciones', route: '/publish'},
-    { icon: 'meeting_room', label: 'Visitas', route: '/visit'}
+    { icon: 'meeting_room', label: 'Visitas', route: '/visit'},
+    { icon: 'calendar_month', label: 'Visitas Programadas', route: '/schedule-visit-list'}
   ];
 }

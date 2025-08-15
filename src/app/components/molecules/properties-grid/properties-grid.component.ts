@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PropertyResponse } from '../../../core/models/property.model';
+import { Visit } from '../../../core/models/visit.model';
 
 @Component({
   selector: 'app-properties-grid',
@@ -11,4 +12,9 @@ export class PropertiesGridComponent {
   @Input() loading: boolean = false;
   @Input() error: boolean = false;
   @Input() viewMode: 'grid' | 'list' = 'grid';
+  @Input() propertyVisits: Map<number, Visit[]> = new Map();
+
+  getVisitsForProperty(propertyId: number): Visit[] {
+    return this.propertyVisits.get(propertyId) || [];
+  }
 } 

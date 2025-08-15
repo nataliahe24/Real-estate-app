@@ -35,10 +35,11 @@ export class BuyerVisitsListComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.error = false;
 
-    this.buyerVisitService.getBuyerVisits()
+    // Usar el método GET que funciona correctamente
+    this.buyerVisitService.getSellerPropertyVisits()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (visits) => {
+        next: (visits: BuyerVisitResponse[]) => {
           this.visits = visits;
           this.loading = false;
         },
@@ -63,6 +64,23 @@ export class BuyerVisitsListComponent implements OnInit, OnDestroy {
           error: (error: HttpErrorResponse) => {
             console.error('Error canceling visit:', error);
             this.notificationService.error('Error al cancelar la visita');
+          }
+        });
+    }
+  }
+
+  confirmVisit(visitId: number): void {
+    if (confirm('¿Estás seguro de que deseas confirmar esta visita?')) {
+      this.buyerVisitService.cancelVisit(visitId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: () => {
+            this.notificationService.success('Visita confirmada exitosamente');
+            this.loadVisits();
+          },
+          error: (error: HttpErrorResponse) => {
+            console.error('Error confirming visit:', error);
+            this.notificationService.error('Error al confirmar la visita');
           }
         });
     }
