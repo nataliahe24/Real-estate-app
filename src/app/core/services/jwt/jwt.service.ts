@@ -8,7 +8,6 @@ import { tap, catchError } from 'rxjs/operators';
 })
 export class JwtService {
   private readonly TOKEN_KEY = 'jwtToken';
-  private readonly apiUrl = 'http://localhost:3000/categories';
   private readonly httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
