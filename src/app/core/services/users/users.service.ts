@@ -11,7 +11,7 @@ import { NotificationService } from '@core/services/notifications/notification.s
 })
 export class UsersService {
   private readonly API_URL = `${environment.apiUrlUsers}`;
-  private readonly SELLER_ROLE_ID = 3;
+  private readonly SELLER_ROLE_ID = 2;
 
   constructor(
     private readonly http: HttpClient,
