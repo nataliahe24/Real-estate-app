@@ -28,6 +28,7 @@ export class VisitService {
       catchError(this.handleError.bind(this))
     );
   }
+  
 
  
   getVisits(params: VisitQueryParams): Observable<VisitResponse> {
@@ -40,7 +41,7 @@ export class VisitService {
       httpParams = httpParams.set('endDate', new Date(params.endDate).toISOString());
     }
     if (params.location) {
-      httpParams = httpParams.set('location', params.location);
+      httpParams = httpParams.set('location', params.location); 
     }
     
    
@@ -54,18 +55,17 @@ export class VisitService {
 
   getVisitsByProperty(propertyId: number): Observable<Visit[]> {
     console.log(`Fetching visits for property ${propertyId}`);
-    
-    // Obtener todas las visitas y filtrar por propertyId
+     
     return this.getVisits({}).pipe(
       map(response => {
-        // Filtrar las visitas por propertyId
+        
         const filteredVisits = response.content?.filter(visit => visit.propertyId === propertyId) || [];
         console.log(`Filtered visits for property ${propertyId}:`, filteredVisits);
         return filteredVisits;
       }),
       catchError(error => {
         console.error(`Error fetching visits for property ${propertyId}:`, error);
-        return of([]); // Si falla, retornar array vacío
+        return of([]); 
       })
     );
   }
