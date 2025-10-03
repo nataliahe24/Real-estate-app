@@ -35,7 +35,7 @@ export class BuyerVisitsListComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.error = false;
 
-    // Usar el método GET que funciona correctamente
+  
     this.buyerVisitService.getSellerPropertyVisits()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
