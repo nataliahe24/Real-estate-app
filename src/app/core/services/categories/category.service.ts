@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Category } from '../../models/category.model';
 import { environment } from '../../../../environments/environment';
+import { PaginatedResponse } from '@app/shared/utils/paginate/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class CategoryService {
   }
    
 
-  getCategories(page: number = 0, size: number = 10, orderAsc: boolean = true): Observable<any> {
+  getCategories(page: number = 0, size: number = 10, orderAsc: boolean = true): Observable<PaginatedResponse<Category>> {
     
     const params = new HttpParams()
       .set('page', page.toString())
