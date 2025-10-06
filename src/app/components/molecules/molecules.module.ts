@@ -5,8 +5,6 @@ import { AtomsModule } from '../atoms/atoms.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SharedComponentsModule } from '@app/shared/shared-components.module';
 import { NotificationService } from '@app/core/services/notifications/notification.service';
-
-// Components
 import { CategoryFormComponent } from './category-form/category-form.component';
 import { PropertyCardComponent } from './property-card/property-card.component';
 import { DepartmentSelectComponent } from './department-select/department-select.component';

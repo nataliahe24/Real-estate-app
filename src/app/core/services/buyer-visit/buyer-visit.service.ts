@@ -28,13 +28,13 @@ export class BuyerVisitService {
       return throwError(() => new Error('Usuario no autenticado'));
     }
 
-    // Usar GET con el ID en la URL como especificaste
+  
     const url = `${this.apiUrl}seller/${currentUser.id}`;
     
     console.log('Calling seller visits endpoint:', url);
     console.log('Current user ID:', currentUser.id);
 
-    // Usar GET para obtener visitas por sellerId
+  
     return this.http.get<BuyerVisitResponse[]>(url).pipe(
       map(response => {
         console.log('Seller visits response:', response);

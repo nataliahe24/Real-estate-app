@@ -19,8 +19,6 @@ export class CategoryService {
   };
 
   constructor(private http: HttpClient) {
-    console.log('CategoryService initialized');
-    console.log('API URL:', this.apiUrl);
     this.testApiConnection();
   }
 
@@ -40,7 +38,6 @@ export class CategoryService {
    
 
   getCategories(page: number = 0, size: number = 10, orderAsc: boolean = true): Observable<any> {
-    console.log(`Requesting categories: page=${page}, size=${size}, orderAsc=${orderAsc}`);
     
     const params = new HttpParams()
       .set('page', page.toString())
@@ -55,7 +52,6 @@ export class CategoryService {
     
     return this.http.get<any>(this.apiUrl, options).pipe(
       tap(data => {
-        console.log('Categories received raw data:', data);
         if (data && data.content) {
           
         } else {
@@ -72,7 +68,6 @@ export class CategoryService {
     );
   }
   createCategory(category: { name: string; description: string }): Observable<Category> {
-    console.log('Creating category:', category);
     return this.http.post<Category>(this.apiUrl, category, this.httpOptions).pipe(
       tap(data => console.log('Category created:', data)),
       catchError(error => this.handleError(error))
